@@ -1,0 +1,25 @@
+BookTime 
+
+T&T
+Name,Book(1-4),Discovery(1-8),Section(1-7,S,G)
+
+Sparks
+Name,Book(SZ,1-8), SZ(1-6) BK(Rank1-8 get patch),RJ1(4sections),GJ1(4sections) Alternate RJn-GJn where n=(1-4) with 4 sections each.
+
+Cubbies
+No BT
+
+Puggles 
+No BT
+
+Awards Sheet for Sparks and T&T
+
+
+Points Sheet
+
+Can print sheet and then enter before night is over or just use phone
+Password protect sight.
+
+Books needs to be a drop down
+Chapter needs to be a drop down
+What about extra credit sections?

@@ -1,0 +1,43 @@
+
+{% extends 'AwanaRecordKeeping/base.html' %}
+{% block body %}
+		<ul class="menu-style">
+		  <li class = "menu-style"><a href="/" >Home</a></li>
+		  <li class = "menu-style"><a href="/CheckInTTGirls">CheckIn</a></li>
+		  <li class = "menu-style"><a class="active" href="/BookTTGirls">Handbook</a></li>
+		  <li class = "menu-style"><a href="/PointsTTGirls">Points</a></li>
+		  <li class = "menu-style"><a href="/AwardsTT">Awards</a></li>
+		  <li class = "menu-style" style="float:right"><a href="#about">About</a></li>
+		</ul>
+
+		<button class="button button4"><a href="/BookSparks">Sparks</a></button>
+		<button class="button buttonS">T&T Girls</button>
+		<button class="button button4"><a href="/BookTTBoys">T&T Boys</a></button>
+		<hr>
+		<h2><p style="text-align:left;">T&T Girls Handbook<span style="float:right;">{{ wed }}</span></p></h2>
+
+		<form id="awana-form" name="awanaForm" action="/BookTTGirls/" method="post">
+	    {% csrf_token %}
+
+		<input type="submit" value="SAVE">
+
+		<table>
+		  <tr>
+			<th><div><span>Name</span></div></th>
+			<th><div><span>Book</div></th>
+			<th><div><span>Chapter</div></th>
+			<th><div><span>Section</div></th>
+		  </tr>
+
+		{% if roll %}
+			{% for cname in roll %}
+				<tr>
+					<td>{{cname}}</td>
+					<td>{{book|get_item:cname}}</td>
+				</tr>
+			{% endfor %}
+		{% endif %}
+		</table>
+		</form>
+
+ {% endblock %}

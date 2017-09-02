@@ -1,0 +1,74 @@
+{% extends 'AwanaRecordKeeping/base.html' %}
+ {% block body %}
+		<ul class="menu-style">
+		  <li class = "menu-style"><a href="/" >Home</a></li>
+		  <li class = "menu-style"><a class="active" href="/CheckInTTBoys">CheckIn</a></li>
+		  <li class = "menu-style"><a href="/BookTTBoys">Handbook</a></li>
+		  <li class = "menu-style"><a href="/PointsTTBoys">Points</a></li>
+		  <li class = "menu-style"><a href="/AwardsTT">Awards</a></li>
+		  <li class = "menu-style" style="float:right"><a href="#about">About</a></li>
+		</ul>
+
+		<button class="button button4"><a href="/CheckInPuggles">Puggles</a></button>
+		<button class="button button4"><a href="/CheckInCubbies">Cubbies</a></button>
+		<button class="button button4"><a href="/CheckInSparks">Sparks</a></button>
+		<button class="button button4"><a href="/CheckInTTGirls">T&T Girls</a></button>
+		<button class="button buttonS">T&T Boys</button>
+		<hr>
+		<h2><p style="text-align:left;">T&T Boys CheckIn<span style="float:right;">{{ wed }}</span></p></h2>
+
+		<form id="awana-form" name="awanaForm" action="/CheckInTTBoys/" method="post">
+	    {% csrf_token %}
+
+		<input type="submit" value="SAVE">
+
+		<table>
+		  <tr>
+			<th> <div><span>Name</span></div></th>
+			<th class="rotate"><div><span>Attendance</th>
+			<th class="rotate"><div><span>Uniform</th>
+			<th class="rotate"><div><span>Bible</th>
+			<th class="rotate"><div><span>Handbook</th>
+			<th class="rotate"><div><span>Visitor</th>
+			<th class="rotate"><div><span>Dues</th>
+		  </tr>
+
+		{% if roll %}
+			{% for cname in roll %}
+				<tr>
+					<td>{{cname}}</td>
+					{% if cname in present %}
+						<td><input type="checkbox" name="attend[]" value='{{cname}}' checked><br></td>
+					{% else %}
+						<td><input type="checkbox" name="attend[]" value='{{cname}}'><br></td>
+					{% endif %}
+					{% if cname in uniform %}
+						<td><input type="checkbox" name="uniform[]" value='{{cname}}' checked><br></td>
+					{% else %}
+						<td><input type="checkbox" name="uniform[]" value='{{cname}}'><br></td>
+					{% endif %}
+					{% if cname in bible %}
+						<td><input type="checkbox" name="bible[]" value='{{cname}}' checked><br></td>
+					{% else %}
+						<td><input type="checkbox" name="bible[]" value='{{cname}}'><br></td>
+					{% endif %}
+					{% if cname in handbook %}
+						<td><input type="checkbox" name="handbook[]" value='{{cname}}' checked><br></td>
+					{% else %}
+						<td><input type="checkbox" name="handbook[]" value='{{cname}}'><br></td>
+					{% endif %}
+					{% if cname in visitor %}
+						<td><input type="checkbox" name="visitor[]" value='{{cname}}' checked><br></td>
+					{% else %}
+						<td><input type="checkbox" name="visitor[]" value='{{cname}}'><br></td>
+					{% endif %}
+					<td><input id='{{cname}}' type="number" name="dues[]" value='{{dues|get_item:cname}}' min="0.00" max="200.00" step="0.25"><br></td>
+				</tr>
+			{% endfor %}
+		{% endif %}
+
+
+		</table>
+		</form>
+
+ {% endblock %}

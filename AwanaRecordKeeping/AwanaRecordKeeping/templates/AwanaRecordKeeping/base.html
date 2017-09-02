@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="/static/awana.css" />
+		<style>
+
+		a:link, a:visited, a:hover {
+			/* background-color: #4CAF50; */
+			color: white;
+			text-align: center;
+			text-decoration: none;
+			display: normal;
+		}
+
+		.button {
+		    background-color: #4CAF50; /* Green */
+		    border: none;
+		    color: white;
+		    padding: 15px 32px;
+		    text-align: center;
+		    text-decoration: none;
+		    display: inline-block;
+		    font-size: 16px;
+		    margin: 4px 2px;
+		    cursor: pointer;
+		}
+
+		.button1 {border-radius: 2px;}
+		.button2 {border-radius: 4px;}
+		.button3 {border-radius: 8px;}
+		.button4 {border-radius: 12px;}
+		.buttonS {border-radius: 12px; background-color: #FFFF00; opacity: 0.6; cursor: not-allowed; color: black;}
+
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		th, td {
+			text-align: center;
+			padding: 2px;
+		    border-top-style: solid;
+    		border-right-style: solid;
+		    border-bottom-style: solid;
+    		border-left-style: solid;
+		}
+
+		tr:nth-child(even){background-color: #f2f2f2}
+
+		th {
+			background-color: #4CAF50;
+			color: white;
+		}
+
+		th.rotate {
+		  /* Something you can count on */
+		  height: 100px;
+		  white-space: nowrap;
+		}
+
+		th.rotate > div {
+		  transform:
+		    /* Magic Numbers */
+		    translate(15px, 40px)
+		    /* 45 is really 360 - 45 */
+		    rotate(270deg);
+		  width: 4px;
+		}
+		th.rotate > div > span {
+		  padding: 2px 4px;
+		}
+
+		@media print {
+			li.menu-style {display: none;}
+			.button {display: none;}
+			a {display: none;}
+			th {
+				background-color: white;
+				color: black;
+			}
+		}
+		</style>
+
+		<script src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+		<script src="/static/jquery.are-you-sure.js"></script>
+		<script src="/static/ays-beforeunload-shim.js"></script>
+		<script>
+		  $(function() {
+			$('#awana-form').areYouSure(
+			  {
+				message: 'You have made changes that are not saved!'
+			  }
+			);
+		  });
+
+		</script>
+
+	</head>
+<body>
+    {% load admin_static %}
+    {% block blockbots %}
+    {{ block.super }}
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{% static 'admin/css/responsive.css' %}" />
+	{% endblock %}
+{% block body %}
+{% endblock %}
+</body>
+</html>
