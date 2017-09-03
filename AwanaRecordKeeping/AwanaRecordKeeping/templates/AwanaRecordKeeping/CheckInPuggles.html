@@ -1,5 +1,18 @@
 {% extends 'AwanaRecordKeeping/base.html' %}
  {% block body %}
+		<script src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+		<script src="/static/jquery.are-you-sure.js"></script>
+		<script src="/static/ays-beforeunload-shim.js"></script>
+		<script>
+		  $(function() {
+			$('#awana-form').areYouSure(
+			  {
+				message: 'You have made changes that are not saved!'
+			  }
+			);
+		  });
+
+		</script>
 		<ul class="menu-style">
 		  <li class = "menu-style"><a href="/" >Home</a></li>
 		  <li class = "menu-style"><a class="active" href="/CheckInPuggles">CheckIn</a></li>

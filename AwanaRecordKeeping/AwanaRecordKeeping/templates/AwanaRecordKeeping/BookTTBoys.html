@@ -15,11 +15,8 @@
 		<button class="button buttonS">T&T Boys</button>
 		<hr>
 		<h2><p style="text-align:left;">T&T Boys Handbook<span style="float:right;">{{ wed }}</span></p></h2>
-
 		<form id="awana-form" name="awanaForm" action="/BookTTBoys/" method="post">
 	    {% csrf_token %}
-
-		<input type="submit" value="SAVE">
 
 		<table>
 		  <tr>
@@ -34,32 +31,32 @@
 				<tr>
 					<td>{{cname}}</td>
 					<td>
-  					<select name="ttbook">
-					    <option value="b1">T&T Start Zone</option>
+  					<select name="ttbook" onchange="this.form.submit()" >
+					    <option value="{{cname}},4">T&T Start Zone</option>
        					{% if book|get_item:cname == 'T&T Grace In Action' %}
-					    <option value="b4" selected>T&T Grace In Action</option>
+					    <option value="{{cname}},5" selected>T&T Grace In Action</option>
 					    {% else %}
-					    <option value="b4">T&T Grace In Action</option>
+					    <option value="{{cname}},5">T&T Grace In Action</option>
 					    {% endif %}
   						{% if book|get_item:cname == 'T&T Adventure Book1' %}
-					    <option value="b1" selected>T&T Adventure Book1</option>
+					    <option value="{{cname}},6" selected>T&T Adventure Book1</option>
 					    {% else %}
-					    <option value="b1">T&T Adventure Book1</option>
+					    <option value="{{cname}},6">T&T Adventure Book1</option>
 					    {% endif %}
     					{% if book|get_item:cname == 'T&T Adventure Book2' %}
- 					    <option value="b2" selected>T&T Adventure Book2</option>
+ 					    <option value="{{cname}},7" selected>T&T Adventure Book2</option>
 					    {% else %}
-					    <option value="b2">T&T Adventure Book2</option>
+					    <option value="{{cname}},7">T&T Adventure Book2</option>
 					    {% endif %}
     					{% if book|get_item:cname == 'T&T Challenge Book1' %}
-					    <option value="b3" selected>T&T Challenge Book1</option>
+					    <option value="{{cname}},8" selected>T&T Challenge Book1</option>
 					    {% else %}
-					    <option value="b3">T&T Challenge Book1</option>
+					    <option value="{{cname}},8">T&T Challenge Book1</option>
 					    {% endif %}
     					{% if book|get_item:cname == 'T&T Challenge Book2' %}
-					    <option value="b4" selected>T&T Challenge Book2</option>
+					    <option value="{{cname}},9" selected>T&T Challenge Book2</option>
 					    {% else %}
-					    <option value="b4">T&T Challenge Book2</option>
+					    <option value="{{cname}},9">T&T Challenge Book2</option>
 					    {% endif %}
   					</select>
 					</td>
@@ -67,70 +64,99 @@
 					{% if book|get_item:cname == 'T&T Start Zone' %}
 					</td>
 					{% else %}
-  					<select name="ttchap">
+  					<select name="ttchap" onchange="this.form.submit()">
        					{% if book|get_item:cname == 'T&T Grace In Action' %}
-					    <option value="b1" selected>Unit 1</option>
-					    <option value="b1">Unit 2</option>
-					    <option value="b1">Unit 3</option>
-					    <option value="b1">Unit 4</option>
-					    <option value="b1">Extra 1</option>
-					    <option value="b1">Extra 2</option>
-					    <option value="b1">Extra 3</option>
-					    <option value="b1">Extra 4</option>
+						    <option value="{{cname}},1">Unit 1</option>
+	      					{% if chapter|get_item:cname == 2 %}
+						    <option value="{{cname}},2" selected>Unit 2</option>
+						    {% else %}
+						    <option value="{{cname}},2">Unit 2</option>
+						    {% endif %}
+	      					{% if chapter|get_item:cname == 3 %}
+						    <option value="{{cname}},3" selected>Unit 3</option>
+						    {% else %}
+						    <option value="{{cname}},3">Unit 3</option>
+						    {% endif %}
+	      					{% if chapter|get_item:cname == 4 %}
+						    <option value="{{cname}},4" selected>Unit 4</option>
+						    {% else %}
+						    <option value="{{cname}},4">Unit 4</option>
+						    {% endif %}
+	      					{% if chapter|get_item:cname == 5 %}
+						    <option value="{{cname}},5" selected>Extra 1</option>
+						    {% else %}
+						    <option value="{{cname}},5">Extra 1</option>
+						    {% endif %}
+	      					{% if chapter|get_item:cname == 6 %}
+						    <option value="{{cname}},6" selected>Extra 2</option>
+						    {% else %}
+						    <option value="{{cname}},6">Extra 2</option>
+						    {% endif %}
+	      					{% if chapter|get_item:cname == 7 %}
+						    <option value="{{cname}},7" selected>Extra 3</option>
+						    {% else %}
+						    <option value="{{cname}},7">Extra 3</option>
+						    {% endif %}
+	      					{% if chapter|get_item:cname == 8 %}
+						    <option value="{{cname}},8" selected>Extra 4</option>
+						    {% else %}
+						    <option value="{{cname}},8">Extra 4</option>
+						    {% endif %}
+					    {% else %}
+	 					    <option value="{{cname}},1" >Discovery 1</option>
+	      					{% if chapter|get_item:cname == 2 %}
+						    <option value="{{cname}},2" selected>Discovery 2</option>
+						    {% else %}
+						    <option value="{{cname}},2" >Discovery 2</option>
+						    {% endif %}
+	      					{% if chapter|get_item:cname == 3 %}
+						    <option value="{{cname}},3" selected>Discovery 3</option>
+						    {% else %}
+						    <option value="{{cname}},3" >Discovery 3</option>
+						    {% endif %}
+	      					{% if chapter|get_item:cname == 4 %}
+						    <option value="{{cname}},4" selected >Discovery 4</option>
+						    {% else %}
+						    <option value="{{cname}},4" >Discovery 4</option>
+						    {% endif %}
+	      					{% if chapter|get_item:cname == 5 %}
+						    <option value="{{cname}},5" selected>Discovery 5</option>
+						    {% else %}
+						    <option value="{{cname}},5" >Discovery 5</option>
+						    {% endif %}
+	      					{% if chapter|get_item:cname == 6 %}
+						    <option value="{{cname}},6" selected>Discovery 6</option>
+						    {% else %}
+						    <option value="{{cname}},6" >Discovery 6</option>
+						    {% endif %}
+	      					{% if chapter|get_item:cname == 7 %}
+						    <option value="{{cname}},7" selected>Discovery 7</option>
+						    {% else %}
+						    <option value="{{cname}},7" >Discovery 7</option>
+						    {% endif %}
+	      					{% if chapter|get_item:cname == 8 %}
+						    <option value="{{cname}},8" selected>Discovery 8</option>
+						    {% else %}
+						    <option value="{{cname}},8" >Discovery 8</option>
+						    {% endif %}
 					    {% endif %}
-  						{% if book|get_item:cname == 'T&T Adventure Book1' %}
-					    <option value="b1" selected>Discovery 1</option>
-					    <option value="b1" >Discovery 2</option>
-					    <option value="b1" >Discovery 3</option>
-					    <option value="b1" >Discovery 4</option>
-					    <option value="b1" >Discovery 5</option>
-					    <option value="b1" >Discovery 6</option>
-					    <option value="b1" >Discovery 7</option>
-					    <option value="b1" >Discovery 8</option>
-					    {% endif %}
-    					{% if book|get_item:cname == 'T&T Adventure Book2' %}
-					    <option value="b1" selected>Discovery 1</option>
-					    <option value="b1" >Discovery 2</option>
-					    <option value="b1" >Discovery 3</option>
-					    <option value="b1" >Discovery 4</option>
-					    <option value="b1" >Discovery 5</option>
-					    <option value="b1" >Discovery 6</option>
-					    <option value="b1" >Discovery 7</option>
-					    <option value="b1" >Discovery 8</option>
-					    {% endif %}
-    					{% if book|get_item:cname == 'T&T Challenge Book1' %}
-					    <option value="b1" selected>Discovery 1</option>
-					    <option value="b1" >Discovery 2</option>
-					    <option value="b1" >Discovery 3</option>
-					    <option value="b1" >Discovery 4</option>
-					    <option value="b1" >Discovery 5</option>
-					    <option value="b1" >Discovery 6</option>
-					    <option value="b1" >Discovery 7</option>
-					    <option value="b1" >Discovery 8</option>
-					    {% endif %}
-    					{% if book|get_item:cname == 'T&T Challenge Book2' %}
-					    <option value="b1" selected>Discovery 1</option>
-					    <option value="b1" >Discovery 2</option>
-					    <option value="b1" >Discovery 3</option>
-					    <option value="b1" >Discovery 4</option>
-					    <option value="b1" >Discovery 5</option>
-					    <option value="b1" >Discovery 6</option>
-					    <option value="b1" >Discovery 7</option>
-					    <option value="b1" >Discovery 8</option>
-					    {% endif %}
-  					</select>
+					</select>
 					</td>
 				    {% endif %}
 					<td>
-					<input type="radio" name="{{cname}} section1">1</input>
-					<input type="radio" name="{{cname}} section2">2</input>
-					<input type="radio" name="{{cname}} section3">3</input>
-					<input type="radio" name="{{cname}} section4">4</input>
-					<input type="radio" name="{{cname}} section5">5</input>
-					<input type="radio" name="{{cname}} section6">6</input>
-					<input type="radio" name="{{cname}} section7">7</input>
-					<input type="radio" name="{{cname}} section8">8</input>
+					<input type="radio" value="{{cname}}" name="section1" onchange="this.form.submit()">1</input>
+					<input type="radio" value="{{cname}}" name="section2" onchange="this.form.submit()">2</input>
+					{% if book|get_item:cname == 'T&T Start Zone' %}
 					</td>
+					{% else %}
+					<input type="radio" value="{{cname}}" name="section3" onchange="this.form.submit()">3</input>
+					<input type="radio" value="{{cname}}" name="section4" onchange="this.form.submit()">4</input>
+					<input type="radio" value="{{cname}}" name="section5" onchange="this.form.submit()">5</input>
+					<input type="radio" value="{{cname}}" name="section6" onchange="this.form.submit()">6</input>
+					<input type="radio" value="{{cname}}" name="section7" onchange="this.form.submit()">7</input>
+					<input type="radio" value="{{cname}}" name="section8" onchange="this.form.submit()">8</input>
+					</td>
+					{% endif %}
 				</tr>
 			{% endfor %}
 		{% endif %}

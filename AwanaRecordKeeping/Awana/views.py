@@ -1,5 +1,5 @@
 #from django.shortcuts import render
-
+#push to GitHub
 # Create your views here.
 from django.http import HttpResponse
 from django.template import loader
@@ -167,64 +167,6 @@ def CheckInTTBoys(request):
     return HttpResponse(template.render(context,request))
 
 def HandBook(request, club_enum):
-    '''
-    try:
-        n = MeetingNight.objects.get(date=next_wednesday())
-    except MeetingNight.DoesNotExist:
-        n = MeetingNight(date=next_wednesday())
-        n.save()
-        
-    club_roll = Clubber.objects.filter(club=club_enum)
-    present = {}
-    uniform_pts = {}
-    bible_pts = {}
-    book_pts = {}
-    visitor_pts = {}
-    dues_pts = {}
-
-    if request.method == "POST":
-        attendance = request.POST.getlist("attend[]")
-        uniform = request.POST.getlist("uniform[]")
-        bible = request.POST.getlist("bible[]")
-        book = request.POST.getlist("handbook[]")
-        visitor = request.POST.getlist("visitor[]")
-        print (visitor)
-        dues = request.POST.getlist("dues[]")
-        i = 0
-        for c in club_roll:
-            dues_pts[c.name] = dues[i]
-            i += 1
-
-        for child in attendance:
-            c = Clubber.objects.get(name=child)
-            c.dues = dues_pts[c.name]
-            c.save()
-            present[c.name] = True
-            b = False
-            u = False
-            bk = False
-            v = False
-            if child in bible:
-                b = True
-            if child in uniform:
-                u = True
-            if child in book:
-                bk = True
-            if child in visitor:
-                v = True
-            try:
-                p = ClubPoints.objects.get(kid=c,night=n)
-                p.bible = b
-                p.uniform = u
-                p.book = bk
-                p.visitor = v
-                p.save()
-            except ClubPoints.DoesNotExist:
-                p1 = ClubPoints(bible=b,uniform=u,book=bk,visitor=v,kid=c,night=n)
-                p1.save()
-            n.attendees.add(c)
-            n.save()
-    '''        
     club_roll = Clubber.objects.filter(club=club_enum)
     roll = {}
     hbook = {}
@@ -232,38 +174,10 @@ def HandBook(request, club_enum):
     hsec = {}
     for c in club_roll:
         roll[c.name] = True
-        #cbook = ClubBook.objects.filter(clubber=c)
-        #print (cbook.count())
-        # need to add size here and pick the most advanced book
-
         hbook[c.name] = BOOK_TYPE_CHOICES[int(c.current_book)][1]
         hchap[c.name] = c.current_chapter
         hsec[c.name] = c.current_section
         
-        '''
-        dues_pts[c.name] = c.dues                        
-        try:
-            p = ClubPoints.objects.get(kid=c,night=n)
-            if request.method == "POST" and c.name not in present:
-                p.delete()
-                n.attendees.remove(c)
-                n.save()
-            else:
-                present[c.name] = True
-                if p.uniform:
-                    uniform_pts[c.name] = True
-                if p.book:
-                    book_pts[c.name] = True
-                if p.bible:
-                    bible_pts[c.name] = True
-                if p.visitor:
-                    visitor_pts[c.name] = True
-
-                
-        except ClubPoints.DoesNotExist:
-            #print ('could not find ' + c.name)
-            pass
-    ''' 
     context = {
         'roll' : roll,
         'book' : hbook,
@@ -274,9 +188,50 @@ def HandBook(request, club_enum):
 
 def BookTTBoys(request):
     template = loader.get_template('AwanaRecordKeeping/BookTTBoys.html')
+    if request.method == 'POST':
+        print (request.POST)
+        books = {}
+        books = request.POST.getlist("ttbook")
+        for b in books:
+            child = b.split(',')
+            c = Clubber.objects.get(name=child[0])
+            c.current_book = child[1]
+            c.save()
+        chaps = {}
+        chaps = request.POST.getlist("ttchap")
+        for ch in chaps:
+            child = ch.split(',')
+            c = Clubber.objects.get(name=child[0])
+            c.current_chapter = child[1]
+            c.save()
+        sec1 = request.POST.get('section1')
+        if sec1:
+            print (sec1)
+        sec2 = request.POST.get('section2')
+        if sec2:
+            print (sec2)
+        sec3 = request.POST.get('section3')
+        if sec3:
+            print (sec3)
+        sec4 = request.POST.get('section4')
+        if sec4:
+            print (sec4)
+        sec5 = request.POST.get('section5')
+        if sec5:
+            print (sec5)
+        sec6 = request.POST.get('section6')
+        if sec6:
+            print (sec6)
+        sec7 = request.POST.get('section7')
+        if sec7:
+            print (sec7)
+        sec8 = request.POST.get('section8')
+        if sec8:
+            print (sec8)
+        
     context = HandBook(request,'4')
     return HttpResponse(template.render(context,request))
-
+ 
 def BookTTGirls(request):
     template = loader.get_template('AwanaRecordKeeping/BookTTGirls.html')
     context = HandBook(request,'3')
