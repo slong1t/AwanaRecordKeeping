@@ -7,6 +7,7 @@ from django.template import loader
 from Awana.models import Clubber,MeetingNight,ClubPoints,HandBookPoint,BOOK_TYPE_CHOICES
 
 import datetime
+from test.test_keywordonlyarg import sortnum
 def next_weekday(d, weekday):
     days_ahead = weekday - d.weekday()
     if days_ahead < 0: # Target day already happened this week
@@ -168,72 +169,168 @@ def CheckInTTBoys(request):
 
 def HandBook(request, club_enum):
     club_roll = Clubber.objects.filter(club=club_enum)
+    club_roll = club_roll.order_by('name')
     roll = {}
     hbook = {}
     hchap = {}
-    hsec = {}
+    hsec1 = {}
+    hsec2 = {}
+    hsec3 = {}
+    hsec4 = {}
+    hsec5 = {}
+    hsec6 = {}
+    hsec7 = {}
+    hsec8 = {}
     for c in club_roll:
         roll[c.name] = True
         hbook[c.name] = BOOK_TYPE_CHOICES[int(c.current_book)][1]
         hchap[c.name] = c.current_chapter
-        hsec[c.name] = c.current_section
+        bookpts =  HandBookPoint.objects.filter(clubber=c, book=c.current_book, chapter=c.current_chapter)
+        for pt in bookpts:
+            if pt.section == 1:
+                hsec1[c.name] = 1
+            elif pt.section == 2:
+                hsec2[c.name] = 1
+            elif pt.section == 3:
+                hsec3[c.name] = 1                
+            elif pt.section == 4:
+                hsec4[c.name] = 1                
+            elif pt.section == 5:
+                hsec5[c.name] = 1                
+            elif pt.section == 6:
+                hsec6[c.name] = 1                
+            elif pt.section == 7:
+                hsec7[c.name] = 1                
+            elif pt.section == 8:
+                hsec8[c.name] = 1                
         
     context = {
         'roll' : roll,
         'book' : hbook,
         'chapter' : hchap,
-        'section' : hsec,
+        'section1' : hsec1,
+        'section2' : hsec2,
+        'section3' : hsec3,
+        'section4' : hsec4,
+        'section5' : hsec5,
+        'section6' : hsec6,
+        'section7' : hsec7,
+        'section8' : hsec8,
     }
     return context
 
+def updateSection(_sectionList,_sectionNumber):
+        sec = {}
+        for clubber in _sectionList:
+            if clubber in sec:
+                sec[clubber] += 1
+            else:
+                sec[clubber] = 1
+        #print(sec)
+        for clubber in sec:
+            db_sec = {}
+            c = Clubber.objects.get(name=clubber)
+            bookpts = HandBookPoint.objects.filter(clubber=c, book=c.current_book, chapter=c.current_chapter)
+            for pt in bookpts:
+                db_sec[pt.section] = 1
+            #print (clubber + str(db_sec))
+            if sec[clubber] == 1 and _sectionNumber in db_sec:
+                #print(clubber + ":" + str(_sectionNumber) + " needs to be removed from db_sec")
+                HandBookPoint.objects.filter(clubber=c, book=c.current_book, chapter=c.current_chapter, section=_sectionNumber).delete()
+            elif sec[clubber] == 2 and not _sectionNumber in db_sec:
+                #print(clubber + ":" + str(_sectionNumber) +  " needs to be added to db_sec")
+                #hbp = HandBookPoint(clubber=c,book=c.current_book,chapter=c.current_chapter,section=_sectionNumber,date=next_wednesday())
+                hbp = HandBookPoint(clubber=c,book=c.current_book,chapter=c.current_chapter,section=_sectionNumber,date=datetime.date.today())
+                hbp.save()
+
+def updateBook(_bookList):
+    rtnVal = ''    
+    for b in _bookList:
+        child = b.split(',')
+        c = Clubber.objects.get(name=child[0])
+        if c.current_book != child[1]:
+            c.current_book = child[1]
+            c.current_chapter = 1
+            c.save()
+            rtnVal = child[0]
+    return rtnVal
+
+def updateChapter(_chapterList):
+    rtnVal = ''
+    for ch in _chapterList:
+        child = ch.split(',')
+        c = Clubber.objects.get(name=child[0])
+        #print ("uc " + str(child[1]) + " " + c.name + " " + str(c.current_chapter))
+        if c.current_chapter != int(child[1]):
+            c.current_chapter = int(child[1])
+            c.save()
+            rtnVal = child[0]
+    return rtnVal
+        
 def BookTTBoys(request):
     template = loader.get_template('AwanaRecordKeeping/BookTTBoys.html')
+    #print(request.method)
     if request.method == 'POST':
+        bookChanged = ''
+        chapterChanged = ''        
         print (request.POST)
-        books = {}
         books = request.POST.getlist("ttbook")
-        for b in books:
-            child = b.split(',')
-            c = Clubber.objects.get(name=child[0])
-            c.current_book = child[1]
-            c.save()
-        chaps = {}
-        chaps = request.POST.getlist("ttchap")
-        for ch in chaps:
-            child = ch.split(',')
-            c = Clubber.objects.get(name=child[0])
-            c.current_chapter = child[1]
-            c.save()
-        sec1 = request.POST.get('section1')
-        if sec1:
-            print (sec1)
-        sec2 = request.POST.get('section2')
-        if sec2:
-            print (sec2)
-        sec3 = request.POST.get('section3')
-        if sec3:
-            print (sec3)
-        sec4 = request.POST.get('section4')
-        if sec4:
-            print (sec4)
-        sec5 = request.POST.get('section5')
-        if sec5:
-            print (sec5)
-        sec6 = request.POST.get('section6')
-        if sec6:
-            print (sec6)
-        sec7 = request.POST.get('section7')
-        if sec7:
-            print (sec7)
-        sec8 = request.POST.get('section8')
-        if sec8:
-            print (sec8)
-        
+        bookChanged = updateBook(books)      
+        if bookChanged == '':
+            chapters = request.POST.getlist("ttchap")
+            chapterChanged = updateChapter(chapters)
+            #print ('chapter changed ' + chapterChanged)            
+            if chapterChanged == '':
+                sec1 = request.POST.getlist('section1')
+                updateSection(sec1,1)        
+                sec2 = request.POST.getlist('section2')
+                updateSection(sec2,2)        
+                sec3 = request.POST.getlist('section3')
+                updateSection(sec3,3)        
+                sec4 = request.POST.getlist('section4')
+                updateSection(sec4,4)        
+                sec5 = request.POST.getlist('section5')
+                updateSection(sec5,5)        
+                sec6 = request.POST.getlist('section6')
+                updateSection(sec6,6)        
+                sec7 = request.POST.getlist('section7')
+                updateSection(sec7,7)        
+                sec8 = request.POST.getlist('section8')
+                updateSection(sec8,8)                      
+
     context = HandBook(request,'4')
     return HttpResponse(template.render(context,request))
  
 def BookTTGirls(request):
     template = loader.get_template('AwanaRecordKeeping/BookTTGirls.html')
+    if request.method == 'POST':
+        bookChanged = ''
+        chapterChanged = ''        
+        print (request.POST)
+        books = request.POST.getlist("ttbook")
+        bookChanged = updateBook(books)      
+        if bookChanged == '':
+            chapters = request.POST.getlist("ttchap")
+            chapterChanged = updateChapter(chapters)
+            #print ('chapter changed ' + chapterChanged)            
+            if chapterChanged == '':
+                sec1 = request.POST.getlist('section1')
+                updateSection(sec1,1)        
+                sec2 = request.POST.getlist('section2')
+                updateSection(sec2,2)        
+                sec3 = request.POST.getlist('section3')
+                updateSection(sec3,3)        
+                sec4 = request.POST.getlist('section4')
+                updateSection(sec4,4)        
+                sec5 = request.POST.getlist('section5')
+                updateSection(sec5,5)        
+                sec6 = request.POST.getlist('section6')
+                updateSection(sec6,6)        
+                sec7 = request.POST.getlist('section7')
+                updateSection(sec7,7)        
+                sec8 = request.POST.getlist('section8')
+                updateSection(sec8,8)                      
+    
     context = HandBook(request,'3')
     return HttpResponse(template.render(context,request))
 

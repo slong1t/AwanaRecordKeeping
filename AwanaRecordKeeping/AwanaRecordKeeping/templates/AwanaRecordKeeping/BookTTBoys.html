@@ -144,17 +144,59 @@
 					</td>
 				    {% endif %}
 					<td>
-					<input type="radio" value="{{cname}}" name="section1" onchange="this.form.submit()">1</input>
-					<input type="radio" value="{{cname}}" name="section2" onchange="this.form.submit()">2</input>
+					{% if section1|get_item:cname == 1 %}
+						<input type="Checkbox" value="{{cname}}" name="section1" onchange="this.form.submit()" checked>1</input>
+				    {% else %}
+						<input type="Checkbox" value="{{cname}}" name="section1" onchange="this.form.submit()">1</input>
+				    {% endif %}
+					<input type="hidden" value="{{cname}}" name="section1">
+						
+					{% if section2|get_item:cname == 1 %}
+  					    <input type="Checkbox" value="{{cname}}" name="section2" onchange="this.form.submit()" checked>2</input>
+				    {% else %}
+					    <input type="Checkbox" value="{{cname}}" name="section2" onchange="this.form.submit()">2</input>
+				    {% endif %}
+					<input type="hidden" value="{{cname}}" name="section2">
+
 					{% if book|get_item:cname == 'T&T Start Zone' %}
 					</td>
 					{% else %}
-					<input type="radio" value="{{cname}}" name="section3" onchange="this.form.submit()">3</input>
-					<input type="radio" value="{{cname}}" name="section4" onchange="this.form.submit()">4</input>
-					<input type="radio" value="{{cname}}" name="section5" onchange="this.form.submit()">5</input>
-					<input type="radio" value="{{cname}}" name="section6" onchange="this.form.submit()">6</input>
-					<input type="radio" value="{{cname}}" name="section7" onchange="this.form.submit()">7</input>
-					<input type="radio" value="{{cname}}" name="section8" onchange="this.form.submit()">8</input>
+						{% if section3|get_item:cname == 1 %}
+		 					<input type="Checkbox" value="{{cname}}" name="section3" onchange="this.form.submit()" checked>3</input>
+					    {% else %}
+		 					<input type="Checkbox" value="{{cname}}" name="section3" onchange="this.form.submit()">3</input>
+					    {% endif %}
+						<input type="hidden" value="{{cname}}" name="section3">
+						{% if section4|get_item:cname == 1 %}
+	 						<input type="Checkbox" value="{{cname}}" name="section4" onchange="this.form.submit()" checked>4</input>
+					    {% else %}
+	 						<input type="Checkbox" value="{{cname}}" name="section4" onchange="this.form.submit()">4</input>
+					    {% endif %}
+						<input type="hidden" value="{{cname}}" name="section4">
+						{% if section5|get_item:cname == 1 %}
+	 						<input type="Checkbox" value="{{cname}}" name="section5" onchange="this.form.submit()" checked>5</input>
+					    {% else %}
+	 						<input type="Checkbox" value="{{cname}}" name="section5" onchange="this.form.submit()">5</input>
+					    {% endif %}
+						<input type="hidden" value="{{cname}}" name="section5">
+						{% if section6|get_item:cname == 1 %}
+	 						<input type="Checkbox" value="{{cname}}" name="section6" onchange="this.form.submit()" checked>6</input>
+					    {% else %}
+	 						<input type="Checkbox" value="{{cname}}" name="section6" onchange="this.form.submit()">6</input>
+					    {% endif %}
+						<input type="hidden" value="{{cname}}" name="section6">
+						{% if section7|get_item:cname == 1 %}
+	 						<input type="Checkbox" value="{{cname}}" name="section7" onchange="this.form.submit()" checked>7</input>
+					    {% else %}
+	 						<input type="Checkbox" value="{{cname}}" name="section7" onchange="this.form.submit()">7</input>
+					    {% endif %}
+						<input type="hidden" value="{{cname}}" name="section7">
+						{% if section8|get_item:cname == 1 %}
+	 						<input type="Checkbox" value="{{cname}}" name="section8" onchange="this.form.submit()" checked>8</input>
+					    {% else %}
+	 						<input type="Checkbox" value="{{cname}}" name="section8" onchange="this.form.submit()">8</input>
+					    {% endif %}
+						<input type="hidden" value="{{cname}}" name="section8">
 					</td>
 					{% endif %}
 				</tr>
