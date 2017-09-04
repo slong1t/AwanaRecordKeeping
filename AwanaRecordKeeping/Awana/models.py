@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 BOOK_TYPE_CHOICES = (
-    ('0', 'Sparks StartZone'),
+    ('0', 'Flight 3:16'),
     ('1', 'Sparks HangGlider'),
     ('2', 'Sparks WingRunner'),
     ('3', 'Sparks SkyStormer'),

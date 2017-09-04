@@ -1,43 +1,179 @@
+{% extends 'AwanaRecordKeeping/base.html' %} {% block body %}
+<ul class="menu-style">
+	<li class="menu-style"><a href="/">Home</a></li>
+	<li class="menu-style"><a href="/CheckInSparks">CheckIn</a></li>
+	<li class="menu-style"><a class="active" href="/BookSparks">Handbook</a></li>
+	<li class="menu-style"><a href="/PointsSparks">Points</a></li>
+	<li class="menu-style"><a href="/AwardsSparks">Awards</a></li>
+	<li class="menu-style" style="float: right"><a href="#about">About</a></li>
+</ul>
 
-{% extends 'AwanaRecordKeeping/base.html' %}
-{% block body %}
-		<ul class="menu-style">
-		  <li class = "menu-style"><a href="/" >Home</a></li>
-		  <li class = "menu-style"><a href="/CheckInSparks">CheckIn</a></li>
-		  <li class = "menu-style"><a class="active" href="/BookSparks">Handbook</a></li>
-		  <li class = "menu-style"><a href="/PointsSparks">Points</a></li>
-		  <li class = "menu-style"><a href="/AwardsSparks">Awards</a></li>
-		  <li class = "menu-style" style="float:right"><a href="#about">About</a></li>
-		</ul>
+<button class="button buttonS">Sparks</button>
+<button class="button button4">
+	<a href="/BookTTGirls">T&T Girls</a>
+</button>
+<button class="button button4">
+	<a href="/BookTTBoys">T&T Boys</a>
+</button>
+<hr>
+<h2>
+	<p style="text-align: left;">
+		Sparks Handbook<span style="float: right;">{{ wed }}</span>
+	</p>
+</h2>
 
-		<button class="button buttonS">Sparks</button>
-		<button class="button button4"><a href="/BookTTGirls">T&T Girls</a></button>
-		<button class="button button4"><a href="/BookTTBoys">T&T Boys</a></button>
-		<hr>
-		<h2><p style="text-align:left;">Sparks Handbook<span style="float:right;">{{ wed }}</span></p></h2>
+<form id="awana-form" name="awanaForm" action="/BookSparks/"
+	method="post">
+	{% csrf_token %}
 
-		<form id="awana-form" name="awanaForm" action="/BookSparks/" method="post">
-	    {% csrf_token %}
+	<table>
+		<tr>
+			<th><div>
+					<span>Name</span>
+				</div></th>
+			<th><div>
+					<span>Book</span>
+				</div></th>
+			<th><div>
+					<span>Chapter</span>
+				</div></th>
+			<th><div>
+					<span>Section</span>
+				</div></th>
+		</tr>
 
-		<input type="submit" value="SAVE">
+		{% if roll %} {% for cname in roll %}
+		<tr>
+			<td>{{cname}}</td>
+			<td>
+				<select name="sbook" onchange="this.form.submit()">
+					<option value="{{cname}},0">Flight 3:16</option> 
+					{% if book|get_item:cname == 'Sparks HangGlider' %}<option value="{{cname}},1" selected>Sparks HangGlider</option>
+					{% else %}<option value="{{cname}},1">Sparks HangGlider</option> 
+					{% endif %} 
+					{% if book|get_item:cname == 'Sparks WingRunner' %}<option value="{{cname}},2" selected>Sparks WingRunner</option>
+					{% else %}<option value="{{cname}},2">Sparks WingRunner</option> 
+					{% endif%} 
+					{% if book|get_item:cname == 'Sparks SkyStormer' %}<option value="{{cname}},3" selected>Sparks SkyStormer</option>
+					{% else %}<option value="{{cname}},3">Sparks SkyStormer</option> 
+					{% endif %} 
+				</select>
+			</td>
+			<td>
+				{% if book|get_item:cname == 'Flight 3:16' %}
+			</td> 
+				{% else %}
+				<select name="schap" onchange="this.form.submit()"> 
+					<option value="{{cname}},1">Rank</option> 
+					{% if chapter|get_item:cname == 2 %} <option value="{{cname}},2" selected>RJ1</option> 
+					{% else %} <option value="{{cname}},2">RJ1</option>
+					{% endif %} 
+					{% if chapter|get_item:cname == 3 %}<option value="{{cname}},3" selected>GJ1</option> 
+					{% else %}<option value="{{cname}},3">GJ1</option> 
+					{% endif %} 
+					{% if chapter|get_item:cname == 4 %}<option value="{{cname}},4" selected>RJ2</option> 
+					{% else %}<option value="{{cname}},4">RJ2</option> 
+					{% endif %} 
+					{% if chapter|get_item:cname == 5 %}<option value="{{cname}},5" selected>GJ2</option> 
+					{% else %}<option value="{{cname}},5">GJ2</option> 
+					{% endif %} 
+					{% if chapter|get_item:cname == 6 %}<option value="{{cname}},6" selected>RJ3</option> 
+					{% else %}<option value="{{cname}},6">RJ3</option> 
+					{% endif %} 
+					{% if chapter|get_item:cname == 7 %}<option value="{{cname}},7" selected>GJ3</option>
+					{% else %}<option value="{{cname}},7">GJ3</option> 
+					{% endif %} 
+					{% if chapter|get_item:cname == 8 %}<option value="{{cname}},8" selected>RJ4</option> 
+					{% else %}<option value="{{cname}},8">RJ4</option> 
+					{% endif %} 
+					{% if chapter|get_item:cname == 8 %}<option value="{{cname}},9" selected>GJ4</option> 
+					{% else %}<option value="{{cname}},8">GJ4</option> 
+					{% endif %} 
+				</select>
+			</td> 
+				{% endif %}
+			<td>
+				{% if section1|get_item:cname == 1 %} 
+					<input type="Checkbox" value="{{cname}}" name="section1" onchange="this.form.submit()" checked>1</input> 
+				{% else %} 
+					<input type="Checkbox" value="{{cname}}" name="section1" onchange="this.form.submit()">1</input>
+				{% endif %} 
+				<input type="hidden" value="{{cname}}" name="section1">
 
-		<table>
-		  <tr>
-			<th><div><span>Name</span></div></th>
-			<th><div><span>Book</div></th>
-			<th><div><span>Chapter</div></th>
-			<th><div><span>Section</div></th>
-		  </tr>
+				{% if section2|get_item:cname == 1 %} 
+					<input type="Checkbox" value="{{cname}}" name="section2" onchange="this.form.submit()" checked>2</input> 
+				{% else %} 
+					<input type="Checkbox" value="{{cname}}" name="section2" onchange="this.form.submit()">2</input>
+				{% endif %} 
+				<input type="hidden" value="{{cname}}" name="section2">
 
-		{% if roll %}
-			{% for cname in roll %}
-				<tr>
-					<td>{{cname}}</td>
-					<td>{{book|get_item:cname}}</td>
-				</tr>
-			{% endfor %}
-		{% endif %}
-		</table>
-		</form>
+				{% if section3|get_item:cname == 1 %} 
+					<input type="Checkbox" value="{{cname}}" name="section3" onchange="this.form.submit()" checked>3</input> 
+				{% else %} 
+					<input type="Checkbox" value="{{cname}}" name="section3" onchange="this.form.submit()">3</input>
+				{% endif %} 
+				<input type="hidden" value="{{cname}}" name="section3">
 
- {% endblock %}
+				{% if section4|get_item:cname == 1 %} 
+					<input type="Checkbox" value="{{cname}}" name="section4" onchange="this.form.submit()" checked>4</input> 
+				{% else %} 
+					<input type="Checkbox" value="{{cname}}" name="section4" onchange="this.form.submit()">4</input>
+				{% endif %} 
+				<input type="hidden" value="{{cname}}" name="section4">
+
+				{% if book|get_item:cname == 'Flight 3:16' %}
+
+					{% if section5|get_item:cname == 1 %} 
+						<input type="Checkbox" value="{{cname}}" name="section5" onchange="this.form.submit()" checked>5</input> 
+					{% else %} 
+						<input type="Checkbox" value="{{cname}}" name="section5" onchange="this.form.submit()">5</input>
+					{% endif %} 
+					<input type="hidden" value="{{cname}}" name="section5">
+	
+					{% if section6|get_item:cname == 1 %} 
+						<input type="Checkbox" value="{{cname}}" name="section6" onchange="this.form.submit()" checked>6</input> 
+					{% else %} 
+						<input type="Checkbox" value="{{cname}}" name="section6" onchange="this.form.submit()">6</input>
+					{% endif %} 
+					<input type="hidden" value="{{cname}}" name="section6">
+			</td> 
+				{% elif chapter|get_item:cname == 1 %}
+				
+					{% if section5|get_item:cname == 1 %} 
+						<input type="Checkbox" value="{{cname}}" name="section5" onchange="this.form.submit()" checked>5</input> 
+					{% else %} 
+						<input type="Checkbox" value="{{cname}}" name="section5" onchange="this.form.submit()">5</input>
+					{% endif %} 
+					<input type="hidden" value="{{cname}}" name="section5">
+	
+					{% if section6|get_item:cname == 1 %} 
+						<input type="Checkbox" value="{{cname}}" name="section6" onchange="this.form.submit()" checked>6</input> 
+					{% else %} 
+						<input type="Checkbox" value="{{cname}}" name="section6" onchange="this.form.submit()">6</input>
+					{% endif %} 
+					<input type="hidden" value="{{cname}}" name="section6">
+					
+					{% if section7|get_item:cname == 1 %} 
+						<input type="Checkbox" value="{{cname}}" name="section7" onchange="this.form.submit()" checked>7</input> 
+					{% else %} 
+						<input type="Checkbox" value="{{cname}}" name="section7" onchange="this.form.submit()">7</input>
+					{% endif %} 
+					<input type="hidden" value="{{cname}}" name="section7">
+	
+					{% if section8|get_item:cname == 1 %} 
+						<input type="Checkbox" value="{{cname}}" name="section8" onchange="this.form.submit()" checked>8</input> 
+					{% else %} 
+						<input type="Checkbox" value="{{cname}}" name="section8" onchange="this.form.submit()">8</input>
+					{% endif %} 
+					<input type="hidden" value="{{cname}}" name="section8">
+			</td> 
+				{% else %}
+			</td> 
+				
+			{% endif %}
+		</tr>
+		{% endfor %} {% endif %}
+	</table>
+</form>
+
+{% endblock %}

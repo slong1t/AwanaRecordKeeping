@@ -7,7 +7,7 @@ from django.template import loader
 from Awana.models import Clubber,MeetingNight,ClubPoints,HandBookPoint,BOOK_TYPE_CHOICES
 
 import datetime
-from test.test_keywordonlyarg import sortnum
+#from test.test_keywordonlyarg import sortnum
 def next_weekday(d, weekday):
     days_ahead = weekday - d.weekday()
     if days_ahead < 0: # Target day already happened this week
@@ -21,8 +21,7 @@ def next_wednesday():
 
 def index(request):
     night = MeetingNight.objects.all()
-    roll = Clubber.objects.all()
-    points = ClubPoints.objects.all()
+    roll = Clubber.objects.all().order_by('name')
     #s = ''
     #for n in night:
     #    s += str(n)
@@ -31,7 +30,6 @@ def index(request):
     context = {
         'night' : night,
         'roll' : roll,
-        'points' : points,
         'wed' : next_wednesday()
     }
 
@@ -65,7 +63,7 @@ def CheckIn(request, club_enum):
         bible = request.POST.getlist("bible[]")
         book = request.POST.getlist("handbook[]")
         visitor = request.POST.getlist("visitor[]")
-        print (visitor)
+        #print (visitor)
         dues = request.POST.getlist("dues[]")
         i = 0
         for c in club_roll:
@@ -102,7 +100,8 @@ def CheckIn(request, club_enum):
             n.attendees.add(c)
             n.save()
             
-    club_roll = Clubber.objects.filter(club=club_enum)
+    club_roll = Clubber.objects.filter(club=club_enum).order_by('name')
+    
     roll = {}
     for c in club_roll:
         roll[c.name] = True
@@ -168,8 +167,7 @@ def CheckInTTBoys(request):
     return HttpResponse(template.render(context,request))
 
 def HandBook(request, club_enum):
-    club_roll = Clubber.objects.filter(club=club_enum)
-    club_roll = club_roll.order_by('name')
+    club_roll = Clubber.objects.filter(club=club_enum).order_by('name')
     roll = {}
     hbook = {}
     hchap = {}
@@ -273,7 +271,7 @@ def BookTTBoys(request):
     if request.method == 'POST':
         bookChanged = ''
         chapterChanged = ''        
-        print (request.POST)
+        #print (request.POST)
         books = request.POST.getlist("ttbook")
         bookChanged = updateBook(books)      
         if bookChanged == '':
@@ -306,7 +304,7 @@ def BookTTGirls(request):
     if request.method == 'POST':
         bookChanged = ''
         chapterChanged = ''        
-        print (request.POST)
+        #print (request.POST)
         books = request.POST.getlist("ttbook")
         bookChanged = updateBook(books)      
         if bookChanged == '':
@@ -336,5 +334,32 @@ def BookTTGirls(request):
 
 def BookSparks(request):
     template = loader.get_template('AwanaRecordKeeping/BookSparks.html')
+    if request.method == 'POST':
+        bookChanged = ''
+        chapterChanged = ''        
+        #print (request.POST)
+        books = request.POST.getlist("sbook")
+        bookChanged = updateBook(books)      
+        if bookChanged == '':
+            chapters = request.POST.getlist("schap")
+            chapterChanged = updateChapter(chapters)
+            #print ('chapter changed ' + chapterChanged)            
+            if chapterChanged == '':
+                sec1 = request.POST.getlist('section1')
+                updateSection(sec1,1)        
+                sec2 = request.POST.getlist('section2')
+                updateSection(sec2,2)        
+                sec3 = request.POST.getlist('section3')
+                updateSection(sec3,3)        
+                sec4 = request.POST.getlist('section4')
+                updateSection(sec4,4)        
+                sec5 = request.POST.getlist('section5')
+                updateSection(sec5,5)        
+                sec6 = request.POST.getlist('section6')
+                updateSection(sec6,6)        
+                sec7 = request.POST.getlist('section7')
+                updateSection(sec7,7)        
+                sec8 = request.POST.getlist('section8')
+                updateSection(sec8,8)                      
     context = HandBook(request,'2')
     return HttpResponse(template.render(context,request))
