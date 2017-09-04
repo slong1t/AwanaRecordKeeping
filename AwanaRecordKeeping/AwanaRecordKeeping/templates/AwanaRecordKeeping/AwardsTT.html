@@ -15,6 +15,31 @@
 		<h2><p style="text-align:left;">T&T Awards<span style="float:right;">{{ wed }}</span></p></h2>
 		<form id="awana-form" name="awanaForm" action="/AwardsTT/" method="post">
 	    {% csrf_token %}
+		<table>
+			<tr>
+				<th><div><span>Name</span></div></th>
+				<th><div><span>Section</span></div></th>
+			</tr>
+	
+			{% if gsection %} {% for s in gsection %}
+			<tr>
+				<td>{{s}}</td><td>{{gsection|get_item:s}}</td>
+			</tr>
+			{% endfor %} {% endif %}
+		</table>
+
+		<table>
+			<tr>
+				<th><div><span>Name</span></div></th>
+				<th><div><span>Section</span></div></th>
+			</tr>
+	
+			{% if bsection %} {% for s in bsection %}
+			<tr>
+				<td>{{s}}</td><td>{{bsection|get_item:s}}</td>
+			</tr>
+			{% endfor %} {% endif %}
+		</table>
 		</form>
 
  {% endblock %}

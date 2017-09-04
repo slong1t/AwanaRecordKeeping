@@ -75,7 +75,7 @@
 					{% else %}
 						<td><input type="checkbox" name="visitor[]" value='{{cname}}'><br></td>
 					{% endif %}
-					<td><input id='{{cname}}' type="number" name="dues[]" value='{{dues|get_item:cname}}' min="0.00" max="200.00" step="0.25"><br></td>
+					<td><input id='{{cname}}' type="number" name="dues[]" value='{{dues|get_item:cname}}' min="0.00" max="200.00" step="any"><br></td>
 				</tr>
 			{% endfor %}
 		{% endif %}

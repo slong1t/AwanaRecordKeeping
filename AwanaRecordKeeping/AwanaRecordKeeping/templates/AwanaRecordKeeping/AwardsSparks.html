@@ -21,6 +21,19 @@
 <form id="awana-form" name="awanaForm" action="/AwardsSparks/"
 	method="post">
 	{% csrf_token %}
+	<table>
+		<tr>
+			<th><div><span>Name</span></div></th>
+			<th><div><span>Section</span></div></th>
+		</tr>
+
+		{% if section %} {% for s in section %}
+		<tr>
+			<td>{{s}}</td><td>{{section|get_item:s}}</td>
+		</tr>
+		{% endfor %} {% endif %}
+	</table>
+
 </form>
 
 {% endblock %}

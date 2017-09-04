@@ -20,3 +20,16 @@ What about extra credit sections?
 Start paying for python anywhere and add mambrino.pythonaywhere.com
 
 Add Calendar to Home Page
+
+python anywhere steps
+
+	console
+	rm -rf AwanaRecordKeeping
+	git clone https://github.com/slong1t/AwanaRecordKeeping
+	mv AwanaRecordKeeping/ AwanaRecordKeepingGH
+	cd AwanaRecordKeepingGH/
+	mv AwanaRecordKeeping/ ..
+	
+	from WEB tab reload slong1t.pythonanywhere.com
+
+

@@ -42,7 +42,7 @@ def CheckIn(request, club_enum):
         n = MeetingNight(date=next_wednesday())
         n.save()
         
-    club_roll = Clubber.objects.filter(club=club_enum)
+    club_roll = Clubber.objects.filter(club=club_enum).order_by('name')
     present = {}
     uniform_pts = {}
     bible_pts = {}
@@ -56,17 +56,18 @@ def CheckIn(request, club_enum):
         bible = request.POST.getlist("bible[]")
         book = request.POST.getlist("handbook[]")
         visitor = request.POST.getlist("visitor[]")
-        #print (visitor)
         dues = request.POST.getlist("dues[]")
+        print (dues[0])
         i = 0
         for c in club_roll:
             dues_pts[c.name] = dues[i]
             i += 1
-
+        print (dues_pts)
         for child in attendance:
             c = Clubber.objects.get(name=child)
             c.dues = dues_pts[c.name]
             c.save()
+            print (c.name + " dues " + str(c.dues))
             present[c.name] = True
             b = False
             u = False
@@ -194,12 +195,70 @@ def PointsTTBoys(request):
 
 def AwardsSparks(request):
     template = loader.get_template('AwanaRecordKeeping/AwardsSparks.html')
-    context = {}
+    club_roll = Clubber.objects.filter(club='2').order_by('name')
+    spark_chapter = {
+            1 : 'Rank',
+            2 : 'RJ1',
+            3 : 'GJ1',
+            4 : 'RJ2',
+            5 : 'GJ2',
+            6 : 'RJ3',
+            7 : 'GJ3',
+            8 : 'RJ4',
+            9 : 'GJ4',
+        }
+    section = {}
+    for c in club_roll:
+        completed_sections = HandBookPoint.objects.filter(clubber=c,date=datetime.date.today())
+        i = 0
+        for cs in completed_sections:
+            if cs.book == 0 and cs.section == 6:
+                section[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + spark_chapter[cs.chapter]
+            elif cs.chapter == 1 and cs.section == 8:
+                section[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + spark_chapter[cs.chapter]
+            elif cs.chapter > 1 and cs.section == 4:
+                section[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + spark_chapter[cs.chapter]
+            i +=1
+    context = {        
+            'section' : section,
+        }
     return HttpResponse(template.render(context,request))
 
 def AwardsTT(request):
     template = loader.get_template('AwanaRecordKeeping/AwardsTT.html')
-    context = {}
+    tt_chapter = {
+        '4' : 'SZ',
+        '5' : 'Unit',
+        '6' : 'Discovery',
+        '7' : 'Discovery',
+        '8' : 'Discovery',
+        '9' : 'Discovery'
+    }
+    club_roll = Clubber.objects.filter(club='3').order_by('name')
+    gsection = {}
+    for c in club_roll:
+        completed_sections = HandBookPoint.objects.filter(clubber=c,date=datetime.date.today())
+        i = 0
+        for cs in completed_sections:
+            if cs.book == 4 and cs.section == 2: 
+                gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
+            elif cs.section == 8: 
+                gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
+            i += 1
+            
+    club_roll = Clubber.objects.filter(club='4').order_by('name')
+    bsection = {}
+    for c in club_roll:
+        completed_sections = HandBookPoint.objects.filter(clubber=c,date=datetime.date.today())
+        i = 0
+        for cs in completed_sections:
+            bsection[c.name + " :" + str(i)] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter) + " : " + str(cs.section) 
+            i +=1
+
+    context = {
+            'gsection' : gsection,
+            'bsection' : bsection,
+        }
     return HttpResponse(template.render(context,request))
 
 def HandBook(request, club_enum):
