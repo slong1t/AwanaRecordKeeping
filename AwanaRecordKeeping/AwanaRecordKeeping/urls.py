@@ -28,6 +28,11 @@ urlpatterns = [
     url(r'^BookTTBoys/', views.BookTTBoys, name='BookTTBoys'),
     url(r'^BookTTGirls/', views.BookTTGirls, name='BookTTGirls'),
     url(r'^BookSparks/', views.BookSparks, name='BookSparks'),
+    url(r'^PointsSparks/', views.PointsSparks, name='PointsSparks'),
+    url(r'^PointsTTGirls/', views.PointsTTGirls, name='PointsTTGirls'),
+    url(r'^PointsTTBoys/', views.PointsTTBoys, name='PointsTTBoys'),
+    url(r'^AwardsSparks/', views.AwardsSparks, name='AwardsSparks'),
+    url(r'^AwardsTT/', views.AwardsTT, name='AwardsTT'),
     url(r'^$', views.index, name='index'),
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

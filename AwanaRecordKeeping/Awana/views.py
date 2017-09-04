@@ -3,11 +3,9 @@
 # Create your views here.
 from django.http import HttpResponse
 from django.template import loader
-
 from Awana.models import Clubber,MeetingNight,ClubPoints,HandBookPoint,BOOK_TYPE_CHOICES
-
 import datetime
-#from test.test_keywordonlyarg import sortnum
+
 def next_weekday(d, weekday):
     days_ahead = weekday - d.weekday()
     if days_ahead < 0: # Target day already happened this week
@@ -22,10 +20,6 @@ def next_wednesday():
 def index(request):
     night = MeetingNight.objects.all()
     roll = Clubber.objects.all().order_by('name')
-    #s = ''
-    #for n in night:
-    #    s += str(n)
-    #    s += "\n"
     template = loader.get_template('AwanaRecordKeeping/index.html')
     context = {
         'night' : night,
@@ -34,7 +28,6 @@ def index(request):
     }
 
     return HttpResponse(template.render(context,request))
-    #return HttpResponse('Hello')
 
 
 from django.template.defaulttags import register
@@ -164,6 +157,49 @@ def CheckInTTGirls(request):
 def CheckInTTBoys(request):
     template = loader.get_template('AwanaRecordKeeping/CheckInTTBoys.html')
     context = CheckIn(request,'4')
+    return HttpResponse(template.render(context,request))
+
+def PointsSparks(request):
+    template = loader.get_template('AwanaRecordKeeping/PointsSparks.html')
+    club_roll = Clubber.objects.filter(club='2').order_by('name')
+    roll = {}
+    for c in club_roll:
+        roll[c.name] = True
+    context = {        
+            'roll' : roll,
+        }
+    return HttpResponse(template.render(context,request))
+
+def PointsTTGirls(request):
+    template = loader.get_template('AwanaRecordKeeping/PointsTTGirls.html')
+    club_roll = Clubber.objects.filter(club='3').order_by('name')
+    roll = {}
+    for c in club_roll:
+        roll[c.name] = True
+    context = {        
+            'roll' : roll,
+        }
+    return HttpResponse(template.render(context,request))
+
+def PointsTTBoys(request):
+    template = loader.get_template('AwanaRecordKeeping/PointsTTBoys.html')
+    club_roll = Clubber.objects.filter(club='4').order_by('name')
+    roll = {}
+    for c in club_roll:
+        roll[c.name] = True
+    context = {        
+            'roll' : roll,
+        }
+    return HttpResponse(template.render(context,request))
+
+def AwardsSparks(request):
+    template = loader.get_template('AwanaRecordKeeping/AwardsSparks.html')
+    context = {}
+    return HttpResponse(template.render(context,request))
+
+def AwardsTT(request):
+    template = loader.get_template('AwanaRecordKeeping/AwardsTT.html')
+    context = {}
     return HttpResponse(template.render(context,request))
 
 def HandBook(request, club_enum):

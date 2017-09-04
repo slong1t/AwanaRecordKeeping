@@ -1,0 +1,36 @@
+
+{% extends 'AwanaRecordKeeping/base.html' %}
+{% block body %}
+		<ul class="menu-style">
+		  <li class = "menu-style"><a href="/" >Home</a></li>
+		  <li class = "menu-style"><a href="/CheckInTTBoys">CheckIn</a></li>
+		  <li class = "menu-style"><a href="/BookTTBoys">Handbook</a></li>
+		  <li class = "menu-style"><a class="active" href="/PointsTTBoys">Points</a></li>
+		  <li class = "menu-style"><a href="/AwardsTT">Awards</a></li>
+		</ul>
+
+		<button class="button button4"><a href="/PointsSparks">Sparks</a></button>
+		<button class="button button4"><a href="/PointsTTGirls">T&T Girls</a></button>
+		<button class="button buttonS">T&T Boys</button>
+		<hr>
+		<h2><p style="text-align:left;">T&T Boys Points<span style="float:right;">{{ wed }}</span></p></h2>
+		<form id="awana-form" name="awanaForm" action="/PointsTTBoys/" method="post">
+	    {% csrf_token %}
+
+		<table>
+		  <tr>
+			<th><div><span>Name</span></div></th>
+			<th><div><span>Points</div></th>
+		  </tr>
+
+		{% if roll %}
+			{% for cname in roll %}
+				<tr>
+					<td>{{cname}}</td>
+				</tr>
+			{% endfor %}
+		{% endif %}
+		</table>
+		</form>
+
+ {% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'AwanaRecordKeeping/base.html' %} {% block body %}
+<ul class="menu-style">
+	<li class="menu-style"><a href="/">Home</a></li>
+	<li class="menu-style"><a href="/CheckInSparks">CheckIn</a></li>
+	<li class="menu-style"><a href="/BookSparks">Handbook</a></li>
+	<li class="menu-style"><a href="/PointsSparks">Points</a></li>
+	<li class="menu-style"><a class="active" href="/AwardsSparks">Awards</a></li>
+</ul>
+
+<button class="button buttonS">Sparks</button>
+<button class="button button4">
+	<a href="/AwardsTT">T&T</a>
+</button>
+<hr>
+<h2>
+	<p style="text-align: left;">
+		Sparks Awards<span style="float: right;">{{ wed }}</span>
+	</p>
+</h2>
+
+<form id="awana-form" name="awanaForm" action="/AwardsSparks/"
+	method="post">
+	{% csrf_token %}
+</form>
+
+{% endblock %}

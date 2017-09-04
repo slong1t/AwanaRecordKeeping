@@ -6,29 +6,57 @@
 		  <li class = "menu-style"><a href="/BookSparks">Handbook</a></li>
 		  <li class = "menu-style"><a href="/PointsTTBoys">Points</a></li>
 		  <li class = "menu-style"><a href="/AwardsTT">Awards</a></li>
-		  <li class = "menu-style" style="float:right"><a href="#about">About</a></li>
 		</ul>
-		<h2>Meeting Nights</h2>
-		{% if night %}
-			<ul>
-			{% for n in night %}
-				<li><b>{{n}}</b></li>
-			{% endfor %}
-			</ul>
-		{% else %}
-			<p>No nights are available.</p>
-		{% endif %}
+		<h2>Calendar 2017</h2>
+		<table>
+		<tr><td>Opening Night</td><td>September 6, 2017</td></tr>
+		<tr><td>Thanksgiving (No Meeting)</td><td>November 22, 2017</td></tr>
+		<tr><td>Store Night/Christmas Party</td><td>December 13, 2017</tr>
+		<tr><td>Christmas Holidays (No Meeting)</td><td>December 20 and 27, 2017 and January 3, 2018</td></tr>
+		<tr><td>First Club Night of 2018</td><td>January 10, 2018</td></tr>
+		<tr><td>Family Night</td><td>February 21, 2018</td></tr>
+		<tr><td>Spring Break (No Meeting)</td><td>March 14, 2018</td></tr>
+		<tr><td>Final Meeting Night/Store/Awards</td><td>May 9, 2018</td></tr>
+		</table>
 
-		<h2>Clubbers</h2>
+		<h2>Leaders</h2>
+		<p>* If you are going to be absent or late to a club night please let the director (D) of your club know.</p>
+		<h4>Puggles</h4>
+		<table>
+		<tr><td>Debbie Land (D)</td><td>(817)480-8383</td></tr>
+		<tr><td>Gabby Ledford</td><td>(817)559-3494</td></tr>
+		</table>
+		
+		<h3>Cubbies</h3>
+		<table>
+		<tr><td>Pam Glenn (D)</td><td>(817)279-3711</td></tr>
+		<tr><td>Lydia Long</td><td>(817)964-4981</td></tr>
+		</table>
 
-		{% if roll %}
-			<ul>
-			{% for c in roll %}
-				<li>{{c}}</li>
-			{% endfor %}
-			</ul>
-		{% else %}
-			<p>No clubbers are available.</p>
-		{% endif %}
+		<h3>Sparks</h3>
+		<table>
+		<tr><td>Diane Long (D)</td><td>(817)313-1840</td></tr>
+		<tr><td>John Grim</td><td>(817)888-6070</td></tr>
+		<tr><td>Billie Robertson</td><td>(817)559-7341</td></tr>
+		<tr><td>Hazel Rose</td><td>(817)408-6588</td></tr>
+		<tr><td>Sarah Hartshorn</td><td></td></tr>
+		</table>
+
+		<h3>T&T Girls</h3>
+		<table>
+		<tr><td>Angela Duncan (D)</td><td>(817)776-1976</td></tr>
+		<tr><td>Susan Nelson</td><td>(817)243-6988</td></tr>
+		<tr><td>Margaret King</td><td>(817)408-6179</td></tr>
+		<tr><td>Elizabeth Henderson</td><td>(817)776-0382</td></tr>
+		<tr><td>Sarah Collier</td><td>(616)710-2881</td></tr>
+		<tr><td>Audra Cain</td><td></td></tr>
+		</table>
+		
+		<h3>T&T Boys</h3>
+		<table>
+		<tr><td>Sam Long (D)</td><td>(817)313-2006</td></tr>
+		<tr><td>Albert Land</td><td>(817)279-2676</td></tr>
+		<tr><td>Joe Wallace</td><td>(254)595-0044</td></tr>
+		</table>
 
  {% endblock %}
