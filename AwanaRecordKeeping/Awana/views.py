@@ -4,7 +4,8 @@
 from django.http import HttpResponse
 from django.template import loader
 from Awana.models import Clubber,MeetingNight,ClubPoints,HandBookPoint,BOOK_TYPE_CHOICES
-import datetime
+from datetime import datetime
+import pytz
 
 def next_weekday(d, weekday):
     days_ahead = weekday - d.weekday()
@@ -13,8 +14,8 @@ def next_weekday(d, weekday):
     return d + datetime.timedelta(days_ahead)
 
 def next_wednesday():
-    d = datetime.date.today()
-    return next_weekday(d, 2) # 0 = Monday, 1=Tuesday, 2=Wednesday...
+    d = datetime.now(pytz.timezone('US/Central'))
+    return next_weekday(d.date(), 2) # 0 = Monday, 1=Tuesday, 2=Wednesday...
     
 
 def index(request):
@@ -209,7 +210,8 @@ def AwardsSparks(request):
         }
     section = {}
     for c in club_roll:
-        completed_sections = HandBookPoint.objects.filter(clubber=c,date=datetime.date.today())
+        now = datetime.now(pytz.timezone('US/Central'))
+        completed_sections = HandBookPoint.objects.filter(clubber=c,date=now.date())
         i = 0
         for cs in completed_sections:
             if cs.book == '0' and cs.section == 6:
@@ -237,7 +239,8 @@ def AwardsTT(request):
     club_roll = Clubber.objects.filter(club='3').order_by('name')
     gsection = {}
     for c in club_roll:
-        completed_sections = HandBookPoint.objects.filter(clubber=c,date=datetime.date.today())
+        now = datetime.now(pytz.timezone('US/Central'))
+        completed_sections = HandBookPoint.objects.filter(clubber=c,date=now.date())
         i = 0
         for cs in completed_sections:
             if cs.book == '4' and cs.section == 2: 
@@ -249,7 +252,8 @@ def AwardsTT(request):
     club_roll = Clubber.objects.filter(club='4').order_by('name')
     bsection = {}
     for c in club_roll:
-        completed_sections = HandBookPoint.objects.filter(clubber=c,date=datetime.date.today())
+        now = datetime.now(pytz.timezone('US/Central'))
+        completed_sections = HandBookPoint.objects.filter(clubber=c,date=now.date())
         i = 0
         for cs in completed_sections:
             if cs.book == '4' and cs.section == 2: 
@@ -337,7 +341,8 @@ def updateSection(_sectionList,_sectionNumber):
             elif sec[clubber] == 2 and not _sectionNumber in db_sec:
                 #print(clubber + ":" + str(_sectionNumber) +  " needs to be added to db_sec")
                 #hbp = HandBookPoint(clubber=c,book=c.current_book,chapter=c.current_chapter,section=_sectionNumber,date=next_wednesday())
-                hbp = HandBookPoint(clubber=c,book=c.current_book,chapter=c.current_chapter,section=_sectionNumber,date=datetime.date.today())
+                ptDate = datetime.now(pytz.timezone('US/Central'))
+                hbp = HandBookPoint(clubber=c,book=c.current_book,chapter=c.current_chapter,section=_sectionNumber,date=ptDate.date())
                 hbp.save()
 
 def updateBook(_bookList):
