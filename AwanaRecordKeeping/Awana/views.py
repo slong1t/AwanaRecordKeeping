@@ -212,13 +212,13 @@ def AwardsSparks(request):
         completed_sections = HandBookPoint.objects.filter(clubber=c,date=datetime.date.today())
         i = 0
         for cs in completed_sections:
-            if cs.book == 0 and cs.section == 6:
+            if cs.book == '0' and cs.section == 6:
                 section[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + spark_chapter[cs.chapter]
             elif cs.chapter == 1 and cs.section == 8:
                 section[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + spark_chapter[cs.chapter]
             elif cs.chapter > 1 and cs.section == 4:
                 section[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + spark_chapter[cs.chapter]
-            i +=1
+            i += 1
     context = {        
             'section' : section,
         }
@@ -240,7 +240,7 @@ def AwardsTT(request):
         completed_sections = HandBookPoint.objects.filter(clubber=c,date=datetime.date.today())
         i = 0
         for cs in completed_sections:
-            if cs.book == 4 and cs.section == 2: 
+            if cs.book == '4' and cs.section == 2: 
                 gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
             elif cs.section == 8: 
                 gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
@@ -252,9 +252,13 @@ def AwardsTT(request):
         completed_sections = HandBookPoint.objects.filter(clubber=c,date=datetime.date.today())
         i = 0
         for cs in completed_sections:
-            bsection[c.name + " :" + str(i)] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter) + " : " + str(cs.section) 
+            if cs.book == '4' and cs.section == 2: 
+                bsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
+            elif cs.section == 8: 
+                bsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
             i +=1
 
+    print (bsection)
     context = {
             'gsection' : gsection,
             'bsection' : bsection,
