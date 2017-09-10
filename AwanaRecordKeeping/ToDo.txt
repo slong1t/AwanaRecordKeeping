@@ -32,4 +32,8 @@ python anywhere steps
 	
 	from WEB tab reload slong1t.pythonanywhere.com
 
+save off the DB each week so that we have a backup
+add a checkbox for the leader on the handbook pages
+points page update
+awards fix to see that all sections have completed
 

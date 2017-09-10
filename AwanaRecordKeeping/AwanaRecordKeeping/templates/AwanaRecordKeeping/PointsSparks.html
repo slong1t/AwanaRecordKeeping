@@ -27,17 +27,24 @@
 
 	<table>
 		<tr>
-			<th><div>
-					<span>Name</span>
-				</div></th>
-			<th><div>
-					<span>Points</span>
-				</div></th>
+			<th><div><span>Name</span></div></th>
+			<th><div><span>Attendance</span></div></th>
+			<th><div><span>Uniform</span></div>
+			<th><div><span>Bible</span></div>
+			<th><div><span>Book</span></div>
+			<th><div><span>Visitor</span></div>
+			<th><div><span>Sections</span></div>
 		</tr>
 
 		{% if roll %} {% for cname in roll %}
 		<tr>
 			<td>{{cname}}</td>
+			<td>{{attendance|get_item:cname}}</td>
+			<td>{{uniform|get_item:cname}}</td>
+			<td>{{bible|get_item:cname}}</td>
+			<td>{{book|get_item:cname}}</td>
+			<td>{{visitor|get_item:cname}}</td>
+			<td>{{sections|get_item:cname}}</td>
 		</tr>
 		{% endfor %} {% endif %}
 	</table>

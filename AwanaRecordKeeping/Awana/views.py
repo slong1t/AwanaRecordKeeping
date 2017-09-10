@@ -5,13 +5,15 @@ from django.http import HttpResponse
 from django.template import loader
 from Awana.models import Clubber,MeetingNight,ClubPoints,HandBookPoint,BOOK_TYPE_CHOICES
 from datetime import datetime
+
 import pytz
 
 def next_weekday(d, weekday):
+    import datetime
     days_ahead = weekday - d.weekday()
     if days_ahead < 0: # Target day already happened this week
         days_ahead += 7
-    return d + datetime.timedelta(days_ahead)
+    return d + datetime.timedelta(days=days_ahead)
 
 def next_wednesday():
     d = datetime.now(pytz.timezone('US/Central'))
@@ -165,10 +167,47 @@ def PointsSparks(request):
     template = loader.get_template('AwanaRecordKeeping/PointsSparks.html')
     club_roll = Clubber.objects.filter(club='2').order_by('name')
     roll = {}
+    attendance = {}
+    bible = {}
+    uniform = {}
+    book = {}
+    visitor = {}
+    sections = {}
+    import datetime
+    start_date = datetime.date(2017, 9, 6)    
     for c in club_roll:
         roll[c.name] = True
+        club_points = ClubPoints.objects.filter(kid=c)
+        book_points = HandBookPoint.objects.filter(clubber=c)
+        attendance[c.name] = 0
+        uniform[c.name] = 0
+        book[c.name] = 0
+        visitor[c.name] = 0
+        sections[c.name] = 0
+        bible[c.name] = 0
+        for pt in club_points:
+             if pt.night.date >= start_date:
+                attendance[c.name] += 1
+                if pt.bible:
+                    bible[c.name] += 1
+                if pt.uniform:
+                    uniform[c.name] += 1
+                if pt.book:
+                    book[c.name] += 1
+                if pt.visitor:
+                    visitor[c.name] += 1 
+        for pt in book_points:
+            if pt.date >= start_date:
+                sections[c.name] += 1
+         
     context = {        
             'roll' : roll,
+            'attendance' : attendance,
+            'uniform' : uniform,
+            'book' : book,
+            'bible' : bible,
+            'visitor' : visitor,
+            'sections' : sections,
         }
     return HttpResponse(template.render(context,request))
 
@@ -176,10 +215,47 @@ def PointsTTGirls(request):
     template = loader.get_template('AwanaRecordKeeping/PointsTTGirls.html')
     club_roll = Clubber.objects.filter(club='3').order_by('name')
     roll = {}
+    attendance = {}
+    bible = {}
+    uniform = {}
+    book = {}
+    visitor = {}
+    sections = {}
+    import datetime
+    start_date = datetime.date(2017, 9, 6)    
     for c in club_roll:
         roll[c.name] = True
+        club_points = ClubPoints.objects.filter(kid=c)
+        book_points = HandBookPoint.objects.filter(clubber=c)
+        attendance[c.name] = 0
+        uniform[c.name] = 0
+        book[c.name] = 0
+        visitor[c.name] = 0
+        sections[c.name] = 0
+        bible[c.name] = 0
+        for pt in club_points:
+            if pt.night.date >= start_date:
+                attendance[c.name] += 1
+                if pt.bible:
+                    bible[c.name] += 1
+                if pt.uniform:
+                    uniform[c.name] += 1
+                if pt.book:
+                    book[c.name] += 1
+                if pt.visitor:
+                    visitor[c.name] += 1 
+        for pt in book_points:
+            if pt.date >= start_date:
+                sections[c.name] += 1
+         
     context = {        
             'roll' : roll,
+            'attendance' : attendance,
+            'uniform' : uniform,
+            'book' : book,
+            'bible' : bible,
+            'visitor' : visitor,
+            'sections' : sections,
         }
     return HttpResponse(template.render(context,request))
 
@@ -187,10 +263,47 @@ def PointsTTBoys(request):
     template = loader.get_template('AwanaRecordKeeping/PointsTTBoys.html')
     club_roll = Clubber.objects.filter(club='4').order_by('name')
     roll = {}
+    attendance = {}
+    bible = {}
+    uniform = {}
+    book = {}
+    visitor = {}
+    sections = {}
+    import datetime
+    start_date = datetime.date(2017, 9, 6)    
     for c in club_roll:
         roll[c.name] = True
+        club_points = ClubPoints.objects.filter(kid=c)
+        book_points = HandBookPoint.objects.filter(clubber=c)
+        attendance[c.name] = 0
+        uniform[c.name] = 0
+        book[c.name] = 0
+        visitor[c.name] = 0
+        sections[c.name] = 0
+        bible[c.name] = 0
+        for pt in club_points:
+            if pt.night.date >= start_date:
+                attendance[c.name] += 1
+                if pt.bible:
+                    bible[c.name] += 1
+                if pt.uniform:
+                    uniform[c.name] += 1
+                if pt.book:
+                    book[c.name] += 1
+                if pt.visitor:
+                    visitor[c.name] += 1 
+        for pt in book_points:
+            if pt.date >= start_date:
+                sections[c.name] += 1
+                
     context = {        
             'roll' : roll,
+            'attendance' : attendance,
+            'uniform' : uniform,
+            'book' : book,
+            'bible' : bible,
+            'visitor' : visitor,
+            'sections' : sections,
         }
     return HttpResponse(template.render(context,request))
 
@@ -317,6 +430,7 @@ def HandBook(request, club_enum):
         'section6' : hsec6,
         'section7' : hsec7,
         'section8' : hsec8,
+        'wed' : next_wednesday(),
     }
     return context
 

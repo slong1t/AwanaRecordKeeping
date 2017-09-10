@@ -17,9 +17,17 @@
 
 		<form id="awana-form" name="awanaForm" action="/BookTTGirls/" method="post">
 	    {% csrf_token %}
+		<select name="leader" >
+	    <option value="{{lname}}">Angela Duncan</option>
+	    <option value="{{lname}}">Margaret King</option>
+	    <option value="{{lname}}">Elizabeth Henderson</option>
+	    <option value="{{lname}}">Sarah Collier</option>
+	    <option value="{{lname}}">Audra Cain</option>
+		</select>
 
 		<table>
 		  <tr>
+			<th><div><span>L</span></div></th>
 			<th><div><span>Name</span></div></th>
 			<th><div><span>Book</div></th>
 			<th><div><span>Chapter</div></th>
@@ -29,6 +37,7 @@
 		{% if roll %}
 			{% for cname in roll %}
 				<tr>
+					<td><input type="Checkbox" value="{{cname}},L" name="leader"></input></td> 
 					<td>{{cname}}</td>
 					<td>
   					<select name="ttbook" onchange="this.form.submit()" >
