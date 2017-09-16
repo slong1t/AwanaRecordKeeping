@@ -140,6 +140,11 @@
 						    {% else %}
 						    <option value="{{cname}},7" >Discovery 7</option>
 						    {% endif %}
+	      					{% if chapter|get_item:cname == 8 %}
+						    <option value="{{cname}},8" selected>Discovery 8</option>
+						    {% else %}
+						    <option value="{{cname}},8" >Discovery 8</option>
+						    {% endif %}
 					    {% endif %}
 					</select>
 					</td>
@@ -192,12 +197,6 @@
 	 						<input type="Checkbox" value="{{cname}}" name="section7" onchange="this.form.submit()">7</input>
 					    {% endif %}
 						<input type="hidden" value="{{cname}}" name="section7">
-						{% if section8|get_item:cname == 1 %}
-	 						<input type="Checkbox" value="{{cname}}" name="section8" onchange="this.form.submit()" checked>8</input>
-					    {% else %}
-	 						<input type="Checkbox" value="{{cname}}" name="section8" onchange="this.form.submit()">8</input>
-					    {% endif %}
-						<input type="hidden" value="{{cname}}" name="section8">
 					</td>
 					{% endif %}
 				</tr>
