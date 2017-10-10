@@ -641,7 +641,7 @@ def BookSparks(request):
                     section8 = updateSection(sec8,8,leaders_group)
                     if section1 != '' or section2 != '' or section3 != '' or section4 != '' or section5 != '' or section6 != '' or section7 != '' or section8 != '':
                         error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
-                 elif chapterChanged not in leaders_group:   
+                elif chapterChanged not in leaders_group:   
                     error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
             elif bookChanged not in leaders_group:   
                 error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
