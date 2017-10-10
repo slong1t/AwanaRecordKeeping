@@ -35,8 +35,8 @@ class Clubber (models.Model):
     club = clubber_type
     dues = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
     current_book = book_type
-    current_chapter = models.IntegerField(null=True)
-    current_section = models.IntegerField(null=True)
+    current_chapter = models.IntegerField(default = 0, null=True)
+    current_section = models.IntegerField(default = 0, null=True)
 
     def __str__(self):
         return self.name + ":" + CLUBBER_TYPE_CHOICES[int(self.club)][1] 
@@ -66,8 +66,10 @@ class ClubPoints (models.Model):
     visitor = models.BooleanField(default=False)
     kid = models.ForeignKey(Clubber, null=True)
     night = models.ForeignKey(MeetingNight, null=True)
-    sections_passed = models.IntegerField(default=0)
+    version = models.IntegerField( default=0 )
+    present = models.BooleanField(default=False)
     
+        
     def __str__(self):
         return '%s %s %s %s %s %s %s %s' % (self.kid, self.night, 'book = ', self.book, 'uniform = ', self.uniform, 'bible = ', self.bible)
 

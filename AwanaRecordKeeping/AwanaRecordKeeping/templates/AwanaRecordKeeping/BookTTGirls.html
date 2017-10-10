@@ -16,18 +16,37 @@
 		<h2><p style="text-align:left;">T&T Girls Handbook<span style="float:right;">{{ wed }}</span></p></h2>
 
 		<form id="awana-form" name="awanaForm" action="/BookTTGirls/" method="post">
+		{% if msg != '' %}
+			<h3><font color="red">{{ msg }}</font></h3>
+		{% endif %} 	
 	    {% csrf_token %}
-		<select name="leader" >
-	    <option value="{{lname}}">Angela Duncan</option>
-	    <option value="{{lname}}">Margaret King</option>
-	    <option value="{{lname}}">Elizabeth Henderson</option>
-	    <option value="{{lname}}">Sarah Collier</option>
-	    <option value="{{lname}}">Audra Cain</option>
+		<select name="leadername" >
+	    <option value="Angela Duncan">Angela Duncan</option>
+		{% if lname == 'Margaret King' %}
+	    	<option value="Margaret King" selected>Margaret King</option>
+	    {% else %}
+		    <option value="Margaret King">Margaret King</option>
+	    {% endif %}
+		{% if lname == 'Elizabeth Henderson' %}
+	    	<option value="Elizabeth Henderson" selected>Elizabeth Henderson</option>
+	    {% else %}
+		    <option value="Elizabeth Henderson">Elizabeth Henderson</option>
+	    {% endif %}
+		{% if lname == 'Sarah Collier' %}
+	    	<option value="Sarah Collier" selected>Sarah Collier</option>
+	    {% else %}
+		    <option value="Sarah Collier">Sarah Collier</option>
+	    {% endif %}
+		{% if lname == 'Audra Cain' %}
+	    	<option value="Audra Cain" selected>Audra Cain</option>
+	    {% else %}
+		    <option value="Audra Cain">Audra Cain</option>
+	    {% endif %}
 		</select>
 
 		<table>
 		  <tr>
-			<th><div><span>L</span></div></th>
+			<th><div><span>E</span></div></th>
 			<th><div><span>Name</span></div></th>
 			<th><div><span>Book</div></th>
 			<th><div><span>Chapter</div></th>
@@ -37,7 +56,11 @@
 		{% if roll %}
 			{% for cname in roll %}
 				<tr>
-					<td><input type="Checkbox" value="{{cname}},L" name="leader"></input></td> 
+   					{% if cname in group %}
+						<td><input type="Checkbox" value="{{cname}}" name="leader" onchange="this.form.submit()" checked></input></td> 
+				    {% else %}
+						<td><input type="Checkbox" value="{{cname}}" name="leader" onchange="this.form.submit()"></input></td> 
+				    {% endif %}
 					<td>{{cname}}</td>
 					<td>
   					<select name="ttbook" onchange="this.form.submit()" >

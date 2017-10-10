@@ -52,25 +52,28 @@ def CheckIn(request, club_enum):
     book_pts = {}
     visitor_pts = {}
     dues_pts = {}
+    version = {}
 
     if request.method == "POST":
+        #print (request.POST)
         attendance = request.POST.getlist("attend[]")
         uniform = request.POST.getlist("uniform[]")
         bible = request.POST.getlist("bible[]")
         book = request.POST.getlist("handbook[]")
         visitor = request.POST.getlist("visitor[]")
         dues = request.POST.getlist("dues[]")
-        print (dues[0])
+        ver = request.POST.getlist('version[]')
         i = 0
         for c in club_roll:
             dues_pts[c.name] = dues[i]
+            version[c.name] = int(ver[i])
             i += 1
-        print (dues_pts)
+        #print (dues_pts)
         for child in attendance:
             c = Clubber.objects.get(name=child)
             c.dues = dues_pts[c.name]
             c.save()
-            print (c.name + " dues " + str(c.dues))
+            #print (c.name + " dues " + str(c.dues))
             present[c.name] = True
             b = False
             u = False
@@ -86,13 +89,17 @@ def CheckIn(request, club_enum):
                 v = True
             try:
                 p = ClubPoints.objects.get(kid=c,night=n)
-                p.bible = b
-                p.uniform = u
-                p.book = bk
-                p.visitor = v
-                p.save()
+                #print (c.name + " " + str(version[c.name]) + " " + str(p.version))
+                if version[c.name] == p.version and (p.bible != b or p.uniform != u or p.book != bk or p.visitor != v):
+                    p.bible = b
+                    p.uniform = u
+                    p.book = bk
+                    p.visitor = v
+                    #print ("adding to version")
+                    p.version += 1
+                    p.save()
             except ClubPoints.DoesNotExist:
-                p1 = ClubPoints(bible=b,uniform=u,book=bk,visitor=v,kid=c,night=n)
+                p1 = ClubPoints(bible=b,uniform=u,book=bk,visitor=v,kid=c,night=n,version=1,present=True)
                 p1.save()
             n.attendees.add(c)
             n.save()
@@ -103,6 +110,7 @@ def CheckIn(request, club_enum):
     for c in club_roll:
         roll[c.name] = True
         dues_pts[c.name] = c.dues                        
+        version[c.name] = 0
         try:
             p = ClubPoints.objects.get(kid=c,night=n)
             if request.method == "POST" and c.name not in present:
@@ -119,6 +127,7 @@ def CheckIn(request, club_enum):
                     bible_pts[c.name] = True
                 if p.visitor:
                     visitor_pts[c.name] = True
+                version[c.name] = p.version
 
                 
         except ClubPoints.DoesNotExist:
@@ -134,7 +143,8 @@ def CheckIn(request, club_enum):
         'handbook' : book_pts,
         'visitor' : visitor_pts,
         'dues' : dues_pts,
-        'wed' : next_wednesday()
+        'wed' : next_wednesday(),
+        'version' : version
     }
     return context
     
@@ -358,7 +368,7 @@ def AwardsTT(request):
         for cs in completed_sections:
             if cs.book == '4' and cs.section == 2: 
                 gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
-            elif cs.section == 8: 
+            elif cs.section == 7: 
                 gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
             i += 1
             
@@ -371,7 +381,7 @@ def AwardsTT(request):
         for cs in completed_sections:
             if cs.book == '4' and cs.section == 2: 
                 bsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
-            elif cs.section == 8: 
+            elif cs.section == 7: 
                 bsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
             i +=1
 
@@ -382,7 +392,8 @@ def AwardsTT(request):
         }
     return HttpResponse(template.render(context,request))
 
-def HandBook(request, club_enum):
+def HandBook(request, club_enum, leader, group, msg):
+    print ("leader ", leader, " group ", group)
     club_roll = Clubber.objects.filter(club=club_enum).order_by('name')
     roll = {}
     hbook = {}
@@ -395,6 +406,7 @@ def HandBook(request, club_enum):
     hsec6 = {}
     hsec7 = {}
     hsec8 = {}
+    leadername = leader
     for c in club_roll:
         roll[c.name] = True
         hbook[c.name] = BOOK_TYPE_CHOICES[int(c.current_book)][1]
@@ -431,10 +443,14 @@ def HandBook(request, club_enum):
         'section7' : hsec7,
         'section8' : hsec8,
         'wed' : next_wednesday(),
+        'lname' : leadername,
+        'group' : group,
+        'msg' : msg,
     }
     return context
 
-def updateSection(_sectionList,_sectionNumber):
+def updateSection(_sectionList,_sectionNumber, _group):
+        rtn_val = ''
         sec = {}
         for clubber in _sectionList:
             if clubber in sec:
@@ -449,135 +465,187 @@ def updateSection(_sectionList,_sectionNumber):
             for pt in bookpts:
                 db_sec[pt.section] = 1
             #print (clubber + str(db_sec))
-            if sec[clubber] == 1 and _sectionNumber in db_sec:
+            if sec[clubber] == 1 and _sectionNumber in db_sec and clubber in _group:
                 #print(clubber + ":" + str(_sectionNumber) + " needs to be removed from db_sec")
                 HandBookPoint.objects.filter(clubber=c, book=c.current_book, chapter=c.current_chapter, section=_sectionNumber).delete()
-            elif sec[clubber] == 2 and not _sectionNumber in db_sec:
+            elif sec[clubber] == 2 and not _sectionNumber in db_sec and clubber in _group:
                 #print(clubber + ":" + str(_sectionNumber) +  " needs to be added to db_sec")
                 #hbp = HandBookPoint(clubber=c,book=c.current_book,chapter=c.current_chapter,section=_sectionNumber,date=next_wednesday())
                 ptDate = datetime.now(pytz.timezone('US/Central'))
                 hbp = HandBookPoint(clubber=c,book=c.current_book,chapter=c.current_chapter,section=_sectionNumber,date=ptDate.date())
                 hbp.save()
+            elif (sec[clubber] == 1 and _sectionNumber in db_sec) or (sec[clubber] == 2 and not _sectionNumber in db_sec):
+                rtn_val = clubber
+        return rtn_val
 
-def updateBook(_bookList):
+def updateBook(_bookList, _group):
     rtnVal = ''    
     for b in _bookList:
         child = b.split(',')
         c = Clubber.objects.get(name=child[0])
-        if c.current_book != child[1]:
+        if c.current_book != child[1] and child[0] in _group:
             c.current_book = child[1]
             c.current_chapter = 1
             c.save()
             rtnVal = child[0]
+        elif c.current_book != child[1]:
+            rtnVal = child[0]
     return rtnVal
 
-def updateChapter(_chapterList):
+def updateChapter(_chapterList, _group):
     rtnVal = ''
     for ch in _chapterList:
         child = ch.split(',')
         c = Clubber.objects.get(name=child[0])
         #print ("uc " + str(child[1]) + " " + c.name + " " + str(c.current_chapter))
-        if c.current_chapter != int(child[1]):
+        if c.current_chapter != int(child[1]) and child[0] in _group:
             c.current_chapter = int(child[1])
             c.save()
+            rtnVal = child[0]
+        elif c.current_chapter != int(child[1]):
             rtnVal = child[0]
     return rtnVal
         
 def BookTTBoys(request):
     template = loader.get_template('AwanaRecordKeeping/BookTTBoys.html')
     #print(request.method)
+    leader_name = ''
+    leaders_group = {}
+    error_msg = ''
     if request.method == 'POST':
-        bookChanged = ''
-        chapterChanged = ''        
-        #print (request.POST)
-        books = request.POST.getlist("ttbook")
-        bookChanged = updateBook(books)      
-        if bookChanged == '':
-            chapters = request.POST.getlist("ttchap")
-            chapterChanged = updateChapter(chapters)
-            #print ('chapter changed ' + chapterChanged)            
-            if chapterChanged == '':
-                sec1 = request.POST.getlist('section1')
-                updateSection(sec1,1)        
-                sec2 = request.POST.getlist('section2')
-                updateSection(sec2,2)        
-                sec3 = request.POST.getlist('section3')
-                updateSection(sec3,3)        
-                sec4 = request.POST.getlist('section4')
-                updateSection(sec4,4)        
-                sec5 = request.POST.getlist('section5')
-                updateSection(sec5,5)        
-                sec6 = request.POST.getlist('section6')
-                updateSection(sec6,6)        
-                sec7 = request.POST.getlist('section7')
-                updateSection(sec7,7)        
-                sec8 = request.POST.getlist('section8')
-                updateSection(sec8,8)                      
-
-    context = HandBook(request,'4')
+        print (request.POST)
+        leader = request.POST.getlist("leadername")
+        leaders_group = request.POST.getlist("leader")
+        leader_name = leader[0]
+        if len(leaders_group) > 0:
+            bookChanged = ''
+            chapterChanged = '' 
+            books = request.POST.getlist("ttbook")
+            bookChanged = updateBook(books,leaders_group)      
+            if bookChanged == '':
+                chapters = request.POST.getlist("ttchap")
+                chapterChanged = updateChapter(chapters,leaders_group)
+                #print ('chapter changed ' + chapterChanged)            
+                if chapterChanged == '':
+                    sec1 = request.POST.getlist('section1')
+                    section1 = updateSection(sec1,1,leaders_group)        
+                    sec2 = request.POST.getlist('section2')
+                    section2 = updateSection(sec2,2,leaders_group)        
+                    sec3 = request.POST.getlist('section3')
+                    section3 = updateSection(sec3,3,leaders_group)        
+                    sec4 = request.POST.getlist('section4')
+                    section4 = updateSection(sec4,4,leaders_group)        
+                    sec5 = request.POST.getlist('section5')
+                    section5 = updateSection(sec5,5,leaders_group)        
+                    sec6 = request.POST.getlist('section6')
+                    section6 = updateSection(sec6,6,leaders_group)        
+                    sec7 = request.POST.getlist('section7')
+                    section7 = updateSection(sec7,7,leaders_group)        
+                    sec8 = request.POST.getlist('section8')
+                    section8 = updateSection(sec8,8,leaders_group)
+                    if section1 != '' or section2 != '' or section3 != '' or section4 != '' or section5 != '' or section6 != '' or section7 != '' or section8 != '':
+                        error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
+                elif chapterChanged not in leaders_group:   
+                    error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
+            elif bookChanged not in leaders_group:   
+                error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
+        else:
+            error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'
+    context = HandBook(request,'4', leader_name, leaders_group, error_msg)
     return HttpResponse(template.render(context,request))
  
 def BookTTGirls(request):
     template = loader.get_template('AwanaRecordKeeping/BookTTGirls.html')
+    leader_name = ''
+    leaders_group = {}
+    error_msg = ''
     if request.method == 'POST':
-        bookChanged = ''
-        chapterChanged = ''        
-        #print (request.POST)
-        books = request.POST.getlist("ttbook")
-        bookChanged = updateBook(books)      
-        if bookChanged == '':
-            chapters = request.POST.getlist("ttchap")
-            chapterChanged = updateChapter(chapters)
-            #print ('chapter changed ' + chapterChanged)            
-            if chapterChanged == '':
-                sec1 = request.POST.getlist('section1')
-                updateSection(sec1,1)        
-                sec2 = request.POST.getlist('section2')
-                updateSection(sec2,2)        
-                sec3 = request.POST.getlist('section3')
-                updateSection(sec3,3)        
-                sec4 = request.POST.getlist('section4')
-                updateSection(sec4,4)        
-                sec5 = request.POST.getlist('section5')
-                updateSection(sec5,5)        
-                sec6 = request.POST.getlist('section6')
-                updateSection(sec6,6)        
-                sec7 = request.POST.getlist('section7')
-                updateSection(sec7,7)        
-                sec8 = request.POST.getlist('section8')
-                updateSection(sec8,8)                      
+        print (request.POST)
+        leader = request.POST.getlist("leadername")
+        leaders_group = request.POST.getlist("leader")
+        leader_name = leader[0]
+        if len(leaders_group) > 0:
+            bookChanged = ''
+            chapterChanged = ''        
+            #print (request.POST)
+            books = request.POST.getlist("ttbook")
+            bookChanged = updateBook(books,leaders_group)      
+            if bookChanged == '':
+                chapters = request.POST.getlist("ttchap")
+                chapterChanged = updateChapter(chapters,leaders_group)
+                #print ('chapter changed ' + chapterChanged)            
+                if chapterChanged == '':
+                    sec1 = request.POST.getlist('section1')
+                    section1 = updateSection(sec1,1,leaders_group)        
+                    sec2 = request.POST.getlist('section2')
+                    section2 = updateSection(sec2,2,leaders_group)        
+                    sec3 = request.POST.getlist('section3')
+                    section3 = updateSection(sec3,3,leaders_group)        
+                    sec4 = request.POST.getlist('section4')
+                    section4 = updateSection(sec4,4,leaders_group)        
+                    sec5 = request.POST.getlist('section5')
+                    section5 = updateSection(sec5,5,leaders_group)        
+                    sec6 = request.POST.getlist('section6')
+                    section6 = updateSection(sec6,6,leaders_group)        
+                    sec7 = request.POST.getlist('section7')
+                    section7 = updateSection(sec7,7,leaders_group)        
+                    sec8 = request.POST.getlist('section8')
+                    section8 = updateSection(sec8,8,leaders_group)
+                    if section1 != '' or section2 != '' or section3 != '' or section4 != '' or section5 != '' or section6 != '' or section7 != '' or section8 != '':
+                        error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
+                elif chapterChanged not in leaders_group:   
+                    error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
+            elif bookChanged not in leaders_group:   
+                error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
+        else:
+            error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'
     
-    context = HandBook(request,'3')
+    context = HandBook(request,'3', leader_name, leaders_group, error_msg)
     return HttpResponse(template.render(context,request))
 
 def BookSparks(request):
     template = loader.get_template('AwanaRecordKeeping/BookSparks.html')
+    leader_name = ''
+    leaders_group = {}
+    error_msg = ''
     if request.method == 'POST':
-        bookChanged = ''
-        chapterChanged = ''        
-        #print (request.POST)
-        books = request.POST.getlist("sbook")
-        bookChanged = updateBook(books)      
-        if bookChanged == '':
-            chapters = request.POST.getlist("schap")
-            chapterChanged = updateChapter(chapters)
-            #print ('chapter changed ' + chapterChanged)            
-            if chapterChanged == '':
-                sec1 = request.POST.getlist('section1')
-                updateSection(sec1,1)        
-                sec2 = request.POST.getlist('section2')
-                updateSection(sec2,2)        
-                sec3 = request.POST.getlist('section3')
-                updateSection(sec3,3)        
-                sec4 = request.POST.getlist('section4')
-                updateSection(sec4,4)        
-                sec5 = request.POST.getlist('section5')
-                updateSection(sec5,5)        
-                sec6 = request.POST.getlist('section6')
-                updateSection(sec6,6)        
-                sec7 = request.POST.getlist('section7')
-                updateSection(sec7,7)        
-                sec8 = request.POST.getlist('section8')
-                updateSection(sec8,8)                      
-    context = HandBook(request,'2')
+        leader = request.POST.getlist("leadername")
+        leaders_group = request.POST.getlist("leader")
+        leader_name = leader[0]
+        if len(leaders_group) > 0:
+            bookChanged = ''
+            chapterChanged = ''        
+            #print (request.POST)
+            books = request.POST.getlist("sbook")
+            bookChanged = updateBook(books, leaders_group)      
+            if bookChanged == '':
+                chapters = request.POST.getlist("schap")
+                chapterChanged = updateChapter(chapters,leaders_group)
+                #print ('chapter changed ' + chapterChanged)            
+                if chapterChanged == '':
+                    sec1 = request.POST.getlist('section1')
+                    section1 = updateSection(sec1,1,leaders_group)        
+                    sec2 = request.POST.getlist('section2')
+                    section2 = updateSection(sec2,2,leaders_group)        
+                    sec3 = request.POST.getlist('section3')
+                    section3 = updateSection(sec3,3,leaders_group)        
+                    sec4 = request.POST.getlist('section4')
+                    section4 = updateSection(sec4,4,leaders_group)        
+                    sec5 = request.POST.getlist('section5')
+                    section5 = updateSection(sec5,5,leaders_group)        
+                    sec6 = request.POST.getlist('section6')
+                    section6 = updateSection(sec6,6,leaders_group)        
+                    sec7 = request.POST.getlist('section7')
+                    section7 = updateSection(sec7,7,leaders_group)        
+                    sec8 = request.POST.getlist('section8')
+                    section8 = updateSection(sec8,8,leaders_group)
+                    if section1 != '' or section2 != '' or section3 != '' or section4 != '' or section5 != '' or section6 != '' or section7 != '' or section8 != '':
+                        error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
+                 elif chapterChanged not in leaders_group:   
+                    error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
+            elif bookChanged not in leaders_group:   
+                error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
+        else:
+            error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'
+    context = HandBook(request,'2', leader_name, leaders_group, error_msg)
     return HttpResponse(template.render(context,request))

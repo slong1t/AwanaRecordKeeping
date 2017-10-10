@@ -13,7 +13,7 @@ Awards Sheet for Sparks and T&T
 Points Sheet
 
 Can print sheet and then enter before night is over or just use phone
-Password protect sight.
+
 
 What about extra credit sections?
 
@@ -34,6 +34,8 @@ python anywhere steps
 
 save off the DB each week so that we have a backup
 add a checkbox for the leader on the handbook pages
-points page update
 awards fix to see that all sections have completed
+once last section is checked automatically move to the next section/book
 
+<<Complete>>
+Password protect sight.

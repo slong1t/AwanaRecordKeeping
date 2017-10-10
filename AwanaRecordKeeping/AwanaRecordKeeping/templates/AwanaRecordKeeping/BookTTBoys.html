@@ -15,16 +15,32 @@
 		<hr>
 		<h2><p style="text-align:left;">T&T Boys Handbook<span style="float:right;">{{ wed }}</span></p></h2>
 		<form id="awana-form" name="awanaForm" action="/BookTTBoys/" method="post">
+		{% if msg != '' %}
+			<h3><font color="red">{{ msg }}</font></h3>
+		{% endif %} 	
+		
 	    {% csrf_token %}
-		<select name="leader" >
-	    <option value="{{lname}}">Albert Land</option>
-	    <option value="{{lname}}">Joe Wallace</option>
-	    <option value="{{lname}}">Susan Nelson</option>
-	    <option value="{{lname}}">Sam Long</option>
+		<select name="leadername" >
+	    <option value="Albert Land">Albert Land</option>
+		{% if lname == 'Joe Wallace' %}
+		    <option value="Joe Wallace" selected>Joe Wallace</option>
+	    {% else %}
+		    <option value="Joe Wallace">Joe Wallace</option>
+	    {% endif %}
+		{% if lname == 'Susan Nelson' %}
+		    <option value="Susan Nelson" selected>Susan Nelson</option>
+	    {% else %}
+		    <option value="Susan Nelson">Susan Nelson</option>
+	    {% endif %}
+		{% if lname == 'Sam Long' %}
+		    <option value="Sam Long" selected>Sam Long</option>
+	    {% else %}
+		    <option value="Sam Long">Sam Long</option>
+	    {% endif %}
 		</select>
 		<table>
 		  <tr>
-			<th><div><span>L</span></div></th>
+			<th><div><span>E</span></div></th>
 			<th><div><span>Name</span></div></th>
 			<th><div><span>Book</div></th>
 			<th><div><span>Chapter</div></th>
@@ -34,7 +50,11 @@
 		{% if roll %}
 			{% for cname in roll %}
 				<tr>
-					<td><input type="Checkbox" value="{{cname}},L" name="leader"></input></td> 
+   					{% if cname in group %}
+						<td><input type="Checkbox" value="{{cname}}" name="leader" onchange="this.form.submit()" checked></input></td> 
+				    {% else %}
+						<td><input type="Checkbox" value="{{cname}}" name="leader" onchange="this.form.submit()"></input></td> 
+				    {% endif %}
 					<td>{{cname}}</td>
 					<td>
   					<select name="ttbook" onchange="this.form.submit()" >

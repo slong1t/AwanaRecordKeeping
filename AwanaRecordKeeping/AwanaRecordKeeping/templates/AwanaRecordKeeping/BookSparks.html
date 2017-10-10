@@ -21,31 +21,54 @@
 	</p>
 </h2>
 
-<form id="awana-form" name="awanaForm" action="/BookSparks/"
-	method="post">
+<form id="awana-form" name="awanaForm" action="/BookSparks/" method="post">
+		{% if msg != '' %}
+			<h3><font color="red">{{ msg }}</font></h3>
+		{% endif %} 	
 	{% csrf_token %}
-		<select name="leader" >
-	    <option value="{{lname}}">Diane Long</option>
-	    <option value="{{lname}}">John Grim</option>
-	    <option value="{{lname}}">Billie Robertson</option>
-	    <option value="{{lname}}">Hazel Rose</option>
-	    <option value="{{lname}}">Sarah Hartshorn</option>
+		<select name="leadername" >
+	    <option value="Diane Long">Diane Long</option>
+		{% if lname == 'John Grim' %}
+	    	<option value="John Grim" selected>John Grim</option>
+	    {% else %}
+		    <option value="John Grim">John Grim</option>
+	    {% endif %}
+		{% if lname == 'Billie Robertson' %}
+	    	<option value="Billie Robertson" selected>Billie Robertson</option>
+	    {% else %}
+		    <option value="Billie Robertson">Billie Robertson</option>
+	    {% endif %}
+		{% if lname == 'Hazel Rose' %}
+	    	<option value="Hazel Rose" selected>Hazel Rose</option>
+	    {% else %}
+		    <option value="Hazel Rose">Hazel Rose</option>
+	    {% endif %}
+		{% if lname == 'Sarah Hartshorn' %}
+	    	<option value="Sarah Hartshorn" selected>Sarah Hartshorn</option>
+	    {% else %}
+		    <option value="Sarah Hartshorn">Sarah Hartshorn</option>
+	    {% endif %}
 		</select>
 
 	<table>
 		<tr>
-			<th><div><span>L</span></div></th>
+			<th><div><span>E</span></div></th>
 			<th><div><span>Name</span></div></th>
 			<th><div><span>Book</span></div></th>
 			<th><div><span>Chapter</span></div></th>
 			<th><div><span>Section</span></div></th>
 		</tr>
 
-		{% if roll %} {% for cname in roll %}
-		<tr>
-			<td><input type="Checkbox" value="{{cname}},L" name="leader"></input></td> 
-			<td>{{cname}}</td>
-			<td>
+		{% if roll %} 
+			{% for cname in roll %}
+				<tr>
+   					{% if cname in group %}
+						<td><input type="Checkbox" value="{{cname}}" name="leader" onchange="this.form.submit()" checked></input></td> 
+				    {% else %}
+						<td><input type="Checkbox" value="{{cname}}" name="leader" onchange="this.form.submit()"></input></td> 
+				    {% endif %}
+				<td>{{cname}}</td>
+				<td>
 				<select name="sbook" onchange="this.form.submit()">
 					<option value="{{cname}},0">Flight 3:16</option> 
 					{% if book|get_item:cname == 'Sparks HangGlider' %}<option value="{{cname}},1" selected>Sparks HangGlider</option>

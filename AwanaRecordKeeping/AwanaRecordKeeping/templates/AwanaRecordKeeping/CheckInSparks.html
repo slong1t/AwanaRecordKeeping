@@ -50,6 +50,7 @@
 			{% for cname in roll %}
 				<tr>
 					<td>{{cname}}</td>
+					<input type="hidden" name="version[]" value="{{ version|get_item:cname }}"  />
 					{% if cname in present %}
 						<td><input type="checkbox" name="attend[]" value='{{cname}}' checked><br></td>
 					{% else %}
