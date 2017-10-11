@@ -14,7 +14,11 @@ BOOK_TYPE_CHOICES = (
     ('9', 'T&T Challenge Book2'),
     ('10', 'Cubbie Appleseed'),
     ('11', 'Cubbie HoneyComb'),
-    ('12', 'Puggle')
+    ('12', 'Puggle'),
+    ('13', 'Sparks HangGlider Review'),
+    ('14', 'Sparks WingRunner Review'),
+    ('15', 'Sparks SkyStormer Review')
+    
 )
 
 CLUBBER_TYPE_CHOICES = (

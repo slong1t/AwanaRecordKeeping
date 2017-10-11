@@ -336,13 +336,21 @@ def AwardsSparks(request):
         now = datetime.now(pytz.timezone('US/Central'))
         completed_sections = HandBookPoint.objects.filter(clubber=c,date=now.date())
         i = 0
+        prev_chap = ''
         for cs in completed_sections:
             if cs.book == '0' and cs.section == 6:
                 section[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + spark_chapter[cs.chapter]
-            elif cs.chapter == 1 and cs.section == 8:
-                section[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + spark_chapter[cs.chapter]
-            elif cs.chapter > 1 and cs.section == 4:
-                section[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + spark_chapter[cs.chapter]
+            elif cs.chapter == 1 and prev_chap != cs.chapter:
+                prev_chap = cs.chapter
+                chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)
+                #print (len(chapter_sections),chapter_sections)
+                if len(chapter_sections) == 8:
+                    section[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + spark_chapter[cs.chapter]
+            elif prev_chap != cs.chapter:
+                chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)
+                if len(chapter_sections) == 4:
+                    section[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + spark_chapter[cs.chapter]
+                prev_chap = cs.chapter
             i += 1
     context = {        
             'section' : section,
@@ -350,6 +358,9 @@ def AwardsSparks(request):
     return HttpResponse(template.render(context,request))
 
 def AwardsTT(request):
+    
+    # 1) need to only give award if all sections have been completed
+    # 2) when all sections have been completed automatically move to the next chapter 
     template = loader.get_template('AwanaRecordKeeping/AwardsTT.html')
     tt_chapter = {
         '4' : 'SZ',
@@ -364,12 +375,27 @@ def AwardsTT(request):
     for c in club_roll:
         now = datetime.now(pytz.timezone('US/Central'))
         completed_sections = HandBookPoint.objects.filter(clubber=c,date=now.date())
+        #print (c.name, ' completed sections: ', completed_sections)
         i = 0
+        prev_chap = ''
         for cs in completed_sections:
             if cs.book == '4' and cs.section == 2: 
                 gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
-            elif cs.section == 7: 
-                gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
+            elif cs.book == '5' and cs.chapter == 5 and prev_chap != cs.chapter:
+                chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)
+                if len(chapter_sections) == 10:
+                    gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
+                    prev_chap = cs.chapter
+            elif cs.book == '5' and int(cs.chapter) > 5 and prev_chap != cs.chapter:
+                chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)              
+                if len(chapter_sections) == 12:
+                    gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
+                    prev_chap = cs.chapter
+            elif prev_chap != cs.chapter: 
+                chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)
+                if len(chapter_sections) == 7:
+                    gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
+                prev_chap = cs.chapter
             i += 1
             
     club_roll = Clubber.objects.filter(club='4').order_by('name')
@@ -378,14 +404,28 @@ def AwardsTT(request):
         now = datetime.now(pytz.timezone('US/Central'))
         completed_sections = HandBookPoint.objects.filter(clubber=c,date=now.date())
         i = 0
-        for cs in completed_sections:
+        prev_chap = ''
+        for cs in completed_sections:                
             if cs.book == '4' and cs.section == 2: 
-                bsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
-            elif cs.section == 7: 
-                bsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
-            i +=1
+                gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
+            elif cs.book == '5' and cs.chapter == 5 and prev_chap != cs.chapter:
+                chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)
+                if len(chapter_sections) == 10:
+                    gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
+                    prev_chap = cs.chapter
+            elif cs.book == '5' and int(cs.chapter) > 5 and prev_chap != cs.chapter:
+                chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)              
+                if len(chapter_sections) == 12:
+                    gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
+                    prev_chap = cs.chapter
+            elif prev_chap != cs.chapter: 
+                chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)
+                if len(chapter_sections) == 7:
+                    gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
+                prev_chap = cs.chapter
+            i += 1
 
-    print (bsection)
+    #print (bsection)
     context = {
             'gsection' : gsection,
             'bsection' : bsection,
@@ -393,7 +433,7 @@ def AwardsTT(request):
     return HttpResponse(template.render(context,request))
 
 def HandBook(request, club_enum, leader, group, msg):
-    print ("leader ", leader, " group ", group)
+    #print ("leader ", leader, " group ", group)
     club_roll = Clubber.objects.filter(club=club_enum).order_by('name')
     roll = {}
     hbook = {}
@@ -406,6 +446,10 @@ def HandBook(request, club_enum, leader, group, msg):
     hsec6 = {}
     hsec7 = {}
     hsec8 = {}
+    hsec9 = {}
+    hsec10 = {}
+    hsec11 = {}
+    hsec12 = {}
     leadername = leader
     for c in club_roll:
         roll[c.name] = True
@@ -429,6 +473,14 @@ def HandBook(request, club_enum, leader, group, msg):
                 hsec7[c.name] = 1                
             elif pt.section == 8:
                 hsec8[c.name] = 1                
+            elif pt.section == 9:
+                hsec9[c.name] = 1                
+            elif pt.section == 10:
+                hsec10[c.name] = 1                
+            elif pt.section == 11:
+                hsec11[c.name] = 1                
+            elif pt.section == 12:
+                hsec12[c.name] = 1                
         
     context = {
         'roll' : roll,
@@ -442,6 +494,10 @@ def HandBook(request, club_enum, leader, group, msg):
         'section6' : hsec6,
         'section7' : hsec7,
         'section8' : hsec8,
+        'section9' : hsec9,
+        'section10' : hsec10,
+        'section11' : hsec11,
+        'section12' : hsec12,
         'wed' : next_wednesday(),
         'lname' : leadername,
         'group' : group,
@@ -457,6 +513,7 @@ def updateSection(_sectionList,_sectionNumber, _group):
                 sec[clubber] += 1
             else:
                 sec[clubber] = 1
+        #print ('here ' + str(_sectionNumber))
         #print(sec)
         for clubber in sec:
             db_sec = {}
@@ -505,7 +562,78 @@ def updateChapter(_chapterList, _group):
         elif c.current_chapter != int(child[1]):
             rtnVal = child[0]
     return rtnVal
-        
+
+def AdvanceSectionIfNeededTT(_bookList):        
+    for b in _bookList:
+        child = b.split(',')
+        c = Clubber.objects.get(name=child[0])
+        chapter_sections = HandBookPoint.objects.filter(clubber=c,book=c.current_book,chapter=c.current_chapter)
+        #print ('a',chapter_sections)
+        #print (c.name,' club:',c.club,' book:',c.current_book,' chap:',c.current_chapter,' secs:',len(chapter_sections))
+        if c.club == '3' or c.club == '4':
+            #print ('club ', c.club)
+            # start zone
+            if c.current_book == '4':
+                if len(chapter_sections) == 2:
+                    # 'T&T Grace In Action'
+                    c.current_book = 5
+                    c.current_chapter = 1
+                    c.current_section = 1
+                    c.save()
+            # T&T Grace In Action
+            elif c.current_book == '5':
+                #print (c.name, ' current_chapter: ', c.current_chapter, ' sections: ', len(chapter_sections))
+                if int(c.current_chapter) < 5:  
+                    if len(chapter_sections) == 7:
+                        c.current_chapter = c.current_chapter + 1
+                        c.current_section = 1
+                        c.save()
+                elif int(c.current_chapter) == 5:
+                    if len(chapter_sections) == 10:
+                        c.current_chapter = c.current_chapter + 1
+                        c.current_section = 1
+                        c.save()
+                else:
+                    if len(chapter_sections) == 12:
+                        c.current_chapter = c.current_chapter + 1
+                        c.current_section = 1
+                        c.save()
+            # Legacy Books
+            else:
+                #print ('leg current_chapter: ', c.current_chapter, ' sections: ', len(chapter_sections))
+                if c.current_chapter < 8:  
+                    if len(chapter_sections) == 7:
+                        c.current_chapter = c.current_chapter + 1
+                        c.current_section = 1
+                        c.save()
+                
+def AdvanceSectionIfNeededSpark(_bookList):        
+    for b in _bookList:
+        child = b.split(',')
+        c = Clubber.objects.get(name=child[0])
+        chapter_sections = HandBookPoint.objects.filter(clubber=c,book=c.current_book,chapter=c.current_chapter)
+        #print ('a',chapter_sections)
+        #print (c.name,' club:',c.club,' book:',c.current_book,' chap:',c.current_chapter,' secs:',len(chapter_sections))
+        # Flight 3:16
+        if c.current_book == '0':
+            if len(chapter_sections) == 6:
+                c.current_book = 1
+                c.current_chapter = 1
+                c.current_section = 1
+                c.save()
+        else:
+            #print ('leg current_chapter: ', c.current_chapter, ' sections: ', len(chapter_sections))
+            if c.current_chapter == 1:  
+                if len(chapter_sections) == 8:
+                    c.current_chapter = c.current_chapter + 1
+                    c.current_section = 1
+                    c.save()
+            else:  
+                if len(chapter_sections) == 4:
+                    c.current_chapter = c.current_chapter + 1
+                    c.current_section = 1
+                    c.save()
+
 def BookTTBoys(request):
     template = loader.get_template('AwanaRecordKeeping/BookTTBoys.html')
     #print(request.method)
@@ -513,7 +641,7 @@ def BookTTBoys(request):
     leaders_group = {}
     error_msg = ''
     if request.method == 'POST':
-        print (request.POST)
+        #print (request.POST)
         leader = request.POST.getlist("leadername")
         leaders_group = request.POST.getlist("leader")
         leader_name = leader[0]
@@ -540,11 +668,21 @@ def BookTTBoys(request):
                     sec6 = request.POST.getlist('section6')
                     section6 = updateSection(sec6,6,leaders_group)        
                     sec7 = request.POST.getlist('section7')
-                    section7 = updateSection(sec7,7,leaders_group)        
+                    section7 = updateSection(sec7,7,leaders_group)
                     sec8 = request.POST.getlist('section8')
                     section8 = updateSection(sec8,8,leaders_group)
-                    if section1 != '' or section2 != '' or section3 != '' or section4 != '' or section5 != '' or section6 != '' or section7 != '' or section8 != '':
-                        error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
+                    sec9 = request.POST.getlist('section9')
+                    section9 = updateSection(sec9,9,leaders_group)
+                    sec10 = request.POST.getlist('section10')
+                    section10 = updateSection(sec10,10,leaders_group)
+                    sec11 = request.POST.getlist('section11')
+                    section11 = updateSection(sec11,11,leaders_group)
+                    sec12 = request.POST.getlist('section12')
+                    section12 = updateSection(sec12,12,leaders_group)
+                    if section1 != '' or section2 != '' or section3 != '' or section4 != '' or section5 != '' or section6 != '' or section7 != '' or section8 != '' or section9 != '' or section10 != '' or section11 != '' or section12 != '':
+                        error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'
+                    else:
+                        AdvanceSectionIfNeededTT(books)                                 
                 elif chapterChanged not in leaders_group:   
                     error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
             elif bookChanged not in leaders_group:   
@@ -560,14 +698,13 @@ def BookTTGirls(request):
     leaders_group = {}
     error_msg = ''
     if request.method == 'POST':
-        print (request.POST)
+        #print (request.POST)
         leader = request.POST.getlist("leadername")
         leaders_group = request.POST.getlist("leader")
         leader_name = leader[0]
         if len(leaders_group) > 0:
             bookChanged = ''
-            chapterChanged = ''        
-            #print (request.POST)
+            chapterChanged = '' 
             books = request.POST.getlist("ttbook")
             bookChanged = updateBook(books,leaders_group)      
             if bookChanged == '':
@@ -588,11 +725,21 @@ def BookTTGirls(request):
                     sec6 = request.POST.getlist('section6')
                     section6 = updateSection(sec6,6,leaders_group)        
                     sec7 = request.POST.getlist('section7')
-                    section7 = updateSection(sec7,7,leaders_group)        
+                    section7 = updateSection(sec7,7,leaders_group)
                     sec8 = request.POST.getlist('section8')
                     section8 = updateSection(sec8,8,leaders_group)
-                    if section1 != '' or section2 != '' or section3 != '' or section4 != '' or section5 != '' or section6 != '' or section7 != '' or section8 != '':
-                        error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
+                    sec9 = request.POST.getlist('section9')
+                    section9 = updateSection(sec9,9,leaders_group)
+                    sec10 = request.POST.getlist('section10')
+                    section10 = updateSection(sec10,10,leaders_group)
+                    sec11 = request.POST.getlist('section11')
+                    section11 = updateSection(sec11,11,leaders_group)
+                    sec12 = request.POST.getlist('section12')
+                    section12 = updateSection(sec12,12,leaders_group)
+                    if section1 != '' or section2 != '' or section3 != '' or section4 != '' or section5 != '' or section6 != '' or section7 != '' or section8 != '' or section9 != '' or section10 != '' or section11 != '' or section12 != '':
+                        error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'
+                    else:
+                        AdvanceSectionIfNeededTT(books)                                 
                 elif chapterChanged not in leaders_group:   
                     error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
             elif bookChanged not in leaders_group:   
@@ -641,6 +788,8 @@ def BookSparks(request):
                     section8 = updateSection(sec8,8,leaders_group)
                     if section1 != '' or section2 != '' or section3 != '' or section4 != '' or section5 != '' or section6 != '' or section7 != '' or section8 != '':
                         error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
+                    else:
+                        AdvanceSectionIfNeededSpark(books)                                 
                 elif chapterChanged not in leaders_group:   
                     error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
             elif bookChanged not in leaders_group:   

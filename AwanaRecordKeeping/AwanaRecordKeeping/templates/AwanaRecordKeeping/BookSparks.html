@@ -24,7 +24,7 @@
 <form id="awana-form" name="awanaForm" action="/BookSparks/" method="post">
 		{% if msg != '' %}
 			<h3><font color="red">{{ msg }}</font></h3>
-		{% endif %} 	
+		{% endif %}
 	{% csrf_token %}
 		<select name="leadername" >
 	    <option value="Diane Long">Diane Long</option>
@@ -59,140 +59,149 @@
 			<th><div><span>Section</span></div></th>
 		</tr>
 
-		{% if roll %} 
+		{% if roll %}
 			{% for cname in roll %}
 				<tr>
    					{% if cname in group %}
-						<td><input type="Checkbox" value="{{cname}}" name="leader" onchange="this.form.submit()" checked></input></td> 
+						<td><input type="Checkbox" value="{{cname}}" name="leader" onchange="this.form.submit()" checked></input></td>
 				    {% else %}
-						<td><input type="Checkbox" value="{{cname}}" name="leader" onchange="this.form.submit()"></input></td> 
+						<td><input type="Checkbox" value="{{cname}}" name="leader" onchange="this.form.submit()"></input></td>
 				    {% endif %}
 				<td>{{cname}}</td>
 				<td>
 				<select name="sbook" onchange="this.form.submit()">
-					<option value="{{cname}},0">Flight 3:16</option> 
+					<option value="{{cname}},0">Flight 3:16</option>
 					{% if book|get_item:cname == 'Sparks HangGlider' %}<option value="{{cname}},1" selected>Sparks HangGlider</option>
-					{% else %}<option value="{{cname}},1">Sparks HangGlider</option> 
-					{% endif %} 
+					{% else %}<option value="{{cname}},1">Sparks HangGlider</option>
+					{% endif %}
 					{% if book|get_item:cname == 'Sparks WingRunner' %}<option value="{{cname}},2" selected>Sparks WingRunner</option>
-					{% else %}<option value="{{cname}},2">Sparks WingRunner</option> 
-					{% endif%} 
+					{% else %}<option value="{{cname}},2">Sparks WingRunner</option>
+					{% endif%}
 					{% if book|get_item:cname == 'Sparks SkyStormer' %}<option value="{{cname}},3" selected>Sparks SkyStormer</option>
-					{% else %}<option value="{{cname}},3">Sparks SkyStormer</option> 
-					{% endif %} 
+					{% else %}<option value="{{cname}},3">Sparks SkyStormer</option>
+					{% endif %}
+					{% if book|get_item:cname == 'Sparks HangGlider Review' %}<option value="{{cname}},13" selected>Sparks HangGlider Review</option>
+					{% else %}<option value="{{cname}},13">Sparks HangGlider Review</option>
+					{% endif %}
+					{% if book|get_item:cname == 'Sparks WingRunner Review' %}<option value="{{cname}},14" selected>Sparks WingRunner Review</option>
+					{% else %}<option value="{{cname}},14">Sparks WingRunner Review</option>
+					{% endif%}
+					{% if book|get_item:cname == 'Sparks SkyStormer Review' %}<option value="{{cname}},15" selected>Sparks SkyStormer Review</option>
+					{% else %}<option value="{{cname}},15">Sparks SkyStormer Review</option>
+					{% endif %}
 				</select>
 			</td>
 			<td>
 				{% if book|get_item:cname == 'Flight 3:16' %}
-			</td> 
+			</td>
 				{% else %}
-				<select name="schap" onchange="this.form.submit()"> 
-					<option value="{{cname}},1">Rank</option> 
-					{% if chapter|get_item:cname == 2 %} <option value="{{cname}},2" selected>RJ1</option> 
+				<select name="schap" onchange="this.form.submit()">
+					<option value="{{cname}},1">Rank</option>
+					{% if chapter|get_item:cname == 2 %} <option value="{{cname}},2" selected>RJ1</option>
 					{% else %} <option value="{{cname}},2">RJ1</option>
-					{% endif %} 
-					{% if chapter|get_item:cname == 3 %}<option value="{{cname}},3" selected>GJ1</option> 
-					{% else %}<option value="{{cname}},3">GJ1</option> 
-					{% endif %} 
-					{% if chapter|get_item:cname == 4 %}<option value="{{cname}},4" selected>RJ2</option> 
-					{% else %}<option value="{{cname}},4">RJ2</option> 
-					{% endif %} 
-					{% if chapter|get_item:cname == 5 %}<option value="{{cname}},5" selected>GJ2</option> 
-					{% else %}<option value="{{cname}},5">GJ2</option> 
-					{% endif %} 
-					{% if chapter|get_item:cname == 6 %}<option value="{{cname}},6" selected>RJ3</option> 
-					{% else %}<option value="{{cname}},6">RJ3</option> 
-					{% endif %} 
+					{% endif %}
+					{% if chapter|get_item:cname == 3 %}<option value="{{cname}},3" selected>GJ1</option>
+					{% else %}<option value="{{cname}},3">GJ1</option>
+					{% endif %}
+					{% if chapter|get_item:cname == 4 %}<option value="{{cname}},4" selected>RJ2</option>
+					{% else %}<option value="{{cname}},4">RJ2</option>
+					{% endif %}
+					{% if chapter|get_item:cname == 5 %}<option value="{{cname}},5" selected>GJ2</option>
+					{% else %}<option value="{{cname}},5">GJ2</option>
+					{% endif %}
+					{% if chapter|get_item:cname == 6 %}<option value="{{cname}},6" selected>RJ3</option>
+					{% else %}<option value="{{cname}},6">RJ3</option>
+					{% endif %}
 					{% if chapter|get_item:cname == 7 %}<option value="{{cname}},7" selected>GJ3</option>
-					{% else %}<option value="{{cname}},7">GJ3</option> 
-					{% endif %} 
-					{% if chapter|get_item:cname == 8 %}<option value="{{cname}},8" selected>RJ4</option> 
-					{% else %}<option value="{{cname}},8">RJ4</option> 
-					{% endif %} 
-					{% if chapter|get_item:cname == 8 %}<option value="{{cname}},9" selected>GJ4</option> 
-					{% else %}<option value="{{cname}},8">GJ4</option> 
-					{% endif %} 
+					{% else %}<option value="{{cname}},7">GJ3</option>
+					{% endif %}
+					{% if chapter|get_item:cname == 8 %}<option value="{{cname}},8" selected>RJ4</option>
+					{% else %}<option value="{{cname}},8">RJ4</option>
+					{% endif %}
+					{% if chapter|get_item:cname == 9 %}<option value="{{cname}},9" selected>GJ4</option>
+					{% else %}<option value="{{cname}},9">GJ4</option>
+					{% endif %}
 				</select>
-			</td> 
+			</td>
 				{% endif %}
 			<td>
-				{% if section1|get_item:cname == 1 %} 
-					<input type="Checkbox" value="{{cname}}" name="section1" onchange="this.form.submit()" checked>1</input> 
-				{% else %} 
+				{% if section1|get_item:cname == 1 %}
+					<input type="Checkbox" value="{{cname}}" name="section1" onchange="this.form.submit()" checked>1</input>
+				{% else %}
 					<input type="Checkbox" value="{{cname}}" name="section1" onchange="this.form.submit()">1</input>
-				{% endif %} 
+				{% endif %}
 				<input type="hidden" value="{{cname}}" name="section1">
 
-				{% if section2|get_item:cname == 1 %} 
-					<input type="Checkbox" value="{{cname}}" name="section2" onchange="this.form.submit()" checked>2</input> 
-				{% else %} 
+				{% if section2|get_item:cname == 1 %}
+					<input type="Checkbox" value="{{cname}}" name="section2" onchange="this.form.submit()" checked>2</input>
+				{% else %}
 					<input type="Checkbox" value="{{cname}}" name="section2" onchange="this.form.submit()">2</input>
-				{% endif %} 
+				{% endif %}
 				<input type="hidden" value="{{cname}}" name="section2">
 
-				{% if section3|get_item:cname == 1 %} 
-					<input type="Checkbox" value="{{cname}}" name="section3" onchange="this.form.submit()" checked>3</input> 
-				{% else %} 
+				{% if section3|get_item:cname == 1 %}
+					<input type="Checkbox" value="{{cname}}" name="section3" onchange="this.form.submit()" checked>3</input>
+				{% else %}
 					<input type="Checkbox" value="{{cname}}" name="section3" onchange="this.form.submit()">3</input>
-				{% endif %} 
+				{% endif %}
 				<input type="hidden" value="{{cname}}" name="section3">
 
-				{% if section4|get_item:cname == 1 %} 
-					<input type="Checkbox" value="{{cname}}" name="section4" onchange="this.form.submit()" checked>4</input> 
-				{% else %} 
+				{% if section4|get_item:cname == 1 %}
+					<input type="Checkbox" value="{{cname}}" name="section4" onchange="this.form.submit()" checked>4</input>
+				{% else %}
 					<input type="Checkbox" value="{{cname}}" name="section4" onchange="this.form.submit()">4</input>
-				{% endif %} 
+				{% endif %}
 				<input type="hidden" value="{{cname}}" name="section4">
 
 				{% if book|get_item:cname == 'Flight 3:16' %}
 
-					{% if section5|get_item:cname == 1 %} 
-						<input type="Checkbox" value="{{cname}}" name="section5" onchange="this.form.submit()" checked>5</input> 
-					{% else %} 
+					{% if section5|get_item:cname == 1 %}
+						<input type="Checkbox" value="{{cname}}" name="section5" onchange="this.form.submit()" checked>5</input>
+					{% else %}
 						<input type="Checkbox" value="{{cname}}" name="section5" onchange="this.form.submit()">5</input>
-					{% endif %} 
+					{% endif %}
 					<input type="hidden" value="{{cname}}" name="section5">
-	
-					{% if section6|get_item:cname == 1 %} 
-						<input type="Checkbox" value="{{cname}}" name="section6" onchange="this.form.submit()" checked>6</input> 
-					{% else %} 
+
+					{% if section6|get_item:cname == 1 %}
+						<input type="Checkbox" value="{{cname}}" name="section6" onchange="this.form.submit()" checked>6</input>
+					{% else %}
 						<input type="Checkbox" value="{{cname}}" name="section6" onchange="this.form.submit()">6</input>
-					{% endif %} 
+					{% endif %}
 					<input type="hidden" value="{{cname}}" name="section6">
-			</td> 
+			</td>
 				{% elif chapter|get_item:cname == 1 %}
-				
-					{% if section5|get_item:cname == 1 %} 
-						<input type="Checkbox" value="{{cname}}" name="section5" onchange="this.form.submit()" checked>5</input> 
-					{% else %} 
+
+					{% if section5|get_item:cname == 1 %}
+						<input type="Checkbox" value="{{cname}}" name="section5" onchange="this.form.submit()" checked>5</input>
+					{% else %}
 						<input type="Checkbox" value="{{cname}}" name="section5" onchange="this.form.submit()">5</input>
-					{% endif %} 
+					{% endif %}
 					<input type="hidden" value="{{cname}}" name="section5">
-	
-					{% if section6|get_item:cname == 1 %} 
-						<input type="Checkbox" value="{{cname}}" name="section6" onchange="this.form.submit()" checked>6</input> 
-					{% else %} 
+
+					{% if section6|get_item:cname == 1 %}
+						<input type="Checkbox" value="{{cname}}" name="section6" onchange="this.form.submit()" checked>6</input>
+					{% else %}
 						<input type="Checkbox" value="{{cname}}" name="section6" onchange="this.form.submit()">6</input>
-					{% endif %} 
+					{% endif %}
 					<input type="hidden" value="{{cname}}" name="section6">
-					
-					{% if section7|get_item:cname == 1 %} 
-						<input type="Checkbox" value="{{cname}}" name="section7" onchange="this.form.submit()" checked>7</input> 
-					{% else %} 
+
+					{% if section7|get_item:cname == 1 %}
+						<input type="Checkbox" value="{{cname}}" name="section7" onchange="this.form.submit()" checked>7</input>
+					{% else %}
 						<input type="Checkbox" value="{{cname}}" name="section7" onchange="this.form.submit()">7</input>
-					{% endif %} 
+					{% endif %}
 					<input type="hidden" value="{{cname}}" name="section7">
-	
-					{% if section8|get_item:cname == 1 %} 
-						<input type="Checkbox" value="{{cname}}" name="section8" onchange="this.form.submit()" checked>8</input> 
-					{% else %} 
+
+					{% if section8|get_item:cname == 1 %}
+						<input type="Checkbox" value="{{cname}}" name="section8" onchange="this.form.submit()" checked>8</input>
+					{% else %}
 						<input type="Checkbox" value="{{cname}}" name="section8" onchange="this.form.submit()">8</input>
-					{% endif %} 
+					{% endif %}
 					<input type="hidden" value="{{cname}}" name="section8">
-			</td> 
+			</td>
 				{% else %}
-			</td> 
-				
+			</td>
+
 			{% endif %}
 		</tr>
 		{% endfor %} {% endif %}
