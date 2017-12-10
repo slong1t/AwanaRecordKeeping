@@ -183,10 +183,10 @@ def PointsSparks(request):
     book = {}
     visitor = {}
     sections = {}
+    total = {}
     import datetime
     start_date = datetime.date(2017, 9, 6)    
     for c in club_roll:
-        roll[c.name] = True
         club_points = ClubPoints.objects.filter(kid=c)
         book_points = HandBookPoint.objects.filter(clubber=c)
         attendance[c.name] = 0
@@ -196,7 +196,7 @@ def PointsSparks(request):
         sections[c.name] = 0
         bible[c.name] = 0
         for pt in club_points:
-             if pt.night.date >= start_date:
+            if pt.night.date >= start_date:
                 attendance[c.name] += 1
                 if pt.bible:
                     bible[c.name] += 1
@@ -209,6 +209,9 @@ def PointsSparks(request):
         for pt in book_points:
             if pt.date >= start_date:
                 sections[c.name] += 1
+        if attendance[c.name] > 0:
+            roll[c.name] = True
+        total[c.name] = attendance[c.name] + uniform[c.name] + book[c.name] + visitor[c.name]*5 + sections[c.name]*2 + bible[c.name]
          
     context = {        
             'roll' : roll,
@@ -218,6 +221,7 @@ def PointsSparks(request):
             'bible' : bible,
             'visitor' : visitor,
             'sections' : sections,
+            'total' : total,
         }
     return HttpResponse(template.render(context,request))
 
@@ -231,10 +235,10 @@ def PointsTTGirls(request):
     book = {}
     visitor = {}
     sections = {}
+    total = {}
     import datetime
     start_date = datetime.date(2017, 9, 6)    
     for c in club_roll:
-        roll[c.name] = True
         club_points = ClubPoints.objects.filter(kid=c)
         book_points = HandBookPoint.objects.filter(clubber=c)
         attendance[c.name] = 0
@@ -257,6 +261,13 @@ def PointsTTGirls(request):
         for pt in book_points:
             if pt.date >= start_date:
                 sections[c.name] += 1
+   
+        if attendance[c.name] > 0:
+            roll[c.name] = True
+        if c.current_book == '5':
+            total[c.name] = attendance[c.name] + uniform[c.name] + book[c.name] + visitor[c.name]*5 + sections[c.name]*4 + bible[c.name]
+        else:
+            total[c.name] = attendance[c.name] + uniform[c.name] + book[c.name] + visitor[c.name]*5 + sections[c.name]*2 + bible[c.name]
          
     context = {        
             'roll' : roll,
@@ -266,6 +277,7 @@ def PointsTTGirls(request):
             'bible' : bible,
             'visitor' : visitor,
             'sections' : sections,
+            'total' : total,
         }
     return HttpResponse(template.render(context,request))
 
@@ -279,10 +291,10 @@ def PointsTTBoys(request):
     book = {}
     visitor = {}
     sections = {}
+    total = {}
     import datetime
     start_date = datetime.date(2017, 9, 6)    
     for c in club_roll:
-        roll[c.name] = True
         club_points = ClubPoints.objects.filter(kid=c)
         book_points = HandBookPoint.objects.filter(clubber=c)
         attendance[c.name] = 0
@@ -305,6 +317,12 @@ def PointsTTBoys(request):
         for pt in book_points:
             if pt.date >= start_date:
                 sections[c.name] += 1
+        if attendance[c.name] > 0:
+            roll[c.name] = True
+        if c.current_book == '5':
+            total[c.name] = attendance[c.name] + uniform[c.name] + book[c.name] + visitor[c.name]*5 + sections[c.name]*4 + bible[c.name]
+        else:
+            total[c.name] = attendance[c.name] + uniform[c.name] + book[c.name] + visitor[c.name]*5 + sections[c.name]*2 + bible[c.name]
                 
     context = {        
             'roll' : roll,
@@ -314,6 +332,7 @@ def PointsTTBoys(request):
             'bible' : bible,
             'visitor' : visitor,
             'sections' : sections,
+            'total' : total,
         }
     return HttpResponse(template.render(context,request))
 

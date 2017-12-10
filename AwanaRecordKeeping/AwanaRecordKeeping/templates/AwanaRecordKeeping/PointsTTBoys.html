@@ -26,6 +26,7 @@
 			<th><div><span>Book</span></div>
 			<th><div><span>Visitor</span></div>
 			<th><div><span>Sections</span></div>
+			<th><div><span>Total</span></div>			
 		</tr>
 
 		{% if roll %} {% for cname in roll %}
@@ -37,6 +38,7 @@
 			<td>{{book|get_item:cname}}</td>
 			<td>{{visitor|get_item:cname}}</td>
 			<td>{{sections|get_item:cname}}</td>
+			<td>{{total|get_item:cname}}</td>
 		</tr>
 		{% endfor %} {% endif %}
 	</table>
