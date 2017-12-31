@@ -41,7 +41,8 @@ class Clubber (models.Model):
     current_book = book_type
     current_chapter = models.IntegerField(default = 0, null=True)
     current_section = models.IntegerField(default = 0, null=True)
-
+    info_link = models.URLField(default = "/DefaultInfo.html")
+    
     def __str__(self):
         return self.name + ":" + CLUBBER_TYPE_CHOICES[int(self.club)][1] 
 

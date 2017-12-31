@@ -4,19 +4,20 @@
 from django.http import HttpResponse
 from django.template import loader
 from Awana.models import Clubber,MeetingNight,ClubPoints,HandBookPoint,BOOK_TYPE_CHOICES
-from datetime import datetime
-
+import datetime
 import pytz
+summer_start_night = datetime.date(2017, 9, 6)
+christmas_store_night = datetime.date(2017, 12, 13)
+winter_start_night = datetime.date(2018, 1, 10)
 
 def next_weekday(d, weekday):
-    import datetime
     days_ahead = weekday - d.weekday()
     if days_ahead < 0: # Target day already happened this week
         days_ahead += 7
-    return d + datetime.timedelta(days=days_ahead)
+    return d + datetime.datetime.timedelta(days=days_ahead)
 
 def next_wednesday():
-    d = datetime.now(pytz.timezone('US/Central'))
+    d = datetime.datetime.now(pytz.timezone('US/Central'))
     return next_weekday(d.date(), 2) # 0 = Monday, 1=Tuesday, 2=Wednesday...
     
 
@@ -53,6 +54,7 @@ def CheckIn(request, club_enum):
     visitor_pts = {}
     dues_pts = {}
     version = {}
+    info = {}
 
     if request.method == "POST":
         #print (request.POST)
@@ -111,6 +113,7 @@ def CheckIn(request, club_enum):
         roll[c.name] = True
         dues_pts[c.name] = c.dues                        
         version[c.name] = 0
+        info[c.name] = c.info_link
         try:
             p = ClubPoints.objects.get(kid=c,night=n)
             if request.method == "POST" and c.name not in present:
@@ -144,6 +147,7 @@ def CheckIn(request, club_enum):
         'visitor' : visitor_pts,
         'dues' : dues_pts,
         'wed' : next_wednesday(),
+        'info' : info,
         'version' : version
     }
     return context
@@ -184,9 +188,16 @@ def PointsSparks(request):
     visitor = {}
     sections = {}
     total = {}
-    import datetime
-    start_date = datetime.date(2017, 9, 6)    
     for c in club_roll:
+        start_date = summer_start_night
+        club_points = ClubPoints.objects.filter(kid=c)
+        book_points = HandBookPoint.objects.filter(clubber=c)
+        try:
+            MeetingNight.objects.get(attendees=c,date=christmas_store_night)
+            start_date = winter_start_night
+        except MeetingNight.DoesNotExist:
+            pass
+
         club_points = ClubPoints.objects.filter(kid=c)
         book_points = HandBookPoint.objects.filter(clubber=c)
         attendance[c.name] = 0
@@ -236,9 +247,16 @@ def PointsTTGirls(request):
     visitor = {}
     sections = {}
     total = {}
-    import datetime
-    start_date = datetime.date(2017, 9, 6)    
     for c in club_roll:
+        start_date = summer_start_night
+        club_points = ClubPoints.objects.filter(kid=c)
+        book_points = HandBookPoint.objects.filter(clubber=c)
+        try:
+            MeetingNight.objects.get(attendees=c,date=christmas_store_night)
+            start_date = winter_start_night
+        except MeetingNight.DoesNotExist:
+            pass
+
         club_points = ClubPoints.objects.filter(kid=c)
         book_points = HandBookPoint.objects.filter(clubber=c)
         attendance[c.name] = 0
@@ -292,11 +310,16 @@ def PointsTTBoys(request):
     visitor = {}
     sections = {}
     total = {}
-    import datetime
-    start_date = datetime.date(2017, 9, 6)    
     for c in club_roll:
+        start_date = summer_start_night
         club_points = ClubPoints.objects.filter(kid=c)
         book_points = HandBookPoint.objects.filter(clubber=c)
+        try:
+            MeetingNight.objects.get(attendees=c,date=christmas_store_night)
+            start_date = winter_start_night
+        except MeetingNight.DoesNotExist:
+            pass
+            
         attendance[c.name] = 0
         uniform[c.name] = 0
         book[c.name] = 0

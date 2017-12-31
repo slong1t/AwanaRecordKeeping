@@ -44,7 +44,7 @@
 		{% if roll %}
 			{% for cname in roll %}
 				<tr>
-					<td>{{cname}}</td>
+					<td><a style="color:blue; text-decoration:underline" href="{{ info|get_item:cname }}">{{cname}}</a></td>
 					<input type="hidden" name="version[]" value="{{ version|get_item:cname }}"  />
 					{% if cname in present %}
 						<td><input type="checkbox" name="attend[]" value='{{cname}}' checked><br></td>

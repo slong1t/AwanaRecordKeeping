@@ -17,6 +17,7 @@ from Awana import views
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -34,5 +35,6 @@ urlpatterns = [
     url(r'^AwardsSparks/', views.AwardsSparks, name='AwardsSparks'),
     url(r'^AwardsTT/', views.AwardsTT, name='AwardsTT'),
     url(r'^$', views.index, name='index'),
+    url(r'^DefaultInfo', TemplateView.as_view(template_name='DefaultInfo.html')),
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
