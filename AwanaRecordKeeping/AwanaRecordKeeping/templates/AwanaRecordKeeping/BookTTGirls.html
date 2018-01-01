@@ -1,8 +1,9 @@
 
 {% extends 'AwanaRecordKeeping/base.html' %}
+
 {% block body %}
 		<ul class="menu-style">
-		  <li class = "menu-style"><a href="/" >Home</a></li>
+		  <li class = "menu-style"><a href="/">Home</a></li>
 		  <li class = "menu-style"><a href="/CheckInTTGirls">CheckIn</a></li>
 		  <li class = "menu-style"><a class="active" href="/BookTTGirls">Handbook</a></li>
 		  <li class = "menu-style"><a href="/PointsTTGirls">Points</a></li>
@@ -14,7 +15,6 @@
 		<button class="button button4"><a href="/BookTTBoys">T&T Boys</a></button>
 		<hr>
 		<h2><p style="text-align:left;">T&T Girls Handbook<span style="float:right;">{{ wed }}</span></p></h2>
-
 		<form id="awana-form" name="awanaForm" action="/BookTTGirls/" method="post">
 		{% if msg != '' %}
 			<h3><font color="red">{{ msg }}</font></h3>
@@ -57,13 +57,13 @@
 			{% for cname in roll %}
 				<tr>
    					{% if cname in group %}
-						<td><input type="Checkbox" value="{{cname}}" name="leader" onchange="this.form.submit()" checked></input></td> 
+						<td><input type="Checkbox" value="{{cname}}" name="leader" onchange="saveScroll();this.form.submit();" checked></input></td> 
 				    {% else %}
-						<td><input type="Checkbox" value="{{cname}}" name="leader" onchange="this.form.submit()"></input></td> 
+						<td><input type="Checkbox" value="{{cname}}" name="leader" onchange="saveScroll();this.form.submit();"></input></td> 
 				    {% endif %}
 					<td>{{cname}}</td>
 					<td>
-  					<select name="ttbook" onchange="this.form.submit()" >
+  					<select name="ttbook" onchange="saveScroll();this.form.submit();" >
 					    <option value="{{cname}},4">T&T Start Zone</option>
        					{% if book|get_item:cname == 'T&T Grace In Action' %}
 					    <option value="{{cname}},5" selected>T&T Grace In Action</option>
@@ -96,7 +96,7 @@
 					{% if book|get_item:cname == 'T&T Start Zone' %}
 					</td>
 					{% else %}
-  					<select name="ttchap" onchange="this.form.submit()">
+  					<select name="ttchap" onchange="saveScroll();this.form.submit();">
        					{% if book|get_item:cname == 'T&T Grace In Action' %}
 						    <option value="{{cname}},1">Unit 1</option>
 	      					{% if chapter|get_item:cname == 2 %}
@@ -179,88 +179,88 @@
 					<td>
 					{% if book|get_item:cname == 'T&T Grace In Action' and chapter|get_item:cname > 4 %}
 					    {% if section1|get_item:cname == 1 %}
-						    <input type="Checkbox" value="{{cname}}" name="section1" onchange="this.form.submit()" checked>S1</input>
+						    <input type="Checkbox" value="{{cname}}" name="section1" onchange="saveScroll();this.form.submit();" checked>S1</input>
 				        {% else %}
-						    <input type="Checkbox" value="{{cname}}" name="section1" onchange="this.form.submit()">S1</input>
+						    <input type="Checkbox" value="{{cname}}" name="section1" onchange="saveScroll();this.form.submit();">S1</input>
 				        {% endif %}
 					    <input type="hidden" value="{{cname}}" name="section1">
 
 					    {% if section2|get_item:cname == 1 %}
-						    <input type="Checkbox" value="{{cname}}" name="section2" onchange="this.form.submit()" checked>G1</input>
+						    <input type="Checkbox" value="{{cname}}" name="section2" onchange="saveScroll();this.form.submit();" checked>G1</input>
 				        {% else %}
-						    <input type="Checkbox" value="{{cname}}" name="section2" onchange="this.form.submit()">G1</input>
+						    <input type="Checkbox" value="{{cname}}" name="section2" onchange="saveScroll();this.form.submit();">G1</input>
 				        {% endif %}
 					    <input type="hidden" value="{{cname}}" name="section2">
 
 					    {% if section3|get_item:cname == 1 %}
-						    <input type="Checkbox" value="{{cname}}" name="section3" onchange="this.form.submit()" checked>S2</input>
+						    <input type="Checkbox" value="{{cname}}" name="section3" onchange="saveScroll();this.form.submit();" checked>S2</input>
 				        {% else %}
-						    <input type="Checkbox" value="{{cname}}" name="section3" onchange="this.form.submit()">S2</input>
+						    <input type="Checkbox" value="{{cname}}" name="section3" onchange="saveScroll();this.form.submit();">S2</input>
 				        {% endif %}
 					    <input type="hidden" value="{{cname}}" name="section3">
 
 					    {% if section4|get_item:cname == 1 %}
-						    <input type="Checkbox" value="{{cname}}" name="section4" onchange="this.form.submit()" checked>G2</input>
+						    <input type="Checkbox" value="{{cname}}" name="section4" onchange="saveScroll();this.form.submit();" checked>G2</input>
 				        {% else %}
-						    <input type="Checkbox" value="{{cname}}" name="section4" onchange="this.form.submit()">G2</input>
+						    <input type="Checkbox" value="{{cname}}" name="section4" onchange="saveScroll();this.form.submit();">G2</input>
 				        {% endif %}
 					    <input type="hidden" value="{{cname}}" name="section4">
 
 					    {% if section5|get_item:cname == 1 %}
-						    <input type="Checkbox" value="{{cname}}" name="section5" onchange="this.form.submit()" checked>S3</input>
+						    <input type="Checkbox" value="{{cname}}" name="section5" onchange="saveScroll();this.form.submit();" checked>S3</input>
 				        {% else %}
-						    <input type="Checkbox" value="{{cname}}" name="section5" onchange="this.form.submit()">S3</input>
+						    <input type="Checkbox" value="{{cname}}" name="section5" onchange="saveScroll();this.form.submit();">S3</input>
 				        {% endif %}
 					    <input type="hidden" value="{{cname}}" name="section5">
 
 					    {% if section6|get_item:cname == 1 %}
-						    <input type="Checkbox" value="{{cname}}" name="section6" onchange="this.form.submit()" checked>G3</input>
+						    <input type="Checkbox" value="{{cname}}" name="section6" onchange="saveScroll();this.form.submit();" checked>G3</input>
 				        {% else %}
-						    <input type="Checkbox" value="{{cname}}" name="section6" onchange="this.form.submit()">G3</input>
+						    <input type="Checkbox" value="{{cname}}" name="section6" onchange="saveScroll();this.form.submit();">G3</input>
 				        {% endif %}
 					    <input type="hidden" value="{{cname}}" name="section6">
 
 					    {% if section7|get_item:cname == 1 %}
-						    <input type="Checkbox" value="{{cname}}" name="section7" onchange="this.form.submit()" checked>S4</input>
+						    <input type="Checkbox" value="{{cname}}" name="section7" onchange="saveScroll();this.form.submit();" checked>S4</input>
 				        {% else %}
-						    <input type="Checkbox" value="{{cname}}" name="section7" onchange="this.form.submit()">S4</input>
+						    <input type="Checkbox" value="{{cname}}" name="section7" onchange="saveScroll();this.form.submit();">S4</input>
 				        {% endif %}
 					    <input type="hidden" value="{{cname}}" name="section7">
 
 					    {% if section8|get_item:cname == 1 %}
-						    <input type="Checkbox" value="{{cname}}" name="section8" onchange="this.form.submit()" checked>G4</input>
+						    <input type="Checkbox" value="{{cname}}" name="section8" onchange="saveScroll();this.form.submit();" checked>G4</input>
 				        {% else %}
-						    <input type="Checkbox" value="{{cname}}" name="section8" onchange="this.form.submit()">G4</input>
+						    <input type="Checkbox" value="{{cname}}" name="section8" onchange="saveScroll();this.form.submit();">G4</input>
 				        {% endif %}
 					    <input type="hidden" value="{{cname}}" name="section8">
 
 					    {% if section9|get_item:cname == 1 %}
-						    <input type="Checkbox" value="{{cname}}" name="section9" onchange="this.form.submit()" checked>S5</input>
+						    <input type="Checkbox" value="{{cname}}" name="section9" onchange="saveScroll();this.form.submit();" checked>S5</input>
 				        {% else %}
-						    <input type="Checkbox" value="{{cname}}" name="section9" onchange="this.form.submit()">S5</input>
+						    <input type="Checkbox" value="{{cname}}" name="section9" onchange="saveScroll();this.form.submit();">S5</input>
 				        {% endif %}
 					    <input type="hidden" value="{{cname}}" name="section9">
 
 					    {% if section10|get_item:cname == 1 %}
-						    <input type="Checkbox" value="{{cname}}" name="section10" onchange="this.form.submit()" checked>G5</input>
+						    <input type="Checkbox" value="{{cname}}" name="section10" onchange="saveScroll();this.form.submit();" checked>G5</input>
 				        {% else %}
-						    <input type="Checkbox" value="{{cname}}" name="section10" onchange="this.form.submit()">G5</input>
+						    <input type="Checkbox" value="{{cname}}" name="section10" onchange="saveScroll();this.form.submit();">G5</input>
 				        {% endif %}
 					    <input type="hidden" value="{{cname}}" name="section10">
 
 						{% if chapter|get_item:cname > 5 %}
 
 					    	{% if section11|get_item:cname == 1 %}
-						    	<input type="Checkbox" value="{{cname}}" name="section11" onchange="this.form.submit()" checked>S6</input>
+						    	<input type="Checkbox" value="{{cname}}" name="section11" onchange="saveScroll();this.form.submit();" checked>S6</input>
 				        	{% else %}
-							    <input type="Checkbox" value="{{cname}}" name="section11" onchange="this.form.submit()">S6</input>
+							    <input type="Checkbox" value="{{cname}}" name="section11" onchange="saveScroll();this.form.submit();">S6</input>
 				        	{% endif %}
 					    	<input type="hidden" value="{{cname}}" name="section11">
 
 						    {% if section12|get_item:cname == 1 %}
-							    <input type="Checkbox" value="{{cname}}" name="section12" onchange="this.form.submit()" checked>G6</input>
+							    <input type="Checkbox" value="{{cname}}" name="section12" onchange="saveScroll();this.form.submit();" checked>G6</input>
 				        	{% else %}
-							    <input type="Checkbox" value="{{cname}}" name="section12" onchange="this.form.submit()">G6</input>
+							    <input type="Checkbox" value="{{cname}}" name="section12" onchange="saveScroll();this.form.submit();">G6</input>
 				        	{% endif %}
 					    	<input type="hidden" value="{{cname}}" name="section12">
 
@@ -269,16 +269,16 @@
 				    {% else %}
 					
 					    {% if section1|get_item:cname == 1 %}
-						    <input type="Checkbox" value="{{cname}}" name="section1" onchange="this.form.submit()" checked>1</input>
+						    <input type="Checkbox" value="{{cname}}" name="section1" onchange="saveScroll();this.form.submit();" checked>1</input>
 				        {% else %}
-						    <input type="Checkbox" value="{{cname}}" name="section1" onchange="this.form.submit()">1</input>
+						    <input type="Checkbox" value="{{cname}}" name="section1" onchange="saveScroll();this.form.submit();">1</input>
 				        {% endif %}
 					    <input type="hidden" value="{{cname}}" name="section1">
 						
 					    {% if section2|get_item:cname == 1 %}
-  					        <input type="Checkbox" value="{{cname}}" name="section2" onchange="this.form.submit()" checked>2</input>
+  					        <input type="Checkbox" value="{{cname}}" name="section2" onchange="saveScroll();this.form.submit();" checked>2</input>
 				        {% else %}
-					        <input type="Checkbox" value="{{cname}}" name="section2" onchange="this.form.submit()">2</input>
+					        <input type="Checkbox" value="{{cname}}" name="section2" onchange="saveScroll();this.form.submit();">2</input>
 				        {% endif %}
 					    <input type="hidden" value="{{cname}}" name="section2">
 
@@ -286,37 +286,37 @@
 					        </td>
 					    {% else %}
 						    {% if section3|get_item:cname == 1 %}
-		 					    <input type="Checkbox" value="{{cname}}" name="section3" onchange="this.form.submit()" checked>3</input>
+		 					    <input type="Checkbox" value="{{cname}}" name="section3" onchange="saveScroll();this.form.submit();" checked>3</input>
 					        {% else %}
-		 					    <input type="Checkbox" value="{{cname}}" name="section3" onchange="this.form.submit()">3</input>
+		 					    <input type="Checkbox" value="{{cname}}" name="section3" onchange="saveScroll();this.form.submit();">3</input>
 					        {% endif %}
 						    <input type="hidden" value="{{cname}}" name="section3">
 						    
 						    {% if section4|get_item:cname == 1 %}
-	 						    <input type="Checkbox" value="{{cname}}" name="section4" onchange="this.form.submit()" checked>4</input>
+	 						    <input type="Checkbox" value="{{cname}}" name="section4" onchange="saveScroll();this.form.submit();" checked>4</input>
 					        {% else %}
-	 						    <input type="Checkbox" value="{{cname}}" name="section4" onchange="this.form.submit()">4</input>
+	 						    <input type="Checkbox" value="{{cname}}" name="section4" onchange="saveScroll();this.form.submit();">4</input>
 					        {% endif %}
 						    <input type="hidden" value="{{cname}}" name="section4">
 						
 						    {% if section5|get_item:cname == 1 %}
-	 						    <input type="Checkbox" value="{{cname}}" name="section5" onchange="this.form.submit()" checked>5</input>
+	 						    <input type="Checkbox" value="{{cname}}" name="section5" onchange="saveScroll();this.form.submit();" checked>5</input>
 					        {% else %}
-	 						    <input type="Checkbox" value="{{cname}}" name="section5" onchange="this.form.submit()">5</input>
+	 						    <input type="Checkbox" value="{{cname}}" name="section5" onchange="saveScroll();this.form.submit();">5</input>
 					        {% endif %}
 						    <input type="hidden" value="{{cname}}" name="section5">
 						    
 						    {% if section6|get_item:cname == 1 %}
-	 						    <input type="Checkbox" value="{{cname}}" name="section6" onchange="this.form.submit()" checked>6</input>
+	 						    <input type="Checkbox" value="{{cname}}" name="section6" onchange="saveScroll();this.form.submit();" checked>6</input>
 					        {% else %}
-	 						    <input type="Checkbox" value="{{cname}}" name="section6" onchange="this.form.submit()">6</input>
+	 						    <input type="Checkbox" value="{{cname}}" name="section6" onchange="saveScroll();this.form.submit();">6</input>
 					        {% endif %}
 						    <input type="hidden" value="{{cname}}" name="section6">
 						
 						    {% if section7|get_item:cname == 1 %}
-	 						    <input type="Checkbox" value="{{cname}}" name="section7" onchange="this.form.submit()" checked>7</input>
+	 						    <input type="Checkbox" value="{{cname}}" name="section7" onchange="saveScroll();this.form.submit();" checked>7</input>
 					        {% else %}
-	 						    <input type="Checkbox" value="{{cname}}" name="section7" onchange="this.form.submit()">7</input>
+	 						    <input type="Checkbox" value="{{cname}}" name="section7" onchange="saveScroll();this.form.submit();">7</input>
 					        {% endif %}
 						    <input type="hidden" value="{{cname}}" name="section7">
 					        </td>

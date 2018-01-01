@@ -375,7 +375,7 @@ def AwardsSparks(request):
         }
     section = {}
     for c in club_roll:
-        now = datetime.now(pytz.timezone('US/Central'))
+        now = datetime.datetime.now(pytz.timezone('US/Central'))
         completed_sections = HandBookPoint.objects.filter(clubber=c,date=now.date())
         i = 0
         prev_chap = ''
@@ -415,7 +415,7 @@ def AwardsTT(request):
     club_roll = Clubber.objects.filter(club='3').order_by('name')
     gsection = {}
     for c in club_roll:
-        now = datetime.now(pytz.timezone('US/Central'))
+        now = datetime.datetime.now(pytz.timezone('US/Central'))
         completed_sections = HandBookPoint.objects.filter(clubber=c,date=now.date())
         #print (c.name, ' completed sections: ', completed_sections)
         i = 0
@@ -443,7 +443,7 @@ def AwardsTT(request):
     club_roll = Clubber.objects.filter(club='4').order_by('name')
     bsection = {}
     for c in club_roll:
-        now = datetime.now(pytz.timezone('US/Central'))
+        now = datetime.datetime.now(pytz.timezone('US/Central'))
         completed_sections = HandBookPoint.objects.filter(clubber=c,date=now.date())
         i = 0
         prev_chap = ''
@@ -570,7 +570,7 @@ def updateSection(_sectionList,_sectionNumber, _group):
             elif sec[clubber] == 2 and not _sectionNumber in db_sec and clubber in _group:
                 #print(clubber + ":" + str(_sectionNumber) +  " needs to be added to db_sec")
                 #hbp = HandBookPoint(clubber=c,book=c.current_book,chapter=c.current_chapter,section=_sectionNumber,date=next_wednesday())
-                ptDate = datetime.now(pytz.timezone('US/Central'))
+                ptDate = datetime.datetime.now(pytz.timezone('US/Central'))
                 hbp = HandBookPoint(clubber=c,book=c.current_book,chapter=c.current_chapter,section=_sectionNumber,date=ptDate.date())
                 hbp.save()
             elif (sec[clubber] == 1 and _sectionNumber in db_sec) or (sec[clubber] == 2 and not _sectionNumber in db_sec):
