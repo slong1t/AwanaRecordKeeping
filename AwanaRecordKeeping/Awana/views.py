@@ -14,7 +14,7 @@ def next_weekday(d, weekday):
     days_ahead = weekday - d.weekday()
     if days_ahead < 0: # Target day already happened this week
         days_ahead += 7
-    return d + datetime.datetime.timedelta(days=days_ahead)
+    return d + datetime.timedelta(days=days_ahead)
 
 def next_wednesday():
     d = datetime.datetime.now(pytz.timezone('US/Central'))
