@@ -636,7 +636,7 @@ def AdvanceSectionIfNeededTT(_bookList):
                         c.current_section = 1
                         c.save()
                 else:
-                    if len(chapter_sections) == 12:
+                    if len(chapter_sections) == 12 and c.current_chapter < 8:
                         c.current_chapter = c.current_chapter + 1
                         c.current_section = 1
                         c.save()
@@ -672,9 +672,10 @@ def AdvanceSectionIfNeededSpark(_bookList):
                     c.save()
             else:  
                 if len(chapter_sections) == 4:
-                    c.current_chapter = c.current_chapter + 1
-                    c.current_section = 1
-                    c.save()
+                    if c.current_chapter < 9:
+                        c.current_chapter = c.current_chapter + 1
+                        c.current_section = 1
+                        c.save()
 
 def BookTTBoys(request):
     template = loader.get_template('AwanaRecordKeeping/BookTTBoys.html')
@@ -806,7 +807,8 @@ def BookSparks(request):
             chapterChanged = ''        
             #print (request.POST)
             books = request.POST.getlist("sbook")
-            bookChanged = updateBook(books, leaders_group)      
+            bookChanged = updateBook(books, leaders_group)   
+            #print ("bookChanged: " + bookChanged)   
             if bookChanged == '':
                 chapters = request.POST.getlist("schap")
                 chapterChanged = updateChapter(chapters,leaders_group)
