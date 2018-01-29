@@ -89,11 +89,37 @@
 					{% if book|get_item:cname == 'Sparks SkyStormer Review' %}<option value="{{cname}},15" selected>Sparks SkyStormer Review</option>
 					{% else %}<option value="{{cname}},15">Sparks SkyStormer Review</option>
 					{% endif %}
+					{% if book|get_item:cname == 'Sparks HangGlider Frequent Flyer' %}<option value="{{cname}},16" selected>Sparks HangGlider Frequent Flyer</option>
+					{% else %}<option value="{{cname}},16">Sparks HangGlider Frequent Flyer</option>
+					{% endif %}
+					{% if book|get_item:cname == 'Sparks WingRunner Frequent Flyer' %}<option value="{{cname}},17" selected>Sparks WingRunner Frequent Flyer</option>
+					{% else %}<option value="{{cname}},17">Sparks WingRunner Frequent Flyer</option>
+					{% endif %}
+					{% if book|get_item:cname == 'Sparks SkyStomer Frequent Flyer' %}<option value="{{cname}},18" selected>Sparks SkyStomer Frequent Flyer</option>
+					{% else %}<option value="{{cname}},18">Sparks SkyStomer Frequent Flyer</option>
+					{% endif %}
 				</select>
 			</td>
 			<td>
 				{% if book|get_item:cname == 'Flight 3:16' %}
 			</td>
+				{% elif book|get_item:cname == 'Sparks HangGlider Frequent Flyer' or book|get_item:cname == 'Sparks WingRunner Frequent Flyer' or book|get_item:cname == 'Sparks SkyStomer Frequent Flyer'%}
+				<select name="schap" onchange="saveScroll();this.form.submit();">
+					<option value="{{cname}},1">BookReview</option>
+					{% if chapter|get_item:cname == 2 %} <option value="{{cname}},2" selected>TakeOff</option>
+					{% else %} <option value="{{cname}},2">TakeOff</option>
+					{% endif %}
+					{% if chapter|get_item:cname == 3 %}<option value="{{cname}},3" selected>PassPort</option>
+					{% else %}<option value="{{cname}},3">PassPort</option>
+					{% endif %}
+					{% if chapter|get_item:cname == 4 %}<option value="{{cname}},4" selected>PassengerList</option>
+					{% else %}<option value="{{cname}},4">PassengerList</option>
+					{% endif %}
+					{% if chapter|get_item:cname == 5 %}<option value="{{cname}},5" selected>LandingGear</option>
+					{% else %}<option value="{{cname}},5">LandingGear</option>
+					{% endif %}
+				</select>
+			</td>				
 				{% else %}
 				<select name="schap" onchange="saveScroll();this.form.submit();">
 					<option value="{{cname}},1">Rank</option>
@@ -153,7 +179,91 @@
 				{% endif %}
 				<input type="hidden" value="{{cname}}" name="section4">
 
-				{% if book|get_item:cname == 'Flight 3:16' %}
+				{% if book|get_item:cname == 'Sparks HangGlider Frequent Flyer' or book|get_item:cname == 'Sparks WingRunner Frequent Flyer' or book|get_item:cname == 'Sparks SkyStomer Frequent Flyer'%}
+
+					{% if section5|get_item:cname == 1 %}
+						<input type="Checkbox" value="{{cname}}" name="section5" onchange="saveScroll();this.form.submit();" checked>5</input>
+					{% else %}
+						<input type="Checkbox" value="{{cname}}" name="section5" onchange="saveScroll();this.form.submit();">5</input>
+					{% endif %}
+					<input type="hidden" value="{{cname}}" name="section5">
+
+					{% if chapter|get_item:cname == 1 %}
+
+						{% if section6|get_item:cname == 1 %}
+							<input type="Checkbox" value="{{cname}}" name="section6" onchange="saveScroll();this.form.submit();" checked>6</input>
+						{% else %}
+							<input type="Checkbox" value="{{cname}}" name="section6" onchange="saveScroll();this.form.submit();">6</input>
+						{% endif %}
+						<input type="hidden" value="{{cname}}" name="section6">
+
+						{% if section7|get_item:cname == 1 %}
+							<input type="Checkbox" value="{{cname}}" name="section7" onchange="saveScroll();this.form.submit();" checked>7</input>
+						{% else %}
+							<input type="Checkbox" value="{{cname}}" name="section7" onchange="saveScroll();this.form.submit();">7</input>
+						{% endif %}
+						<input type="hidden" value="{{cname}}" name="section7">
+
+						{% if section8|get_item:cname == 1 %}
+							<input type="Checkbox" value="{{cname}}" name="section8" onchange="saveScroll();this.form.submit();" checked>8</input>
+						{% else %}
+							<input type="Checkbox" value="{{cname}}" name="section8" onchange="saveScroll();this.form.submit();">8</input>
+						{% endif %}
+						<input type="hidden" value="{{cname}}" name="section8">
+
+						{% if section9|get_item:cname == 1 %}
+							<input type="Checkbox" value="{{cname}}" name="section9" onchange="saveScroll();this.form.submit();" checked>9</input>
+						{% else %}
+							<input type="Checkbox" value="{{cname}}" name="section9" onchange="saveScroll();this.form.submit();">9</input>
+						{% endif %}
+						<input type="hidden" value="{{cname}}" name="section9">
+
+						{% if section10|get_item:cname == 1 %}
+							<input type="Checkbox" value="{{cname}}" name="section10" onchange="saveScroll();this.form.submit();" checked>10</input>
+						{% else %}
+							<input type="Checkbox" value="{{cname}}" name="section10" onchange="saveScroll();this.form.submit();">10</input>
+						{% endif %}
+						<input type="hidden" value="{{cname}}" name="section10">
+		
+						{% if section11|get_item:cname == 1 %}
+							<input type="Checkbox" value="{{cname}}" name="section11" onchange="saveScroll();this.form.submit();" checked>11</input>
+						{% else %}
+							<input type="Checkbox" value="{{cname}}" name="section11" onchange="saveScroll();this.form.submit();">11</input>
+						{% endif %}
+						<input type="hidden" value="{{cname}}" name="section11">
+
+						{% if section12|get_item:cname == 1 %}
+							<input type="Checkbox" value="{{cname}}" name="section12" onchange="saveScroll();this.form.submit();" checked>12</input>
+						{% else %}
+							<input type="Checkbox" value="{{cname}}" name="section12" onchange="saveScroll();this.form.submit();">12</input>
+						{% endif %}
+						<input type="hidden" value="{{cname}}" name="section12">
+
+						{% if section13|get_item:cname == 1 %}
+							<input type="Checkbox" value="{{cname}}" name="section13" onchange="saveScroll();this.form.submit();" checked>13</input>
+						{% else %}
+							<input type="Checkbox" value="{{cname}}" name="section13" onchange="saveScroll();this.form.submit();">13</input>
+						{% endif %}
+						<input type="hidden" value="{{cname}}" name="section13">
+
+						{% if section14|get_item:cname == 1 %}
+							<input type="Checkbox" value="{{cname}}" name="section14" onchange="saveScroll();this.form.submit();" checked>14</input>
+						{% else %}
+							<input type="Checkbox" value="{{cname}}" name="section14" onchange="saveScroll();this.form.submit();">14</input>
+						{% endif %}
+						<input type="hidden" value="{{cname}}" name="section14">
+
+						{% if section15|get_item:cname == 1 %}
+							<input type="Checkbox" value="{{cname}}" name="section15" onchange="saveScroll();this.form.submit();" checked>15</input>
+						{% else %}
+							<input type="Checkbox" value="{{cname}}" name="section15" onchange="saveScroll();this.form.submit();">15</input>
+						{% endif %}
+						<input type="hidden" value="{{cname}}" name="section15">
+				
+					{% endif %}		
+							
+			</td>
+				{% elif book|get_item:cname == 'Flight 3:16' %}
 
 					{% if section5|get_item:cname == 1 %}
 						<input type="Checkbox" value="{{cname}}" name="section5" onchange="saveScroll();this.form.submit();" checked>5</input>

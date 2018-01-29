@@ -492,6 +492,9 @@ def HandBook(request, club_enum, leader, group, msg):
     hsec10 = {}
     hsec11 = {}
     hsec12 = {}
+    hsec13 = {}
+    hsec14 = {}
+    hsec15 = {}
     leadername = leader
     for c in club_roll:
         roll[c.name] = True
@@ -523,6 +526,12 @@ def HandBook(request, club_enum, leader, group, msg):
                 hsec11[c.name] = 1                
             elif pt.section == 12:
                 hsec12[c.name] = 1                
+            elif pt.section == 13:
+                hsec13[c.name] = 1                
+            elif pt.section == 14:
+                hsec14[c.name] = 1                
+            elif pt.section == 15:
+                hsec15[c.name] = 1                
         
     context = {
         'roll' : roll,
@@ -540,6 +549,9 @@ def HandBook(request, club_enum, leader, group, msg):
         'section10' : hsec10,
         'section11' : hsec11,
         'section12' : hsec12,
+        'section13' : hsec13,
+        'section14' : hsec14,
+        'section15' : hsec15,
         'wed' : next_wednesday(),
         'lname' : leadername,
         'group' : group,
@@ -658,13 +670,27 @@ def AdvanceSectionIfNeededSpark(_bookList):
         #print (c.name,' club:',c.club,' book:',c.current_book,' chap:',c.current_chapter,' secs:',len(chapter_sections))
         # Flight 3:16
         if c.current_book == '0':
+            #print ('AdvanceSectionIfNeededSpark Flight 3:16')
             if len(chapter_sections) == 6:
                 c.current_book = 1
                 c.current_chapter = 1
                 c.current_section = 1
                 c.save()
+        elif c.current_book == '16' or c.current_book == '17' or c.current_book == '18':
+            #print ('AdvanceSectionIfNeededSpark Frequent Flyer')
+            if c.current_chapter == 1:
+                if len(chapter_sections) == 15:
+                    c.current_chapter = c.current_chapter + 1
+                    c.current_section = 1
+                    c.save()
+            else:  
+                if len(chapter_sections) == 5:
+                    if c.current_chapter < 5:
+                        c.current_chapter = c.current_chapter + 1
+                        c.current_section = 1
+                        c.save()                
         else:
-            #print ('leg current_chapter: ', c.current_chapter, ' sections: ', len(chapter_sections))
+            #print ('AdvanceSectionIfNeededSpark all other books ' , c.current_book)
             if c.current_chapter == 1:  
                 if len(chapter_sections) == 8:
                     c.current_chapter = c.current_chapter + 1
@@ -830,7 +856,21 @@ def BookSparks(request):
                     section7 = updateSection(sec7,7,leaders_group)        
                     sec8 = request.POST.getlist('section8')
                     section8 = updateSection(sec8,8,leaders_group)
-                    if section1 != '' or section2 != '' or section3 != '' or section4 != '' or section5 != '' or section6 != '' or section7 != '' or section8 != '':
+                    sec9 = request.POST.getlist('section9')
+                    section9 = updateSection(sec9,9,leaders_group)
+                    sec10 = request.POST.getlist('section10')
+                    section10 = updateSection(sec10,10,leaders_group)
+                    sec11 = request.POST.getlist('section11')
+                    section11 = updateSection(sec11,11,leaders_group)
+                    sec12 = request.POST.getlist('section12')
+                    section12 = updateSection(sec12,12,leaders_group)
+                    sec13 = request.POST.getlist('section13')
+                    section13 = updateSection(sec13,13,leaders_group)
+                    sec14 = request.POST.getlist('section14')
+                    section14 = updateSection(sec14,14,leaders_group)
+                    sec15 = request.POST.getlist('section15')
+                    section15 = updateSection(sec15,15,leaders_group)
+                    if section1 != '' or section2 != '' or section3 != '' or section4 != '' or section5 != '' or section6 != '' or section7 != '' or section8 != '' or section9 != '' or section10 != '' or section11 != '' or section12 != '' or section13 != '' or section14 != '' or section15 != '':
                         error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
                     else:
                         AdvanceSectionIfNeededSpark(books)                                 
