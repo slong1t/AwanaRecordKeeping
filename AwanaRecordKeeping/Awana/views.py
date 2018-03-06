@@ -652,6 +652,23 @@ def AdvanceSectionIfNeededTT(_bookList):
                         c.current_chapter = c.current_chapter + 1
                         c.current_section = 1
                         c.save()
+            elif c.current_book == '20':
+                #print (c.name, ' current_chapter: ', c.current_chapter, ' sections: ', len(chapter_sections))
+                if int(c.current_chapter) == 1:  
+                    if len(chapter_sections) == 6:
+                        c.current_chapter = c.current_chapter + 1
+                        c.current_section = 1
+                        c.save()
+                elif int(c.current_chapter) == 2 or int(c.current_chapter) == 4 or int(c.current_chapter) == 6:
+                    if len(chapter_sections) == 4:
+                        c.current_chapter = c.current_chapter + 1
+                        c.current_section = 1
+                        c.save()
+                else:
+                    if len(chapter_sections) == 5:
+                        c.current_chapter = c.current_chapter + 1
+                        c.current_section = 1
+                        c.save()
             # Legacy Books
             else:
                 #print ('leg current_chapter: ', c.current_chapter, ' sections: ', len(chapter_sections))

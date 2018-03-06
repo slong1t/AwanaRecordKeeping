@@ -20,7 +20,11 @@ BOOK_TYPE_CHOICES = (
     ('15', 'Sparks SkyStormer Review'),
     ('16', 'Sparks HangGlider Frequent Flyer'),
     ('17', 'Sparks WingRunner Frequent Flyer'),
-    ('18', 'Sparks SkyStomer Frequent Flyer')
+    ('18', 'Sparks SkyStomer Frequent Flyer'),
+    ('19', 'T&T Grace In Action Review'),
+    ('20', 'T&T Adventure Book2 Review'),
+    ('21', 'T&T Challenge Book1 Review'),
+    ('22', 'T&T Challenge Book2 Review')
     
 )
 
