@@ -151,28 +151,37 @@
 			</td>
 				{% endif %}
 			<td>
-				{% if section1|get_item:cname == 1 %}
+				{% if book|get_item:cname == 'Sparks HangGlider Review' and chapter|get_item:cname < 7 and chapter|get_item:cname > 1 %}
+				{% elif book|get_item:cname == 'Sparks HangGlider Review' and chapter|get_item:cname > 7 %}
+				{% elif section1|get_item:cname == 1 %}
 					<input type="Checkbox" value="{{cname}}" name="section1" onchange="saveScroll();this.form.submit();" checked>1</input>
 				{% else %}
 					<input type="Checkbox" value="{{cname}}" name="section1" onchange="saveScroll();this.form.submit();">1</input>
 				{% endif %}
 				<input type="hidden" value="{{cname}}" name="section1">
 
-				{% if section2|get_item:cname == 1 %}
+				{% if book|get_item:cname == 'Sparks HangGlider Review' and chapter|get_item:cname == 1 %}
+				{% elif book|get_item:cname == 'Sparks HangGlider Review' and chapter|get_item:cname > 4 and chapter|get_item:cname < 8 %}
+				{% elif section2|get_item:cname == 1 %}
 					<input type="Checkbox" value="{{cname}}" name="section2" onchange="saveScroll();this.form.submit();" checked>2</input>
 				{% else %}
 					<input type="Checkbox" value="{{cname}}" name="section2" onchange="saveScroll();this.form.submit();">2</input>
 				{% endif %}
 				<input type="hidden" value="{{cname}}" name="section2">
 
-				{% if section3|get_item:cname == 1 %}
+				{% if book|get_item:cname == 'Sparks HangGlider Review'  and chapter|get_item:cname > 4 and chapter|get_item:cname < 8 %}
+				{% elif book|get_item:cname == 'Sparks HangGlider Review' and chapter|get_item:cname == 9 %}
+				{% elif section3|get_item:cname == 1 %}
 					<input type="Checkbox" value="{{cname}}" name="section3" onchange="saveScroll();this.form.submit();" checked>3</input>
 				{% else %}
 					<input type="Checkbox" value="{{cname}}" name="section3" onchange="saveScroll();this.form.submit();">3</input>
 				{% endif %}
 				<input type="hidden" value="{{cname}}" name="section3">
 
-				{% if section4|get_item:cname == 1 %}
+				{% if book|get_item:cname == 'Sparks HangGlider Review' and chapter|get_item:cname == 6 %}
+				{% elif book|get_item:cname == 'Sparks HangGlider Review' and chapter|get_item:cname == 7 %}
+				{% elif book|get_item:cname == 'Sparks HangGlider Review' and chapter|get_item:cname == 9 %}
+				{% elif section4|get_item:cname == 1 %}
 					<input type="Checkbox" value="{{cname}}" name="section4" onchange="saveScroll();this.form.submit();" checked>4</input>
 				{% else %}
 					<input type="Checkbox" value="{{cname}}" name="section4" onchange="saveScroll();this.form.submit();">4</input>
@@ -302,7 +311,8 @@
 					{% endif %}
 					<input type="hidden" value="{{cname}}" name="section7">
 
-					{% if section8|get_item:cname == 1 %}
+					{% if book|get_item:cname == 'Sparks HangGlider Review' %}
+					{% elif section8|get_item:cname == 1 %}
 						<input type="Checkbox" value="{{cname}}" name="section8" onchange="saveScroll();this.form.submit();" checked>8</input>
 					{% else %}
 						<input type="Checkbox" value="{{cname}}" name="section8" onchange="saveScroll();this.form.submit();">8</input>

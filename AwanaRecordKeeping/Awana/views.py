@@ -706,6 +706,31 @@ def AdvanceSectionIfNeededSpark(_bookList):
                         c.current_chapter = c.current_chapter + 1
                         c.current_section = 1
                         c.save()                
+        elif c.current_book == '13':
+            if c.current_chapter == 1:
+                if len(chapter_sections) == 6:
+                    c.current_chapter = c.current_chapter + 1
+                    c.current_section = 1
+                    c.save()
+            elif c.current_chapter > 1 and c.current_chapter < 5:  
+                if len(chapter_sections) == 3:
+                    c.current_chapter = c.current_chapter + 1
+                    c.current_section = 1
+                    c.save()
+            elif c.current_chapter == 5 or c.current_chapter == 7:  
+                if len(chapter_sections) == 1:
+                    c.current_chapter = c.current_chapter + 1
+                    c.current_section = 1
+                    c.save()
+            elif c.current_chapter == 6:  
+                c.current_chapter = c.current_chapter + 1
+                c.current_section = 1
+                c.save()
+            elif c.current_chapter == 8:  
+                if len(chapter_sections) == 3:
+                    c.current_chapter = c.current_chapter + 1
+                    c.current_section = 1
+                    c.save()
         else:
             #print ('AdvanceSectionIfNeededSpark all other books ' , c.current_book)
             if c.current_chapter == 1:  
