@@ -557,6 +557,7 @@ def HandBook(request, club_enum, leader, group, msg):
         'group' : group,
         'msg' : msg,
     }
+    print (context)
     return context
 
 def updateSection(_sectionList,_sectionNumber, _group):
@@ -601,6 +602,8 @@ def updateBook(_bookList, _group):
             rtnVal = child[0]
         elif c.current_book != child[1]:
             rtnVal = child[0]
+        #print (child, c.current_book, rtnVal)
+
     return rtnVal
 
 def updateChapter(_chapterList, _group):
@@ -820,7 +823,7 @@ def BookTTGirls(request):
     leaders_group = {}
     error_msg = ''
     if request.method == 'POST':
-        #print (request.POST)
+        print (request.POST)
         leader = request.POST.getlist("leadername")
         leaders_group = request.POST.getlist("leader")
         leader_name = leader[0]

@@ -24,8 +24,8 @@ BOOK_TYPE_CHOICES = (
     ('19', 'T&T Grace In Action Review'),
     ('20', 'T&T Adventure Book2 Review'),
     ('21', 'T&T Challenge Book1 Review'),
-    ('22', 'T&T Challenge Book2 Review')
-    
+    ('22', 'T&T Challenge Book2 Review'),
+    ('23', 'T&T Evidence of Grace')   
 )
 
 CLUBBER_TYPE_CHOICES = (
