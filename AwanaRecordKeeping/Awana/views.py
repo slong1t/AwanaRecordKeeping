@@ -6,9 +6,9 @@ from django.template import loader
 from Awana.models import Clubber,MeetingNight,ClubPoints,HandBookPoint,BOOK_TYPE_CHOICES
 import datetime
 import pytz
-summer_start_night = datetime.date(2017, 9, 6)
-christmas_store_night = datetime.date(2017, 12, 13)
-winter_start_night = datetime.date(2018, 1, 10)
+summer_start_night = datetime.date(2018, 9, 5)
+christmas_store_night = datetime.date(2018, 12, 12)
+winter_start_night = datetime.date(2019, 1, 9)
 
 def next_weekday(d, weekday):
     days_ahead = weekday - d.weekday()

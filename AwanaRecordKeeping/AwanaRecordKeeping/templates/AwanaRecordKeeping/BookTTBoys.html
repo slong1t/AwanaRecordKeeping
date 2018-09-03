@@ -27,10 +27,10 @@
 	    {% else %}
 		    <option value="Joe Wallace">Joe Wallace</option>
 	    {% endif %}
-		{% if lname == 'Susan Nelson' %}
-		    <option value="Susan Nelson" selected>Susan Nelson</option>
+		{% if lname == 'Paul Duncan' %}
+		    <option value="Paul Duncan" selected>Paul Duncan</option>
 	    {% else %}
-		    <option value="Susan Nelson">Susan Nelson</option>
+		    <option value="Paul Duncan">Paul Duncan</option>
 	    {% endif %}
 		{% if lname == 'Sam Long' %}
 		    <option value="Sam Long" selected>Sam Long</option>
@@ -69,47 +69,34 @@
 					    {% else %}
 					    	<option value="{{cname}},23">T&T Evidence of Grace</option>
 					    {% endif %}
-  						{% if book|get_item:cname == 'T&T Adventure Book1' %}
-					    	<option value="{{cname}},6" selected>T&T Adventure Book1</option>
+      					{% if book|get_item:cname == 'T&T Agents of Grace' %}
+					    	<option value="{{cname}},25" selected>T&T Agents of Grace</option>
 					    {% else %}
-					    	<option value="{{cname}},6">T&T Adventure Book1</option>
-					    {% endif %}
-    					{% if book|get_item:cname == 'T&T Adventure Book2' %}
- 					    	<option value="{{cname}},7" selected>T&T Adventure Book2</option>
-					    {% else %}
-					    	<option value="{{cname}},7">T&T Adventure Book2</option>
-					    {% endif %}
-    					{% if book|get_item:cname == 'T&T Challenge Book1' %}
-					    	<option value="{{cname}},8" selected>T&T Challenge Book1</option>
-					    {% else %}
-					    	<option value="{{cname}},8">T&T Challenge Book1</option>
-					    {% endif %}
-    					{% if book|get_item:cname == 'T&T Challenge Book2' %}
-					    	<option value="{{cname}},9" selected>T&T Challenge Book2</option>
-					    {% else %}
-					    	<option value="{{cname}},9">T&T Challenge Book2</option>
+					    	<option value="{{cname}},25">T&T Agents of Grace</option>
 					    {% endif %}
     					{% if book|get_item:cname == 'T&T Grace In Action Review' %}
 					    	<option value="{{cname}},19" selected>T&T Grace In Action Review</option>
 					    {% else %}
 					    	<option value="{{cname}},19">T&T Grace In Action Review</option>
 					    {% endif %}
-    					{% if book|get_item:cname == 'T&T Adventure Book2 Review' %}
-					    	<option value="{{cname}},20" selected>T&T Adventure Book2 Review</option>
+
+    					{% if book|get_item:cname == 'T&T Evidence of Grace Extra Credit' %}
+					    	<option value="{{cname}},24" selected>T&T Evidence of Grace Extra Credit</option>
 					    {% else %}
-					    	<option value="{{cname}},20">T&T Adventure Book2 Review</option>
+					    	<option value="{{cname}},24">T&T Evidence of Grace Extra Credit</option>
 					    {% endif %}
-    					{% if book|get_item:cname == 'T&T Challenge Book1 Review' %}
-					    	<option value="{{cname}},21" selected>T&T Challenge Book1 Review</option>
+    					{% if book|get_item:cname == 'T&T Agents of Grace Extra Credit' %}
+					    	<option value="{{cname}},26" selected>T&T Agents of Grace Extra Credit</option>
 					    {% else %}
-					    	<option value="{{cname}},21">T&T Challenge Book1 Review</option>
+					    	<option value="{{cname}},26">T&T Agents of Grace Extra Credit</option>
 					    {% endif %}
-    					{% if book|get_item:cname == 'T&T Challenge Book2 Review' %}
-					    	<option value="{{cname}},22" selected>T&T Challenge Book2 Review</option>
+
+  						{% if book|get_item:cname == 'T&T Adventure Book1' %}
+					    	<option value="{{cname}},6" selected>T&T Adventure Book1</option>
 					    {% else %}
-					    	<option value="{{cname}},22">T&T Challenge Book2 Review</option>
+					    	<option value="{{cname}},6">T&T Adventure Book1</option>
 					    {% endif %}
-  					</select>
+   					</select>
 					</td>
 					<td>
 					{% if book|get_item:cname == 'T&T Start Zone' %}
@@ -153,7 +140,7 @@
 						    {% else %}
 						    <option value="{{cname}},8">Extra 4</option>
 						    {% endif %}
-						{% elif book|get_item:cname == 'T&T Evidence of Grace' %}
+						{% elif book|get_item:cname == 'T&T Evidence of Grace' or book|get_item:cname == 'T&T Evidence of Grace Extra Credit' or book|get_item:cname == 'T&T Agents of Grace' or book|get_item:cname == 'T&T Agents of Grace Extra Credit' %}
 						    <option value="{{cname}},1">Unit 1</option>
 	      					{% if chapter|get_item:cname == 2 %}
 						    <option value="{{cname}},2" selected>Unit 2</option>
@@ -211,7 +198,6 @@
 					</select>
 					</td>
 				    {% endif %}
-					
 					<td>
 					{% if book|get_item:cname == 'T&T Grace In Action' and chapter|get_item:cname > 4 %}
 					    {% if section1|get_item:cname == 1 %}
@@ -304,87 +290,53 @@
 					    
 				    {% else %}
 					
-				    	{% if book|get_item:cname == 'T&T Adventure Book2 Review' and chapter|get_item:cname == 2 %}
-				    	{% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 1 %}
-				    	{% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 2 %}
-			    	    {% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 3 %}
-			    	    {% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 6 %}
-			    	    {% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 7 %}
-					    {% elif section1|get_item:cname == 1 %}
+					    {% if section1|get_item:cname == 1 %}
 						    <input type="Checkbox" value="{{cname}}" name="section1" onchange="saveScroll();this.form.submit();" checked>1</input>
 				        {% else %}
 						    <input type="Checkbox" value="{{cname}}" name="section1" onchange="saveScroll();this.form.submit();">1</input>
 				        {% endif %}
 					    <input type="hidden" value="{{cname}}" name="section1">
 						
-				    	{% if book|get_item:cname == 'T&T Adventure Book2 Review' and chapter|get_item:cname == 6 %}
-			    	    {% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 5 %}
-					    {% elif section2|get_item:cname == 1 %}
+					    {% if section2|get_item:cname == 1 %}
   					        <input type="Checkbox" value="{{cname}}" name="section2" onchange="saveScroll();this.form.submit();" checked>2</input>
 				        {% else %}
 					        <input type="Checkbox" value="{{cname}}" name="section2" onchange="saveScroll();this.form.submit();">2</input>
 				        {% endif %}
 					    <input type="hidden" value="{{cname}}" name="section2">
-
   					    {% if book|get_item:cname == 'T&T Start Zone' %}
 					        </td>
 					    {% else %}
-					    	{% if book|get_item:cname == 'T&T Adventure Book2 Review' and chapter|get_item:cname == 4 %}
-  				    	    {% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 2 %}
-			    	        {% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 8 %}
-						    {% elif section3|get_item:cname == 1 %}
+						    {% if section3|get_item:cname == 1 %}
 		 					    <input type="Checkbox" value="{{cname}}" name="section3" onchange="saveScroll();this.form.submit();" checked>3</input>
 					        {% else %}
 		 					    <input type="Checkbox" value="{{cname}}" name="section3" onchange="saveScroll();this.form.submit();">3</input>
 					        {% endif %}
 						    <input type="hidden" value="{{cname}}" name="section3">
 						    
-					    	{% if book|get_item:cname == 'T&T Adventure Book2 Review' and chapter|get_item:cname == 3 %}
-					    	{% elif book|get_item:cname == 'T&T Adventure Book2 Review' and chapter|get_item:cname == 4 %}
-					    	{% elif book|get_item:cname == 'T&T Adventure Book2 Review' and chapter|get_item:cname == 5 %}
-					    	{% elif book|get_item:cname == 'T&T Adventure Book2 Review' and chapter|get_item:cname == 7 %}
-					    	{% elif book|get_item:cname == 'T&T Adventure Book2 Review' and chapter|get_item:cname == 8 %}
- 				    	    {% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 1 %}
-				    	    {% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 3 %}
-				    	    {% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 4 %}
-			    	        {% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 7 %}
-						    {% elif section4|get_item:cname == 1 %}
+						    {% if section4|get_item:cname == 1 %}
 	 						    <input type="Checkbox" value="{{cname}}" name="section4" onchange="saveScroll();this.form.submit();" checked>4</input>
 					        {% else %}
 	 						    <input type="Checkbox" value="{{cname}}" name="section4" onchange="saveScroll();this.form.submit();">4</input>
 					        {% endif %}
 						    <input type="hidden" value="{{cname}}" name="section4">
 						
-					    	{% if book|get_item:cname == 'T&T Adventure Book2 Review' and chapter|get_item:cname == 2 %}
-					    	{% elif book|get_item:cname == 'T&T Adventure Book2 Review' and chapter|get_item:cname == 6 %}
-				    	    {% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 5 %}
-						    {% elif section5|get_item:cname == 1 %}
+						    {% if section5|get_item:cname == 1 %}
 	 						    <input type="Checkbox" value="{{cname}}" name="section5" onchange="saveScroll();this.form.submit();" checked>5</input>
 					        {% else %}
 	 						    <input type="Checkbox" value="{{cname}}" name="section5" onchange="saveScroll();this.form.submit();">5</input>
 					        {% endif %}
 						    <input type="hidden" value="{{cname}}" name="section5">
 						    
-					    	{% if book|get_item:cname == 'T&T Adventure Book2 Review' and chapter|get_item:cname == 8 %}
-				    	    {% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 3 %}
-				    	    {% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 6 %}
-			    	        {% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 8 %}
-						    {% elif section6|get_item:cname == 1 %}
+						    {% if section6|get_item:cname == 1 %}
 	 						    <input type="Checkbox" value="{{cname}}" name="section6" onchange="saveScroll();this.form.submit();" checked>6</input>
 					        {% else %}
 	 						    <input type="Checkbox" value="{{cname}}" name="section6" onchange="saveScroll();this.form.submit();">6</input>
 					        {% endif %}
 						    <input type="hidden" value="{{cname}}" name="section6">
-						
-					    	{% if book|get_item:cname == 'T&T Adventure Book2 Review' and chapter|get_item:cname < 8 %}
- 				    	    {% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 1 %}
-  				    	    {% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 2 %}
-				    	    {% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 4 %}
-				    	    {% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 5 %}
-				    	    {% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 6 %}
-			    	        {% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 7 %}
-			    	        {% elif book|get_item:cname == 'T&T Challenge Book2 Review' and chapter|get_item:cname == 8 %}
-  			    	        {% elif book|get_item:cname == 'T&T Evidence of Grace' and chapter|get_item:cname == 1 %}
+  			    	        {% if book|get_item:cname == 'T&T Evidence of Grace' and chapter|get_item:cname == 1 %}
+  			    	        {% elif book|get_item:cname == 'T&T Evidence of Grace Extra Credit' and chapter|get_item:cname == 1 %}
+  			    	        {% elif book|get_item:cname == 'T&T Agents of Grace' and chapter|get_item:cname == 1 %}
+  			    	        {% elif book|get_item:cname == 'T&T Agents of Grace Extra Credit' and chapter|get_item:cname == 1 %}
 						    {% elif section7|get_item:cname == 1 %}
 	 						    <input type="Checkbox" value="{{cname}}" name="section7" onchange="saveScroll();this.form.submit();" checked>7</input>
 					        {% else %}
@@ -392,21 +344,23 @@
 					        {% endif %}
 						    <input type="hidden" value="{{cname}}" name="section7">
 
-  			    	        {% if book|get_item:cname == 'T&T Evidence of Grace' and chapter|get_item:cname > 1 %}
-	  			    	        {% if section8|get_item:cname == 1 %}
-		 						    <input type="Checkbox" value="{{cname}}" name="section8" onchange="saveScroll();this.form.submit();" checked>8</input>
-						        {% else  %}
-	 							    <input type="Checkbox" value="{{cname}}" name="section8" onchange="saveScroll();this.form.submit();">8</input>
-						        {% endif %}
-							    <input type="hidden" value="{{cname}}" name="section8">
+  			    	        {% if chapter|get_item:cname > 1 %}
+								{% if book|get_item:cname == 'T&T Evidence of Grace' or book|get_item:cname == 'T&T Evidence of Grace Extra Credit' or book|get_item:cname == 'T&T Agents of Grace' or book|get_item:cname == 'T&T Agents of Grace Extra Credit' %}  			    	              
+	  			    	        	{% if section8|get_item:cname == 1 %}
+		 						    	<input type="Checkbox" value="{{cname}}" name="section8" onchange="saveScroll();this.form.submit();" checked>8</input>
+						        	{% else  %}
+		 							    <input type="Checkbox" value="{{cname}}" name="section8" onchange="saveScroll();this.form.submit();">8</input>
+						        	{% endif %}
+							    	<input type="hidden" value="{{cname}}" name="section8">
+							    {% endif %}    
 							{% endif %}
 					        </td>
-   					    {% endif %}
-					{% endif %}
-				</tr>
-			{% endfor %}
-		{% endif %}
+   					    {% endif %} <!-- if start zone -->
+					{% endif %} <!-- if book|get_item:cname == 'T&T Grace In Action' and chapter|get_item:cname > 4 -->
+				</tr> <!-- row for each clubber -->
+			{% endfor %} <!-- for cname in roll -->
+		{% endif %} <!-- if roll -->
 		</table>
 		</form>
-
  {% endblock %}
+ 
