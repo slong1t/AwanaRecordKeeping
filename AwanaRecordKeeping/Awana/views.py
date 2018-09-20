@@ -475,6 +475,17 @@ def AwardsTT(request):
                 if len(chapter_sections) == 12:
                     gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
                     prev_chap = cs.chapter
+            elif cs.book == '23' or cs.book == '24' or cs.book == '25' or cs.book == '26':
+                if int(cs.chapter) == 1 and prev_chap != cs.chapter:
+                    chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)              
+                    if len(chapter_sections) == 6:
+                        gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
+                    prev_chap = cs.chapter
+                elif prev_chap != cs.chapter:
+                    chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)              
+                    if len(chapter_sections) == 8:
+                        gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)                   
+                    prev_chap = cs.chapter
             elif prev_chap != cs.chapter: 
                 chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)
                 if len(chapter_sections) == 7:
