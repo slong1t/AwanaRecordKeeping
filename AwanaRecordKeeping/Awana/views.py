@@ -410,14 +410,18 @@ def AwardsTT(request):
         '6' : 'Discovery',
         '7' : 'Discovery',
         '8' : 'Discovery',
-        '9' : 'Discovery'
+        '9' : 'Discovery',
+        '23' : 'Unit',
+        '24' : 'Unit',
+        '25' : 'Unit',
+        '26' : 'Unit'
     }
     club_roll = Clubber.objects.filter(club='3').order_by('name')
     gsection = {}
     for c in club_roll:
         now = datetime.datetime.now(pytz.timezone('US/Central'))
         completed_sections = HandBookPoint.objects.filter(clubber=c,date=now.date())
-        #print (c.name, ' completed sections: ', completed_sections)
+        print (c.name, ' completed sections: ', completed_sections)
         i = 0
         prev_chap = ''
         for cs in completed_sections:
@@ -432,6 +436,17 @@ def AwardsTT(request):
                 chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)              
                 if len(chapter_sections) == 12:
                     gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
+                    prev_chap = cs.chapter
+            elif cs.book == '23' or cs.book == '24' or cs.book == '25' or cs.book == '26':
+                if int(cs.chapter) == 1 and prev_chap != cs.chapter:
+                    chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)              
+                    if len(chapter_sections) == 6:
+                        gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
+                    prev_chap = cs.chapter
+                elif prev_chap != cs.chapter:
+                    chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)              
+                    if len(chapter_sections) == 8:
+                        gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)                   
                     prev_chap = cs.chapter
             elif prev_chap != cs.chapter: 
                 chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)
@@ -611,14 +626,14 @@ def updateChapter(_chapterList, _group):
     for ch in _chapterList:
         child = ch.split(',')
         c = Clubber.objects.get(name=child[0])
-        print ("uc " + str(child[1]) + " " + c.name + " " + str(c.current_chapter))
+        #print ("uc " + str(child[1]) + " " + c.name + " " + str(c.current_chapter))
         if c.current_chapter != int(child[1]) and child[0] in _group:
             c.current_chapter = int(child[1])
             c.save()
             rtnVal = child[0]
         elif c.current_chapter != int(child[1]):
             rtnVal = child[0]
-        print ("uc " + str(rtnVal))
+        #print ("uc " + str(rtnVal))
     return rtnVal
 
 def AdvanceSectionIfNeededTT(_bookList):        
@@ -681,6 +696,18 @@ def AdvanceSectionIfNeededTT(_bookList):
                         c.save()
                 elif int(c.current_chapter) == 4:
                     if len(chapter_sections) == 5:
+                        c.current_chapter = c.current_chapter + 1
+                        c.current_section = 1
+                        c.save()
+            elif c.current_book == '23' or  c.current_book == '24' or c.current_book == '25' or c.current_book == '26':
+                #print (c.name, ' current_chapter: ', c.current_chapter, ' sections: ', len(chapter_sections))
+                if int(c.current_chapter) == 1 :  
+                    if len(chapter_sections) == 6:
+                        c.current_chapter = c.current_chapter + 1
+                        c.current_section = 1
+                        c.save()
+                else:
+                    if  c.current_chapter < 4 and len(chapter_sections) == 8:
                         c.current_chapter = c.current_chapter + 1
                         c.current_section = 1
                         c.save()
