@@ -421,7 +421,7 @@ def AwardsTT(request):
     for c in club_roll:
         now = datetime.datetime.now(pytz.timezone('US/Central'))
         completed_sections = HandBookPoint.objects.filter(clubber=c,date=now.date())
-        print (c.name, ' completed sections: ', completed_sections)
+        #print (c.name, ' completed sections: ', completed_sections)
         i = 0
         prev_chap = ''
         for cs in completed_sections:
@@ -490,7 +490,7 @@ def AwardsTT(request):
     return HttpResponse(template.render(context,request))
 
 def HandBook(request, club_enum, leader, group, msg):
-    print ("leader ", leader, " group ", group, "msg ", msg)
+    #print ("leader ", leader, " group ", group, "msg ", msg)
     club_roll = Clubber.objects.filter(club=club_enum).order_by('name')
     roll = {}
     hbook = {}
@@ -572,7 +572,7 @@ def HandBook(request, club_enum, leader, group, msg):
         'group' : group,
         'msg' : msg,
     }
-    print (context)
+    #print (context)
     return context
 
 def updateSection(_sectionList,_sectionNumber, _group):
@@ -617,7 +617,7 @@ def updateBook(_bookList, _group):
             rtnVal = child[0]
         elif c.current_book != child[1]:
             rtnVal = child[0]
-        print ("updateBook ", child, c.current_book, rtnVal)
+        #print ("updateBook ", child, c.current_book, rtnVal)
 
     return rtnVal
 
@@ -789,15 +789,10 @@ def AdvanceSectionIfNeededSpark(_bookList):
 
 def BookTTBoys(request):
     template = loader.get_template('AwanaRecordKeeping/BookTTBoys.html')
-    print(request.method)
-    print ("here 1 BookTTBoys")
     leader_name = ''
     leaders_group = {}
     error_msg = ''
     if request.method == 'POST':
-        print ("here 2 BookTTBoys")
-        print (request.POST)
-        print ("here 3 BookTTBoys")
         leader = request.POST.getlist("leadername")
         leaders_group = request.POST.getlist("leader")
         leader_name = leader[0]
@@ -809,7 +804,6 @@ def BookTTBoys(request):
             if bookChanged == '':
                 chapters = request.POST.getlist("ttchap")
                 chapterChanged = updateChapter(chapters,leaders_group)
-                print ('chapter changed ' + chapterChanged)            
                 if chapterChanged == '':
                     sec1 = request.POST.getlist('section1')
                     section1 = updateSection(sec1,1,leaders_group)        
@@ -835,35 +829,25 @@ def BookTTBoys(request):
                     section11 = updateSection(sec11,11,leaders_group)
                     sec12 = request.POST.getlist('section12')
                     section12 = updateSection(sec12,12,leaders_group)
-                    print ("x")
                     if section1 != '' or section2 != '' or section3 != '' or section4 != '' or section5 != '' or section6 != '' or section7 != '' or section8 != '' or section9 != '' or section10 != '' or section11 != '' or section12 != '':
                         error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'
                     else:
-                        print ("A")
                         AdvanceSectionIfNeededTT(books)                                 
-                        print ("B")
                 elif chapterChanged not in leaders_group:   
                     error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
             elif bookChanged not in leaders_group:   
                 error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
         else:
             error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'
-    print ("C")
     context = HandBook(request,'4', leader_name, leaders_group, error_msg)
-    print ("e ")
     return HttpResponse(template.render(context,request))
  
 def BookTTGirls(request):
     template = loader.get_template('AwanaRecordKeeping/BookTTGirls.html')
-    print(request.method)
-    print ("here 1 BookTTGirls")
     leader_name = ''
     leaders_group = {}
     error_msg = ''
     if request.method == 'POST':
-        print ("here 2 BookTTGirls")
-        print (request.POST)
-        print ("here 3 BookTTGirls")
         leader = request.POST.getlist("leadername")
         leaders_group = request.POST.getlist("leader")
         leader_name = leader[0]
@@ -875,7 +859,6 @@ def BookTTGirls(request):
             if bookChanged == '':
                 chapters = request.POST.getlist("ttchap")
                 chapterChanged = updateChapter(chapters,leaders_group)
-                print ('chapter changed ' + chapterChanged)            
                 if chapterChanged == '':
                     sec1 = request.POST.getlist('section1')
                     section1 = updateSection(sec1,1,leaders_group)        
@@ -901,25 +884,17 @@ def BookTTGirls(request):
                     section11 = updateSection(sec11,11,leaders_group)
                     sec12 = request.POST.getlist('section12')
                     section12 = updateSection(sec12,12,leaders_group)
-                    print ("x")
                     if section1 != '' or section2 != '' or section3 != '' or section4 != '' or section5 != '' or section6 != '' or section7 != '' or section8 != '' or section9 != '' or section10 != '' or section11 != '' or section12 != '':
                         error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'
                     else:
-                        print ("A")
                         AdvanceSectionIfNeededTT(books)                                 
-                        print ("B")
                 elif chapterChanged not in leaders_group:   
                     error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
-                    print ("C")
             elif bookChanged not in leaders_group:   
                 error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'                                 
-                print ("D")
         else:
             error_msg = 'Select clubber(s) to \'E\'dit in first column to make changes.'
-            print ("E")
-    print ("F")
     context = HandBook(request,'3', leader_name, leaders_group, error_msg)
-    print ("G ")
     return HttpResponse(template.render(context,request))
 
 def BookSparks(request):
