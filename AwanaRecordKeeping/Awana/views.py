@@ -282,10 +282,8 @@ def PointsTTGirls(request):
    
         if attendance[c.name] > 0:
             roll[c.name] = True
-        if c.current_book == '5':
-            total[c.name] = attendance[c.name] + uniform[c.name] + book[c.name] + visitor[c.name]*5 + sections[c.name]*4 + bible[c.name]
-        else:
-            total[c.name] = attendance[c.name] + uniform[c.name] + book[c.name] + visitor[c.name]*5 + sections[c.name]*2 + bible[c.name]
+            
+        total[c.name] = attendance[c.name] + uniform[c.name] + book[c.name] + visitor[c.name]*5 + sections[c.name]*4 + bible[c.name]
          
     context = {        
             'roll' : roll,
@@ -342,10 +340,8 @@ def PointsTTBoys(request):
                 sections[c.name] += 1
         if attendance[c.name] > 0:
             roll[c.name] = True
-        if c.current_book == '5':
-            total[c.name] = attendance[c.name] + uniform[c.name] + book[c.name] + visitor[c.name]*5 + sections[c.name]*4 + bible[c.name]
-        else:
-            total[c.name] = attendance[c.name] + uniform[c.name] + book[c.name] + visitor[c.name]*5 + sections[c.name]*2 + bible[c.name]
+            
+        total[c.name] = attendance[c.name] + uniform[c.name] + book[c.name] + visitor[c.name]*5 + sections[c.name]*4 + bible[c.name]
                 
     context = {        
             'roll' : roll,
