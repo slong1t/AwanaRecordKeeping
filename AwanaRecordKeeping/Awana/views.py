@@ -317,7 +317,8 @@ def PointsTTBoys(request):
             start_date = winter_start_night
         except MeetingNight.DoesNotExist:
             pass
-            
+        
+        print (c.name + " " + str(start_date))    
         attendance[c.name] = 0
         uniform[c.name] = 0
         book[c.name] = 0
@@ -384,7 +385,7 @@ def AwardsSparks(request):
                 #print (len(chapter_sections),chapter_sections)
                 if len(chapter_sections) == 8:
                     section[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + spark_chapter[cs.chapter]
-            elif prev_chap != cs.chapter:
+            elif prev_chap != cs.chapter and cs.book != '0':
                 chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)
                 if len(chapter_sections) == 4:
                     section[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + spark_chapter[cs.chapter]
