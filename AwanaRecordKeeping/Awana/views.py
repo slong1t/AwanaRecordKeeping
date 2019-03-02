@@ -662,10 +662,15 @@ def AdvanceSectionIfNeededTT(_bookList):
                     c.current_section = 1
                     c.save()
             # T&T Grace In Action
-            elif c.current_book == '5':
+            elif c.current_book == '5' or c.current_book == '19':
                 #print (c.name, ' current_chapter: ', c.current_chapter, ' sections: ', len(chapter_sections))
-                if int(c.current_chapter) < 5:  
+                if int(c.current_chapter) == 1 or int(c.current_chapter) == 4:  
                     if len(chapter_sections) == 7:
+                        c.current_chapter = c.current_chapter + 1
+                        c.current_section = 1
+                        c.save()
+                elif int(c.current_chapter) == 2 or int(c.current_chapter) == 3:  
+                    if len(chapter_sections) == 8:
                         c.current_chapter = c.current_chapter + 1
                         c.current_section = 1
                         c.save()
