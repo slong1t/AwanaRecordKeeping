@@ -105,13 +105,13 @@ def CheckIn(request, club_enum):
                 p1.save()
             n.attendees.add(c)
             n.save()
-            
+
     club_roll = Clubber.objects.filter(club=club_enum).order_by('name')
-    
+
     roll = {}
     for c in club_roll:
         roll[c.name] = True
-        dues_pts[c.name] = c.dues                        
+        dues_pts[c.name] = c.dues
         version[c.name] = 0
         info[c.name] = c.info_link
         try:
@@ -132,11 +132,11 @@ def CheckIn(request, club_enum):
                     visitor_pts[c.name] = True
                 version[c.name] = p.version
 
-                
+
         except ClubPoints.DoesNotExist:
             #print ('could not find ' + c.name)
             pass
- 
+
     context = {
         'night' : n,
         'roll' : roll,
@@ -151,7 +151,7 @@ def CheckIn(request, club_enum):
         'version' : version
     }
     return context
-    
+
 def CheckInPuggles(request):
     template = loader.get_template('AwanaRecordKeeping/CheckInPuggles.html')
     context = CheckIn(request,'0')
@@ -216,15 +216,15 @@ def PointsSparks(request):
                 if pt.book:
                     book[c.name] += 1
                 if pt.visitor:
-                    visitor[c.name] += 1 
+                    visitor[c.name] += 1
         for pt in book_points:
             if pt.date >= start_date:
                 sections[c.name] += 1
         if attendance[c.name] > 0:
             roll[c.name] = True
         total[c.name] = attendance[c.name] + uniform[c.name] + book[c.name] + visitor[c.name]*5 + sections[c.name]*2 + bible[c.name]
-         
-    context = {        
+
+    context = {
             'roll' : roll,
             'attendance' : attendance,
             'uniform' : uniform,
@@ -275,17 +275,17 @@ def PointsTTGirls(request):
                 if pt.book:
                     book[c.name] += 1
                 if pt.visitor:
-                    visitor[c.name] += 1 
+                    visitor[c.name] += 1
         for pt in book_points:
             if pt.date >= start_date:
                 sections[c.name] += 1
-   
+
         if attendance[c.name] > 0:
             roll[c.name] = True
-            
+
         total[c.name] = attendance[c.name] + uniform[c.name] + book[c.name] + visitor[c.name]*5 + sections[c.name]*4 + bible[c.name]
-         
-    context = {        
+
+    context = {
             'roll' : roll,
             'attendance' : attendance,
             'uniform' : uniform,
@@ -317,7 +317,7 @@ def PointsTTBoys(request):
             start_date = winter_start_night
         except MeetingNight.DoesNotExist:
             pass
-        
+
         print (c.name + " " + str(start_date))    
         attendance[c.name] = 0
         uniform[c.name] = 0
@@ -415,7 +415,8 @@ def AwardsTT(request):
         '27' : 'Unit',
         '28' : 'Unit'
     }
-    club_roll = Clubber.objects.filter(club='3').order_by('name')
+
+    club_roll = Clubber.objects.filter(club='3').order_by('name')            
     gsection = {}
     for c in club_roll:
         now = datetime.datetime.now(pytz.timezone('US/Central'))
@@ -424,6 +425,7 @@ def AwardsTT(request):
         i = 0
         prev_chap = ''
         for cs in completed_sections:
+            #print ("book " + cs.book + " chapter " + str(cs.chapter) + " section " + str(cs.section))
             if cs.book == '4' and cs.section == 2: 
                 gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
             elif cs.book == '5' and cs.chapter == 3 and prev_chap != cs.chapter:
@@ -452,7 +454,7 @@ def AwardsTT(request):
                     if len(chapter_sections) == 8:
                         gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)                   
                     prev_chap = cs.chapter
-            elif prev_chap != cs.chapter: 
+            elif prev_chap != cs.chapter:
                 chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)
                 if len(chapter_sections) == 7:
                     gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
@@ -502,6 +504,7 @@ def AwardsTT(request):
                 prev_chap = cs.chapter
             i += 1
 
+    
     #print ("---- Sparks Sections Completed ----\n")
     #club_roll = Clubber.objects.filter(club='2').order_by('name')
     #for c in club_roll:
@@ -524,6 +527,7 @@ def AwardsTT(request):
     #        if cs.date > datetime.date(2018,8,1):
     #            print (cs)
     #               
+    
     context = {
             'gsection' : gsection,
             'bsection' : bsection,
@@ -663,15 +667,19 @@ def updateBook(_bookList, _group):
 def updateChapter(_chapterList, _group):
     rtnVal = ''
     for ch in _chapterList:
+        #print("uc0 :" + ch)
         child = ch.split(',')
         c = Clubber.objects.get(name=child[0])
-        #print ("uc " + str(child[1]) + " " + c.name + " " + str(c.current_chapter))
+        #print ("uc1 :" + str(child[1]) + " " + c.name + " " + str(c.current_chapter))
+        #print ("c1: " + child[1] + " c0: " + child[0])
+        #print (_group)
         if c.current_chapter != int(child[1]) and child[0] in _group:
             c.current_chapter = int(child[1])
             c.save()
             rtnVal = child[0]
         #elif c.current_chapter != int(child[1]):
         #    rtnVal = child[0]
+    
         #print ("uc " + str(rtnVal))
     return rtnVal
 
@@ -956,11 +964,11 @@ def BookSparks(request):
             #print (request.POST)
             books = request.POST.getlist("sbook")
             bookChanged = updateBook(books, leaders_group)   
-            #print ("bookChanged: " + bookChanged)   
+            #print ("bookChanged: " + bookChanged)
             if bookChanged == '':
                 chapters = request.POST.getlist("schap")
                 chapterChanged = updateChapter(chapters,leaders_group)
-                #print ('chapter changed ' + chapterChanged)            
+                #print ('chapter changed ' + chapterChanged)
                 if chapterChanged == '':
                     sec1 = request.POST.getlist('section1')
                     section1 = updateSection(sec1,1,leaders_group)        
