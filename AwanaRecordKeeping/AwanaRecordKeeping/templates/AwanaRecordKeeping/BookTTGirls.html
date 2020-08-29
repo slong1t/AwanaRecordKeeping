@@ -27,10 +27,10 @@
 	    {% else %}
 		    <option value="Margaret King">Margaret King</option>
 	    {% endif %}
-		{% if lname == 'Elizabeth Henderson' %}
-	    	<option value="Elizabeth Henderson" selected>Elizabeth Henderson</option>
+		{% if lname == 'Sarah Hartshorn' %}
+	    	<option value="Sarah Hartshorn" selected>Sarah Hartshorn</option>
 	    {% else %}
-		    <option value="Elizabeth Henderson">Elizabeth Henderson</option>
+		    <option value="Sarah Hartshorn">Sarah Hartshorn</option>
 	    {% endif %}
 		{% if lname == 'Sarah Collier' %}
 	    	<option value="Sarah Collier" selected>Sarah Collier</option>
@@ -79,11 +79,19 @@
 					    {% else %}
 					    	<option value="{{cname}},23">T&T Evidence of Grace</option>
 					    {% endif %}
+      					
       					{% if book|get_item:cname == 'T&T Agents of Grace' %}
 					    	<option value="{{cname}},25" selected>T&T Agents of Grace</option>
 					    {% else %}
 					    	<option value="{{cname}},25">T&T Agents of Grace</option>
 					    {% endif %}
+					    
+    					{% if book|get_item:cname == 'T&T Discovery of Grace' %}
+					    	<option value="{{cname}},27" selected>T&T Discovery of Grace</option>
+					    {% else %}
+					    	<option value="{{cname}},27">T&T Discovery of Grace</option>
+					    {% endif %}
+
     					{% if book|get_item:cname == 'T&T Grace In Action Review' %}
 					    	<option value="{{cname}},19" selected>T&T Grace In Action Review</option>
 					    {% else %}
@@ -95,17 +103,19 @@
 					    {% else %}
 					    	<option value="{{cname}},24">T&T Evidence of Grace Extra Credit</option>
 					    {% endif %}
+					    
     					{% if book|get_item:cname == 'T&T Agents of Grace Extra Credit' %}
 					    	<option value="{{cname}},26" selected>T&T Agents of Grace Extra Credit</option>
 					    {% else %}
 					    	<option value="{{cname}},26">T&T Agents of Grace Extra Credit</option>
 					    {% endif %}
 
-  						{% if book|get_item:cname == 'T&T Adventure Book1' %}
-					    	<option value="{{cname}},6" selected>T&T Adventure Book1</option>
+    					{% if book|get_item:cname == 'T&T Discovery of Grace Extra Credit' %}
+					    	<option value="{{cname}},28" selected>T&T Discovery of Grace Extra Credit</option>
 					    {% else %}
-					    	<option value="{{cname}},6">T&T Adventure Book1</option>
+					    	<option value="{{cname}},28">T&T Discovery of Grace Extra Credit</option>
 					    {% endif %}
+
    					</select>
 					</td>
 					<td>
@@ -150,7 +160,7 @@
 						    {% else %}
 						    <option value="{{cname}},8">Extra 4</option>
 						    {% endif %}
-						{% elif book|get_item:cname == 'T&T Evidence of Grace' or book|get_item:cname == 'T&T Evidence of Grace Extra Credit' or book|get_item:cname == 'T&T Agents of Grace' or book|get_item:cname == 'T&T Agents of Grace Extra Credit' %}
+						    {% elif book|get_item:cname == 'T&T Evidence of Grace' or book|get_item:cname == 'T&T Evidence of Grace Extra Credit' or book|get_item:cname == 'T&T Agents of Grace' or book|get_item:cname == 'T&T Agents of Grace Extra Credit' or book|get_item:cname == 'T&T Discovery of Grace' or book|get_item:cname == 'T&T Discovery of Grace Extra Credit'%}
 						    <option value="{{cname}},1">Unit 1</option>
 	      					{% if chapter|get_item:cname == 2 %}
 						    <option value="{{cname}},2" selected>Unit 2</option>
@@ -348,6 +358,8 @@
   			    	        {% elif book|get_item:cname == 'T&T Evidence of Grace Extra Credit' and chapter|get_item:cname == 1 %}
   			    	        {% elif book|get_item:cname == 'T&T Agents of Grace' and chapter|get_item:cname == 1 %}
   			    	        {% elif book|get_item:cname == 'T&T Agents of Grace Extra Credit' and chapter|get_item:cname == 1 %}
+  			    	        {% elif book|get_item:cname == 'T&T Discovery of Grace' and chapter|get_item:cname == 1 %}
+  			    	        {% elif book|get_item:cname == 'T&T Discovery of Grace Extra Credit' and chapter|get_item:cname == 1 %}
 						    {% elif section7|get_item:cname == 1 %}
 	 						    <input type="Checkbox" value="{{cname}}" name="section7" onchange="saveScroll();this.form.submit();" checked>7</input>
 					        {% else %}
@@ -366,9 +378,8 @@
 					            {% endif %}
 					        {% endif %}
 							 
-
   			    	        {% if chapter|get_item:cname > 1 %}
-								{% if book|get_item:cname == 'T&T Evidence of Grace' or book|get_item:cname == 'T&T Evidence of Grace Extra Credit' or book|get_item:cname == 'T&T Agents of Grace' or book|get_item:cname == 'T&T Agents of Grace Extra Credit' %}  			    	              
+								{% if book|get_item:cname == 'T&T Evidence of Grace' or book|get_item:cname == 'T&T Evidence of Grace Extra Credit' or book|get_item:cname == 'T&T Agents of Grace' or book|get_item:cname == 'T&T Agents of Grace Extra Credit' or book|get_item:cname == 'T&T Discovery of Grace' or book|get_item:cname == 'T&T Discovery of Grace Extra Credit' %}  			    	              
 	  			    	        	{% if section8|get_item:cname == 1 %}
 		 						    	<input type="Checkbox" value="{{cname}}" name="section8" onchange="saveScroll();this.form.submit();" checked>8</input>
 						        	{% else  %}

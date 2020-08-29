@@ -33,25 +33,50 @@
 	    {% else %}
 		    <option value="John Grim">John Grim</option>
 	    {% endif %}
-		{% if lname == 'Billie Robertson' %}
-	    	<option value="Billie Robertson" selected>Billie Robertson</option>
+		{% if lname == 'Dina Mills' %}
+	    	<option value="Dina Mills" selected>Dina Mills</option>
 	    {% else %}
-		    <option value="Billie Robertson">Billie Robertson</option>
+		    <option value="Dina Mills">Dina Mills</option>
 	    {% endif %}
 		{% if lname == 'Hazel Rose' %}
 	    	<option value="Hazel Rose" selected>Hazel Rose</option>
 	    {% else %}
 		    <option value="Hazel Rose">Hazel Rose</option>
 	    {% endif %}
-		{% if lname == 'Sarah Hartshorn' %}
-	    	<option value="Sarah Hartshorn" selected>Sarah Hartshorn</option>
+		{% if lname == 'Judy Fowler' %}
+	    	<option value="Judy Fowler" selected>Judy Fowler</option>
 	    {% else %}
-		    <option value="Sarah Hartshorn">Sarah Hartshorn</option>
+		    <option value="Judy Fowler">Judy Fowler</option>
 	    {% endif %}
-		{% if lname == 'Chelsea Chambers' %}
-	    	<option value="Chelsea Chambers" selected>Chelsea Chambers</option>
+		{% if lname == 'Dakota Fowler' %}
+	    	<option value="Dakota Fowler" selected>Dakota Fowler</option>
 	    {% else %}
-		    <option value="Chelsea Chambers">Chelsea Chambers</option>
+		    <option value="Dakota Fowler">Logan Eccles</option>
+	    {% endif %}
+		{% if lname == 'Curtis Wentworth' %}
+	    	<option value="Curtis Wentworth" selected>Curtis Wentworth</option>
+	    {% else %}
+		    <option value="Curtis Wentworth">Curtis Wentworth</option>
+	    {% endif %}
+		{% if lname == 'Amy Sain' %}
+	    	<option value="Amy Sain" selected>Amy Sain</option>
+	    {% else %}
+		    <option value="Amy Sain">Amy Sain</option>
+	    {% endif %}
+		{% if lname == 'Worker #1' %}
+	    	<option value="Worker #1" selected>Worker #1</option>
+	    {% else %}
+		    <option value="Worker #1">Worker #1</option>
+	    {% endif %}
+		{% if lname == 'Worker #2' %}
+	    	<option value="Worker #2" selected>Worker #2</option>
+	    {% else %}
+		    <option value="Worker #2">Worker #2</option>
+	    {% endif %}
+	    {% if lname == 'Paul Duncan' %}
+	    	<option value="Paul Duncan" selected>Paul Duncan</option>
+	    {% else %}
+		    <option value="Paul Duncan">Paul Duncan</option>
 	    {% endif %}
 		</select>
 
@@ -124,7 +149,7 @@
 					{% else %}<option value="{{cname}},5">LandingGear</option>
 					{% endif %}
 				</select>
-			</td>				
+			</td>
 				{% else %}
 				<select name="schap" onchange="saveScroll();this.form.submit();">
 					<option value="{{cname}},1">Rank</option>
@@ -238,7 +263,7 @@
 							<input type="Checkbox" value="{{cname}}" name="section10" onchange="saveScroll();this.form.submit();">10</input>
 						{% endif %}
 						<input type="hidden" value="{{cname}}" name="section10">
-		
+
 						{% if section11|get_item:cname == 1 %}
 							<input type="Checkbox" value="{{cname}}" name="section11" onchange="saveScroll();this.form.submit();" checked>11</input>
 						{% else %}
@@ -273,9 +298,9 @@
 							<input type="Checkbox" value="{{cname}}" name="section15" onchange="saveScroll();this.form.submit();">15</input>
 						{% endif %}
 						<input type="hidden" value="{{cname}}" name="section15">
-				
-					{% endif %}		
-							
+
+					{% endif %}
+
 			</td>
 				{% elif book|get_item:cname == 'Flight 3:16' %}
 

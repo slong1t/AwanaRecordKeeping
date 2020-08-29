@@ -28,7 +28,9 @@ BOOK_TYPE_CHOICES = (
     ('23', 'T&T Evidence of Grace'),   
     ('24', 'T&T Evidence of Grace Extra Credit'),   
     ('25', 'T&T Agents of Grace'),   
-    ('26', 'T&T Agents of Grace Extra Credit')   
+    ('26', 'T&T Agents of Grace Extra Credit'),   
+    ('27', 'T&T Discovery of Grace'),   
+    ('28', 'T&T Discovery of Grace Extra Credit'),   
 )
 
 CLUBBER_TYPE_CHOICES = (

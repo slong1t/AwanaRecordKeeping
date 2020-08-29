@@ -6,9 +6,9 @@ from django.template import loader
 from Awana.models import Clubber,MeetingNight,ClubPoints,HandBookPoint,BOOK_TYPE_CHOICES
 import datetime
 import pytz
-summer_start_night = datetime.date(2018, 9, 5)
-christmas_store_night = datetime.date(2018, 12, 12)
-winter_start_night = datetime.date(2019, 1, 9)
+summer_start_night = datetime.date(2020, 9, 2)
+christmas_store_night = datetime.date(2020, 12, 9)
+winter_start_night = datetime.date(2021, 1, 6)
 
 def next_weekday(d, weekday):
     days_ahead = weekday - d.weekday()
@@ -19,7 +19,7 @@ def next_weekday(d, weekday):
 def next_wednesday():
     d = datetime.datetime.now(pytz.timezone('US/Central'))
     return next_weekday(d.date(), 2) # 0 = Monday, 1=Tuesday, 2=Wednesday...
-    
+
 
 def index(request):
     night = MeetingNight.objects.all()
@@ -45,7 +45,7 @@ def CheckIn(request, club_enum):
     except MeetingNight.DoesNotExist:
         n = MeetingNight(date=next_wednesday())
         n.save()
-        
+
     club_roll = Clubber.objects.filter(club=club_enum).order_by('name')
     present = {}
     uniform_pts = {}
@@ -411,7 +411,9 @@ def AwardsTT(request):
         '23' : 'Unit',
         '24' : 'Unit',
         '25' : 'Unit',
-        '26' : 'Unit'
+        '26' : 'Unit',
+        '27' : 'Unit',
+        '28' : 'Unit'
     }
     club_roll = Clubber.objects.filter(club='3').order_by('name')
     gsection = {}
@@ -424,6 +426,11 @@ def AwardsTT(request):
         for cs in completed_sections:
             if cs.book == '4' and cs.section == 2: 
                 gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
+            elif cs.book == '5' and cs.chapter == 3 and prev_chap != cs.chapter:
+                chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)
+                if len(chapter_sections) == 8:
+                    gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
+                    prev_chap = cs.chapter
             elif cs.book == '5' and cs.chapter == 5 and prev_chap != cs.chapter:
                 chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)
                 if len(chapter_sections) == 10:
@@ -434,7 +441,7 @@ def AwardsTT(request):
                 if len(chapter_sections) == 12:
                     gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
                     prev_chap = cs.chapter
-            elif cs.book == '23' or cs.book == '24' or cs.book == '25' or cs.book == '26':
+            elif cs.book == '23' or cs.book == '24' or cs.book == '25' or cs.book == '26' or cs.book == '27' or cs.book == '28':
                 if int(cs.chapter) == 1 and prev_chap != cs.chapter:
                     chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)              
                     if len(chapter_sections) == 6:
@@ -462,6 +469,11 @@ def AwardsTT(request):
         for cs in completed_sections:                
             if cs.book == '4' and cs.section == 2: 
                 gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
+            elif cs.book == '5' and cs.chapter == 3 and prev_chap != cs.chapter:
+                chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)
+                if len(chapter_sections) == 8:
+                    gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
+                    prev_chap = cs.chapter
             elif cs.book == '5' and cs.chapter == 5 and prev_chap != cs.chapter:
                 chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)
                 if len(chapter_sections) == 10:
@@ -472,7 +484,7 @@ def AwardsTT(request):
                 if len(chapter_sections) == 12:
                     gsection[c.name + " (" + str(i) + ")"] = BOOK_TYPE_CHOICES[int(cs.book)][1] + ' : ' + tt_chapter[str(cs.book)] + str(cs.chapter)
                     prev_chap = cs.chapter
-            elif cs.book == '23' or cs.book == '24' or cs.book == '25' or cs.book == '26':
+            elif cs.book == '23' or cs.book == '24' or cs.book == '25' or cs.book == '26' or cs.book == '27' or cs.book == '28':
                 if int(cs.chapter) == 1 and prev_chap != cs.chapter:
                     chapter_sections = HandBookPoint.objects.filter(clubber=c,book=cs.book,chapter=cs.chapter)              
                     if len(chapter_sections) == 6:
@@ -490,7 +502,28 @@ def AwardsTT(request):
                 prev_chap = cs.chapter
             i += 1
 
-    #print (bsection)
+    #print ("---- Sparks Sections Completed ----\n")
+    #club_roll = Clubber.objects.filter(club='2').order_by('name')
+    #for c in club_roll:
+    #    completed_sections = HandBookPoint.objects.filter(clubber=c)
+    #    for cs in completed_sections:
+    #        if cs.date > datetime.date(2018,8,1):
+    #            print (cs)
+    #print ("\n ---- T&T Girls Sections Completed ---- \n")
+    #club_roll = Clubber.objects.filter(club='3').order_by('name')
+    #for c in club_roll:
+    #    completed_sections = HandBookPoint.objects.filter(clubber=c)
+    #    for cs in completed_sections:
+    #        if cs.date > datetime.date(2018,8,1):
+    #            print (cs)
+    #print ("\n ---- T&T Boys Sections Completed ---- \n")
+    #club_roll = Clubber.objects.filter(club='4').order_by('name')
+    #for c in club_roll:
+    #    completed_sections = HandBookPoint.objects.filter(clubber=c)
+    #    for cs in completed_sections:
+    #        if cs.date > datetime.date(2018,8,1):
+    #            print (cs)
+    #               
     context = {
             'gsection' : gsection,
             'bsection' : bsection,
@@ -623,8 +656,6 @@ def updateBook(_bookList, _group):
             c.current_chapter = 1
             c.save()
             rtnVal = child[0]
-        elif c.current_book != child[1]:
-            rtnVal = child[0]
         #print ("updateBook ", child, c.current_book, rtnVal)
 
     return rtnVal
@@ -639,8 +670,8 @@ def updateChapter(_chapterList, _group):
             c.current_chapter = int(child[1])
             c.save()
             rtnVal = child[0]
-        elif c.current_chapter != int(child[1]):
-            rtnVal = child[0]
+        #elif c.current_chapter != int(child[1]):
+        #    rtnVal = child[0]
         #print ("uc " + str(rtnVal))
     return rtnVal
 
@@ -712,7 +743,7 @@ def AdvanceSectionIfNeededTT(_bookList):
                         c.current_chapter = c.current_chapter + 1
                         c.current_section = 1
                         c.save()
-            elif c.current_book == '23' or  c.current_book == '24' or c.current_book == '25' or c.current_book == '26':
+            elif c.current_book == '23' or  c.current_book == '24' or c.current_book == '25' or c.current_book == '26' or c.current_book == '27' or c.current_book == '28':
                 #print (c.name, ' current_chapter: ', c.current_chapter, ' sections: ', len(chapter_sections))
                 if int(c.current_chapter) == 1 :  
                     if len(chapter_sections) == 6:
